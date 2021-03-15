@@ -1,10 +1,10 @@
 export const initialState = {
     isLoggedIn: JSON.parse(localStorage.getItem("isLoggedIn")) || false,
     user: JSON.parse(localStorage.getItem("user")) || null,
-    client_id: '565961dd48bbbc37fb09',
-    redirect_uri: 'http://localhost:3000/login',
-    client_secret: '2f19d68e4ac90318773e926beade8ae4e440346b',
-    proxy_url: 'http://localhost:5000/authenticate'
+    client_id: process.env.REACT_APP_CLIENT_ID,
+    redirect_uri: process.env.REACT_APP_REDIRECT_URI,
+    client_secret: process.env.REACT_APP_CLIENT_SECRET,
+    proxy_url: process.env.REACT_APP_PROXY_URL
 };
 
 export const reducer = (state, action) => {
