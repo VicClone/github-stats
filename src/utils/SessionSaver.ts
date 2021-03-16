@@ -17,6 +17,10 @@ class SessionSaver {
     getIsLogged(): boolean {
         return JSON.parse(localStorage.getItem(this.IS_LOGGED_IN) as string);
     }
+
+    clear(): void {
+        localStorage.clear();
+    }
 }
 
 export const sessionSaver = new SessionSaver();

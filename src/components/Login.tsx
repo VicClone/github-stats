@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from "../App";
 import { Redirect } from "react-router-dom";
-import { getOauthLink } from "../Oauth";
+import { getOauthLink } from "../utils/Oauth";
+import { loginUserAction } from "../store/actions";
 
 export const Login: React.FC = () => {
     const { state, dispatch } = useContext<any>(AuthContext);
@@ -27,10 +28,7 @@ export const Login: React.FC = () => {
         })
             .then(response => response.json())
             .then(data => {
-                dispatch({
-                    type: "LOGIN",
-                    payload: { user: data, isLoggedIn: true }
-                });
+                dispatch(loginUserAction(data));
             })
             .catch(error => {
                 setData({

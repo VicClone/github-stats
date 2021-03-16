@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
+import { logOutUserAction } from "../store/actions";
 
 
 export const Home: React.FC = () => {
@@ -13,9 +14,7 @@ export const Home: React.FC = () => {
     const { userName } = state;
 
     const handleLogout = (): void => {
-        dispatch({
-            type: "LOGOUT"
-        });
+        dispatch(logOutUserAction());
     }
 
     return (

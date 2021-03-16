@@ -1,4 +1,5 @@
-import { sessionSaver } from "../../SessionSaver";
+import { sessionSaver } from "../../utils/SessionSaver";
+import { LOGIN, LOGOUT } from "../actions";
 
 export const initialState = {
     isLoggedIn: sessionSaver.getIsLogged() || false,
@@ -11,7 +12,7 @@ export const initialState = {
 
 export const reducer = (state, action) => {
     switch (action.type) {
-        case "LOGIN": {
+        case LOGIN: {
             sessionSaver.setUserName(action.payload.user.name);
             sessionSaver.setIsLogged(action.payload.isLoggedIn);
             return {
@@ -20,8 +21,8 @@ export const reducer = (state, action) => {
                 userName: action.payload.user.name
             };
         }
-        case "LOGOUT": {
-            localStorage.clear();
+        case LOGOUT: {
+            sessionSaver.clear();
             return {
                 ...state,
                 isLoggedIn: false,
