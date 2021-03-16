@@ -1,47 +1,44 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from "../App";
 import { Redirect } from "react-router-dom";
+import { getOauthLink } from "../Oauth";
 
 export const Login: React.FC = () => {
     const { state, dispatch } = useContext<any>(AuthContext);
     const [data, setData] = useState({ errorMessage: "", isLoading: false });
 
-    const { client_id, redirect_uri } = state;
+    const { clientId, redirectUri, proxyUrl } = state;
 
     useEffect(() => {
         const url = window.location.href;
         const hasCode = url.includes("?code=");
 
         if (hasCode) {
-            const newUrl = url.split("?code=");
-            window.history.pushState({}, '', newUrl[0]);
-            setData({ ...data, isLoading: true });
-
-            const requestData = {
-                code: newUrl[1]
-            };
-
-            const proxy_url = state.proxy_url;
-
-            fetch(proxy_url, {
-                method: "POST",
-                body: JSON.stringify(requestData)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    dispatch({
-                        type: "LOGIN",
-                        payload: { user: data, isLoggedIn: true }
-                    });
-                })
-                .catch(error => {
-                    setData({
-                        isLoading: false,
-                        errorMessage: "Sorry! Login failed"
-                    });
-                });
+            window.history.pushState({}, '', '/login');
+            setData({...data, isLoading: true});
+            loginUser(url.split("?code=")[1]);
         }
     }, [state, dispatch, data]);
+
+    const loginUser = (code: string) => {
+        fetch(proxyUrl, {
+            method: "POST",
+            body: JSON.stringify({ code })
+        })
+            .then(response => response.json())
+            .then(data => {
+                dispatch({
+                    type: "LOGIN",
+                    payload: { user: data, isLoggedIn: true }
+                });
+            })
+            .catch(error => {
+                setData({
+                    isLoading: false,
+                    errorMessage: "Sorry! Login failed"
+                });
+            });
+    }
 
     if (state.isLoggedIn) {
         return <Redirect to="/" />;
@@ -61,7 +58,7 @@ export const Login: React.FC = () => {
                     <>
                         <a
                             className="login-link"
-                            href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
+                            href={getOauthLink(clientId, redirectUri)}
                             onClick={() => {
                                 setData({ ...data, errorMessage: "" });
                             }}

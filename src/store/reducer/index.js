@@ -3,10 +3,10 @@ import { sessionSaver } from "../../SessionSaver";
 export const initialState = {
     isLoggedIn: sessionSaver.getIsLogged() || false,
     user: sessionSaver.getUserName(),
-    client_id: process.env.REACT_APP_CLIENT_ID,
-    redirect_uri: process.env.REACT_APP_REDIRECT_URI,
-    client_secret: process.env.REACT_APP_CLIENT_SECRET,
-    proxy_url: process.env.REACT_APP_PROXY_URL
+    clientId: process.env.REACT_APP_CLIENT_ID,
+    redirectUri: process.env.REACT_APP_REDIRECT_URI,
+    clientSecret: process.env.REACT_APP_CLIENT_SECRET,
+    proxyUrl: process.env.REACT_APP_PROXY_URL
 };
 
 export const reducer = (state, action) => {
