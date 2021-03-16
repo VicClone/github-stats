@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from "../App";
 import { Redirect } from "react-router-dom";
-import { getOauthLink } from "../utils/Oauth";
+import { getOauthAuthorizeLink } from "../utils/Oauth";
 import { loginUserAction } from "../store/actions";
 
 export const Login: React.FC = () => {
@@ -56,7 +56,7 @@ export const Login: React.FC = () => {
                     <>
                         <a
                             className="login-link"
-                            href={getOauthLink(clientId, redirectUri)}
+                            href={getOauthAuthorizeLink(clientId, redirectUri)}
                             onClick={() => {
                                 setData({ ...data, errorMessage: "" });
                             }}
