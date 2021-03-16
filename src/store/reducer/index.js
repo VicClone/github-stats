@@ -1,6 +1,8 @@
+import { sessionSaver } from "../../SessionSaver";
+
 export const initialState = {
-    isLoggedIn: JSON.parse(localStorage.getItem("isLoggedIn")) || false,
-    user: JSON.parse(localStorage.getItem("user")) || null,
+    isLoggedIn: sessionSaver.getIsLogged() || false,
+    user: sessionSaver.getUserName(),
     client_id: process.env.REACT_APP_CLIENT_ID,
     redirect_uri: process.env.REACT_APP_REDIRECT_URI,
     client_secret: process.env.REACT_APP_CLIENT_SECRET,
@@ -10,12 +12,12 @@ export const initialState = {
 export const reducer = (state, action) => {
     switch (action.type) {
         case "LOGIN": {
-            localStorage.setItem("isLoggedIn", JSON.stringify(action.payload.isLoggedIn))
-            localStorage.setItem("user", JSON.stringify(action.payload.user))
+            sessionSaver.setUserName(action.payload.user.name);
+            sessionSaver.setIsLogged(action.payload.isLoggedIn);
             return {
                 ...state,
                 isLoggedIn: action.payload.isLoggedIn,
-                user: action.payload.user
+                userName: action.payload.user.name
             };
         }
         case "LOGOUT": {
@@ -23,7 +25,7 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 isLoggedIn: false,
-                user: null
+                userName: null
             };
         }
         default:

@@ -10,7 +10,7 @@ export default function Home() {
         return <Redirect to="/login" />;
     }
 
-    const { name } = state.user;
+    const { userName } = state;
 
     const handleLogout = () => {
         dispatch({
@@ -25,7 +25,7 @@ export default function Home() {
             </div>
             <div>
                 <div className="content-container">
-                    <span>{name}</span>
+                    <span>{userName}</span>
                 </div>
             </div>
         </div>
