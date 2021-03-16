@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
 
 
-export default function Home() {
+export const Home: React.FC = () => {
     const { state, dispatch } = useContext<any>(AuthContext);
 
     if (!state.isLoggedIn) {
@@ -12,7 +12,7 @@ export default function Home() {
 
     const { userName } = state;
 
-    const handleLogout = () => {
+    const handleLogout = (): void => {
         dispatch({
             type: "LOGOUT"
         });

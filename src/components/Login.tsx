@@ -20,7 +20,7 @@ export const Login: React.FC = () => {
         }
     }, [state, dispatch, data]);
 
-    const loginUser = (code: string) => {
+    const loginUser = (code: string): void => {
         fetch(proxyUrl, {
             method: "POST",
             body: JSON.stringify({ code })

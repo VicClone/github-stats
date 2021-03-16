@@ -3,11 +3,11 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { initialState, reducer } from './store/reducer';
 import { Login } from './components/Login';
-import Home from './components/Home';
+import { Home } from './components/Home';
 
 export const AuthContext = createContext({});
 
-function App() {
+export const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
@@ -26,5 +26,3 @@ function App() {
       </AuthContext.Provider>
   );
 }
-
-export default App;
