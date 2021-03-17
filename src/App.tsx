@@ -8,21 +8,21 @@ import { Home } from './components/Home';
 export const AuthContext = createContext({});
 
 export const App: React.FC = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-  return (
-      <AuthContext.Provider
-          value={{
-            state,
-            dispatch
-          }}
-      >
-          <Router>
-              <Switch>
-                  <Route path="/login" component={Login}/>
-                  <Route path="/" component={Home}/>
-              </Switch>
-          </Router>
-      </AuthContext.Provider>
-  );
-}
+    return (
+        <AuthContext.Provider
+            value={{
+                state,
+                dispatch
+            }}
+        >
+            <Router>
+                <Switch>
+                    <Route path="/login" component={Login} />
+                    <Route path="/" component={Home} />
+                </Switch>
+            </Router>
+        </AuthContext.Provider>
+    );
+};

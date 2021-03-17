@@ -1,33 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from "../App";
-import { Redirect } from "react-router-dom";
-import { getOauthAuthorizeLink } from "../utils/Oauth";
-import { loginUserAction } from "../store/actions";
+import { AuthContext } from '../App';
+import { Redirect } from 'react-router-dom';
+import { getOauthAuthorizeLink } from '../utils/Oauth';
+import { loginUserAction } from '../store/actions';
 
 export const Login: React.FC = () => {
     const { state, dispatch } = useContext<any>(AuthContext);
-    const [data, setData] = useState({ errorMessage: "", isLoading: false });
+    const [data, setData] = useState({ errorMessage: '', isLoading: false });
 
     const { clientId, redirectUri, proxyUrl } = state;
 
     useEffect(() => {
         const url = window.location.href;
-        const hasCode = url.includes("?code=");
+        const hasCode = url.includes('?code=');
 
         if (hasCode) {
             window.history.pushState({}, '', '/login');
-            setData({...data, isLoading: true});
-            loginUser(url.split("?code=")[1]);
+            setData({ ...data, isLoading: true });
+            loginUser(url.split('?code=')[1]);
         }
     }, [state, dispatch, data]);
 
     const loginUser = (code: string): void => {
         fetch(proxyUrl, {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify({ code })
         })
             .then(response => {
-                return response.json()
+                return response.json();
             })
             .then(data => {
                 dispatch(loginUserAction(data));
@@ -35,11 +35,10 @@ export const Login: React.FC = () => {
             .catch(error => {
                 setData({
                     isLoading: false,
-                    errorMessage: "Sorry! Login failed"
+                    errorMessage: 'Sorry! Login failed'
                 });
             });
-
-    }
+    };
 
     if (state.isLoggedIn) {
         return <Redirect to="/" />;
@@ -48,7 +47,9 @@ export const Login: React.FC = () => {
     return (
         <section className="container">
             <h1>Добро пожаловать</h1>
-            <p className="content-container">Здесь можно посмотреть статистику гитхаба интересующего вас пользователя</p>
+            <p className="content-container">
+                Здесь можно посмотреть статистику гитхаба интересующего вас пользователя
+            </p>
             <span>{data.errorMessage}</span>
             <div className="login-container">
                 {data.isLoading ? (
@@ -61,7 +62,7 @@ export const Login: React.FC = () => {
                             className="login-link"
                             href={getOauthAuthorizeLink(clientId, redirectUri)}
                             onClick={() => {
-                                setData({ ...data, errorMessage: "" });
+                                setData({ ...data, errorMessage: '' });
                             }}
                         >
                             <span>Войти с помощью GitHub</span>
@@ -71,4 +72,4 @@ export const Login: React.FC = () => {
             </div>
         </section>
     );
-}
+};
