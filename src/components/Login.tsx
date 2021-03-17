@@ -26,7 +26,10 @@ export const Login: React.FC = () => {
             method: "POST",
             body: JSON.stringify({ code })
         })
-            .then(response => response.json())
+            .then(response => {
+                console.log(typeof response)
+                return response.json()
+            })
             .then(data => {
                 dispatch(loginUserAction(data));
             })
