@@ -1,5 +1,5 @@
-import { sessionSaver } from "../../utils/SessionSaver";
-import { LOGIN, LOGOUT } from "../actions";
+import { sessionSaver } from '../../utils/SessionSaver';
+import { LOGIN, LOGOUT } from '../actions';
 
 export const initialState = {
     isLoggedIn: sessionSaver.getIsLogged() || false,

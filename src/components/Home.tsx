@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
-import { Redirect } from "react-router-dom";
-import { AuthContext } from "../App";
-import { logOutUserAction } from "../store/actions";
-
+import React, { useContext } from 'react';
+import { Redirect } from 'react-router-dom';
+import { AuthContext } from '../App';
+import { logOutUserAction } from '../store/actions';
 
 export const Home: React.FC = () => {
     const { state, dispatch } = useContext<any>(AuthContext);
@@ -15,12 +14,12 @@ export const Home: React.FC = () => {
 
     const handleLogout = (): void => {
         dispatch(logOutUserAction());
-    }
+    };
 
     return (
         <div className="container">
             <div>
-                <button onClick={()=> handleLogout()}>Logout</button>
+                <button onClick={() => handleLogout()}>Logout</button>
             </div>
             <div>
                 <div className="content-container">
@@ -29,4 +28,4 @@ export const Home: React.FC = () => {
             </div>
         </div>
     );
-}
+};
