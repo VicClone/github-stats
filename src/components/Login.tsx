@@ -27,7 +27,6 @@ export const Login: React.FC = () => {
             body: JSON.stringify({ code })
         })
             .then(response => {
-                console.log(typeof response)
                 return response.json()
             })
             .then(data => {
