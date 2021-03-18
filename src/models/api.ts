@@ -1,10 +1,11 @@
 import getOptions from '../utils/optionsGithubApi';
 import { sortRepos } from '../utils/sort';
 import config from '../config';
+import { UserData, RepoData } from '../types/apiTypes';
 
 const TOKEN = config.token;
 
-export const getUserData = (username: string) => {
+export const getUserData = (username: string): Promise<UserData | Error> => {
     return fetch(`https://api.github.com/users/${username}`, getOptions(TOKEN))
         .then(response => {
             if (!response.ok) throw new Error(response.status.toString());
@@ -28,7 +29,7 @@ export const getUserData = (username: string) => {
         });
 };
 
-export const getUserRepos = (username: string) => {
+export const getUserRepos = (username: string): Promise<RepoData[] | Error> => {
     return fetch(`https://api.github.com/users/${username}/repos?per_page=1000`, getOptions(TOKEN))
         .then(response => {
             if (!response.ok) throw new Error(response.status.toString());
@@ -59,7 +60,7 @@ export const getUserRepos = (username: string) => {
         });
 };
 
-export const getRepoContributorsCount = (userName: string, repoName: string) => {
+export const getRepoContributorsCount = (userName: string, repoName: string): Promise<number | Error> => {
     return fetch(`https://api.github.com/repos/${userName}/${repoName}/contributors`)
         .then(response => {
             if (!response.ok) throw new Error(response.status.toString());

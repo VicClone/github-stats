@@ -1,12 +1,14 @@
-function sortRepos(a: any, b: any) {
+import { RepoData } from '../types/apiTypes';
+
+function sortRepos(a: RepoData, b: RepoData) {
     const stargazersCountA = a.stargazersCount;
     const stargazersCountB = b.stargazersCount;
 
     if (stargazersCountA === stargazersCountB) {
-        const datePushedA = new Date(a.pushed_at).getTime();
-        const datePushedB = new Date(b.pushed_at).getTime();
+        const dateUpdateA = new Date(a.updatedAt).getTime();
+        const dateUpdateB = new Date(b.updatedAt).getTime();
 
-        return datePushedB - datePushedA;
+        return dateUpdateB - dateUpdateA;
     }
 
     return stargazersCountB - stargazersCountA;
