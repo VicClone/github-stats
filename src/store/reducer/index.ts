@@ -11,7 +11,7 @@ export const initialState: AppState = {
     proxyUrl: process.env.REACT_APP_PROXY_URL!
 };
 
-export const reducer = (state: any, action: any) => {
+export const reducer = (state: AppState, action: any) => {
     switch (action.type) {
         case LOGIN: {
             sessionSaver.setIsLogged(action.payload.isLoggedIn);
