@@ -6,6 +6,7 @@ import { Login } from './components/Login';
 import { Home } from './components/Home';
 import { AuthContextType } from './types/appTypes';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const AuthContext = createContext<AuthContextType>({ state: initialState, dispatch: () => {} });
 
 export const App: React.FC = () => {
