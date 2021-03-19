@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+/server/dist
+/server/node_modules
+/src/config.ts
+
 # testing
 /coverage
 
