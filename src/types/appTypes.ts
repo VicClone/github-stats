@@ -5,7 +5,6 @@ export interface AppState {
     redirectUri: string;
     clientSecret: string;
     proxyUrl: string;
-    userName: string | null;
 }
 
 export interface AuthContextType {

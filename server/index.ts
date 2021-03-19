@@ -31,16 +31,8 @@ app.post('/authenticate', (req, res) => {
         .then((response: fetch.Response) => response.text())
         .then((paramsString: string) => {
             const params = new URLSearchParams(paramsString);
-            const access_token = params.get('access_token');
 
-            return fetch(`https://api.github.com/user`, {
-                headers: {
-                    Authorization: `token ${access_token}`
-                }
-            });
-        })
-        .then((response: fetch.Response) => {
-            return response.json();
+            return params.get('access_token');
         })
         .then((response: unknown) => {
             return res.status(200).json(response);

@@ -2,14 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../App';
 import { Redirect } from 'react-router-dom';
 import { getOauthAuthorizeLink } from '../utils/Oauth';
-import { loginUserAction } from '../store/actions';
+import { LOGIN, loginUserAction } from '../store/actions';
 import { AuthContextType } from '../types/appTypes';
+import { authenticate } from '../models/api';
 
 export const Login: React.FC = () => {
-    const { state, dispatch } = useContext<AuthContextType>(AuthContext);
+    const {
+        state: { clientId, redirectUri, proxyUrl, isLoggedIn },
+        dispatch
+    } = useContext<AuthContextType>(AuthContext);
     const [data, setData] = useState({ errorMessage: '', isLoading: false });
-
-    const { clientId, redirectUri, proxyUrl } = state;
 
     useEffect(() => {
         const url = window.location.href;
@@ -20,28 +22,17 @@ export const Login: React.FC = () => {
             setData({ ...data, isLoading: true });
             loginUser(url.split('?code=')[1]);
         }
-    }, [state, dispatch, data]);
+    }, []);
 
-    const loginUser = (code: string): void => {
-        fetch(proxyUrl, {
-            method: 'POST',
-            body: JSON.stringify({ code })
-        })
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                dispatch(loginUserAction(data));
-            })
-            .catch(error => {
-                setData({
-                    isLoading: false,
-                    errorMessage: 'Sorry! Login failed'
-                });
-            });
+    const loginUser = async (code: string) => {
+        authenticate(proxyUrl, code).then(data => {
+            if (data === 'isLoggedIn') {
+                dispatch(loginUserAction());
+            }
+        });
     };
 
-    if (state.isLoggedIn) {
+    if (isLoggedIn) {
         return <Redirect to="/" />;
     }
 

@@ -1,4 +1,4 @@
-type OptionsType = {
+export type OptionsType = {
     method: string;
     headers: {
         Accept: string;
@@ -6,7 +6,7 @@ type OptionsType = {
     };
 };
 
-const getOptionsGithubApi = (token: string) => {
+const getOptionsGithubApi = (token: string): OptionsType => {
     const options: OptionsType = {
         method: 'GET',
         headers: {

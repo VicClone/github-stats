@@ -13,13 +13,14 @@ import {
 import { AuthContextType } from '../types/appTypes';
 
 export const Home: React.FC = () => {
-    const { state, dispatch } = useContext<AuthContextType>(AuthContext);
+    const {
+        state: { isLoggedIn },
+        dispatch
+    } = useContext<AuthContextType>(AuthContext);
 
-    if (!state.isLoggedIn) {
+    if (!isLoggedIn) {
         return <Redirect to="/login" />;
     }
-
-    const { userName } = state;
 
     const handleLogout = (): void => {
         dispatch(logOutUserAction());
@@ -86,11 +87,6 @@ export const Home: React.FC = () => {
         <div className="container">
             <div>
                 <button onClick={() => handleLogout()}>Logout</button>
-            </div>
-            <div>
-                <div className="content-container">
-                    <span>{userName}</span>
-                </div>
             </div>
             <div>
                 <button
