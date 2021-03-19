@@ -22,7 +22,9 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "concurrently \"tsc && node ./server/dist/index.js\" \"react-scripts start\"",
+    "start-front": "react-scripts start",
+    "start-server": "cd server && npm run start",
+    "start": "concurrently \"npm run start-server\" \"npm run start-front\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
