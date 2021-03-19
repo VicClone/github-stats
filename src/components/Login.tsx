@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../App';
 import { Redirect } from 'react-router-dom';
 import { getOauthAuthorizeLink } from '../utils/Oauth';
-import { LOGIN, loginUserAction } from '../store/actions';
+import { loginUserAction } from '../store/actions';
 import { AuthContextType } from '../types/appTypes';
 import { authenticate } from '../models/api';
 
