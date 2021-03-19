@@ -4,8 +4,9 @@ import './App.css';
 import { initialState, reducer } from './store/reducer';
 import { Login } from './components/Login';
 import { Home } from './components/Home';
+import { AuthContextType } from './types/appTypes';
 
-export const AuthContext = createContext({});
+export const AuthContext = createContext<AuthContextType>({ state: initialState, dispatch: () => {} });
 
 export const App: React.FC = () => {
     const [state, dispatch] = useReducer(reducer, initialState);

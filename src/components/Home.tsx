@@ -10,9 +10,10 @@ import {
     getRepoIssuesList,
     getCommitsByUser
 } from '../models/api';
+import { AuthContextType } from '../types/appTypes';
 
 export const Home: React.FC = () => {
-    const { state, dispatch } = useContext<any>(AuthContext);
+    const { state, dispatch } = useContext<AuthContextType>(AuthContext);
 
     if (!state.isLoggedIn) {
         return <Redirect to="/login" />;
