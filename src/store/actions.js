@@ -1,9 +1,9 @@
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
-export const loginUserAction = user => ({
+export const loginUserAction = () => ({
     type: LOGIN,
-    payload: { user, isLoggedIn: true }
+    payload: { isLoggedIn: true }
 });
 
 export const logOutUserAction = () => ({

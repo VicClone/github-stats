@@ -11,7 +11,6 @@
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
     "concurrently": "^6.0.0",
-    "joi": "^17.4.0",
     "node-fetch": "^2.6.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -22,7 +21,9 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "concurrently \"tsc && node ./server/dist/index.js\" \"react-scripts start\"",
+    "start-front": "react-scripts start",
+    "start-server": "cd server && npm run start",
+    "start": "concurrently \"npm run start-server\" \"npm run start-front\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

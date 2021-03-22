@@ -1,10 +1,27 @@
-import getOptions from '../utils/optionsGithubApi';
+import getOptions, { OptionsType } from '../utils/optionsGithubApi';
 import { sortRepos } from '../utils/sort';
-import config from '../config';
 import { UserData, RepoData } from '../types/apiTypes';
 
-const TOKEN = config.token;
-const optionsHeader = getOptions(TOKEN);
+let TOKEN: string;
+let optionsHeader: OptionsType;
+
+export const authenticate = (proxyUrl: string, code: string): Promise<string | void> => {
+    return fetch(proxyUrl, {
+        method: 'POST',
+        body: JSON.stringify({ code })
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            TOKEN = data;
+            optionsHeader = getOptions(TOKEN);
+            return 'isLoggedIn';
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
 
 export const getUserData = (username: string): Promise<UserData | Error> => {
     return fetch(`https://api.github.com/users/${username}`, optionsHeader)
