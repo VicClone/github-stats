@@ -66,55 +66,32 @@ export const Login: React.FC = () => {
     return (
         <Container maxWidth="sm">
             <Card>
-                <CardActionArea>
-                    <CardContent>
-                        <Typography gutterBottom variant="h3" component="h2">
-                            Добро пожаловать
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            Здесь можно посмотреть статистику гитхаба интересующего вас пользователя
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <div className={classes.wrapper}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                href={getOauthAuthorizeLink(clientId, redirectUri)}
-                                disabled={data.isLoading}
-                            >
-                                Войти с помощью GitHub
-                            </Button>
-                            <CircularProgress size={24} />
-                            {data.isLoading && <CircularProgress size={24} />}
-                        </div>
-                    </CardActions>
-                </CardActionArea>
-            </Card>
-            <section className="container">
-                <h1>Добро пожаловать</h1>
-                <p className="content-container">
-                    Здесь можно посмотреть статистику гитхаба интересующего вас пользователя
-                </p>
-                {data.errorMessage && <span>{data.errorMessage}</span>}
-                <div className="login-container">
-                    {data.isLoading ? (
-                        <div className="loader-container">
-                            <div className="loader">loading</div>
-                        </div>
-                    ) : (
-                        <a
-                            className="login-link"
+                <CardContent>
+                    <Typography gutterBottom variant="h3" component="h2">
+                        Добро пожаловать
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        Здесь можно посмотреть статистику гитхаба интересующего вас пользователя
+                    </Typography>
+                </CardContent>
+                <CardActions>
+                    <div className={classes.wrapper}>
+                        <Button
+                            variant="contained"
+                            color="primary"
                             href={getOauthAuthorizeLink(clientId, redirectUri)}
+                            disabled={data.isLoading}
+                            className="buttonClassname"
                             onClick={() => {
                                 setData({ ...data, errorMessage: '' });
                             }}
                         >
-                            <span>Войти с помощью GitHub</span>
-                        </a>
-                    )}
-                </div>
-            </section>
+                            Войти с помощью GitHub
+                        </Button>
+                        {data.isLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                    </div>
+                </CardActions>
+            </Card>
         </Container>
     );
 };
