@@ -224,11 +224,6 @@ export const Home: React.FC = () => {
                             <Card>
                                 <CardHeader
                                     avatar={<Avatar alt="name name" src={userInfo?.avatarUrl}></Avatar>}
-                                    action={
-                                        <IconButton aria-label="settings">
-                                            <MoreVertIcon />
-                                        </IconButton>
-                                    }
                                     title={userInfo?.name}
                                     subheader={userInfo?.location}
                                 />
