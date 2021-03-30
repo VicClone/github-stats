@@ -7,7 +7,6 @@ export interface AppState {
     redirectUri: string;
     clientSecret: string;
     proxyUrl: string;
-    searchedUser: UserData | null;
 }
 
 export interface AuthContextType {

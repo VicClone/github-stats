@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../App';
-import { logOutUserAction, setSearchedUser } from '../../store/actions';
+import { logOutUserAction } from '../../store/actions';
 import {
     getUserData,
     getUserRepos,
@@ -121,7 +121,6 @@ export const Home: React.FC = () => {
             .then(data => {
                 console.log(data);
                 setUserInfo(data as UserData);
-                setSearchedUser(data as UserData);
             })
             .catch(error => {
                 console.log(error);

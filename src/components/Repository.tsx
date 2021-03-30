@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Grid,
     Card,
@@ -13,8 +13,6 @@ import {
     Container
 } from '@material-ui/core';
 import { Face, Description, Grade, CallSplit } from '@material-ui/icons';
-import { AuthContextType } from '../types/appTypes';
-import { AuthContext } from '../App';
 import { sessionSaver } from '../utils/SessionSaver';
 import { RepoData } from '../types/apiTypes';
 
