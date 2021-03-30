@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -64,33 +65,35 @@ export const Login: React.FC = () => {
 
     return (
         <Container maxWidth="sm">
-            <Card>
-                <CardContent>
-                    <Typography gutterBottom variant="h3" component="h2">
-                        Добро пожаловать
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Здесь можно посмотреть статистику гитхаба интересующего вас пользователя
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <div className={classes.wrapper}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            href={getOauthAuthorizeLink(clientId, redirectUri)}
-                            disabled={data.isLoading}
-                            className="buttonClassname"
-                            onClick={() => {
-                                setData({ ...data, errorMessage: '' });
-                            }}
-                        >
-                            Войти с помощью GitHub
-                        </Button>
-                        {data.isLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
-                    </div>
-                </CardActions>
-            </Card>
+            <Box mt={20}>
+                <Card>
+                    <CardContent>
+                        <Typography gutterBottom variant="h3" component="h2">
+                            Добро пожаловать
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            Здесь можно посмотреть статистику гитхаба интересующего вас пользователя
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <div className={classes.wrapper}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                href={getOauthAuthorizeLink(clientId, redirectUri)}
+                                disabled={data.isLoading}
+                                className="buttonClassname"
+                                onClick={() => {
+                                    setData({ ...data, errorMessage: '' });
+                                }}
+                            >
+                                Войти с помощью GitHub
+                            </Button>
+                            {data.isLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                        </div>
+                    </CardActions>
+                </Card>
+            </Box>
         </Container>
     );
 };
