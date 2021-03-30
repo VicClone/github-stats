@@ -64,7 +64,7 @@ export const Login: React.FC = () => {
     }
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
             <Box mt={20}>
                 <Card>
                     <CardContent>
