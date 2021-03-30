@@ -30,6 +30,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import WorkIcon from '@material-ui/icons/Work';
 import LanguageIcon from '@material-ui/icons/Language';
 import StarIcon from '@material-ui/icons/Star';
+import SearchBar from 'material-ui-search-bar';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -128,13 +129,12 @@ export const Home: React.FC = () => {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
-
     return (
         <Container maxWidth="md">
             <Box mt={20}>
+                <SearchBar />
+            </Box>
+            <Box mt={10}>
                 <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
                     <Grid item xs={12}>
                         <Card>
