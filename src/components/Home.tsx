@@ -209,43 +209,29 @@ export const Home: React.FC = () => {
                                 </ListItem>
                             </List>
                         </CardContent>
-                        <CardActions disableSpacing>
-                            <Typography component="div" variant="body1" color="textPrimary">
+                        <CardContent>
+                            <Typography component="span" variant="body1" color="textPrimary">
                                 Репозитории:
                             </Typography>
-                            <IconButton
-                                className={clsx(classes.expand, {
-                                    [classes.expandOpen]: expanded
-                                })}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="show more"
-                            >
-                                <ExpandMoreIcon />
-                            </IconButton>
-                        </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
-                            <CardContent>
-                                <List>
-                                    <ListItem>
-                                        <ListItemText
-                                            primary="Репозиторий 1"
-                                            secondary={
-                                                <React.Fragment>
-                                                    <Typography component="div" variant="body2" color="textPrimary">
-                                                        <StarIcon /> 20
-                                                    </Typography>
-                                                    <Typography component="div" variant="body2" color="textPrimary">
-                                                        Язык
-                                                    </Typography>
-                                                </React.Fragment>
-                                            }
-                                        />
-                                    </ListItem>
-                                    <ListItem>репозиторий 2</ListItem>
-                                </List>
-                            </CardContent>
-                        </Collapse>
+                            <List>
+                                <ListItem>
+                                    <ListItemText
+                                        primary="Репозиторий 1"
+                                        secondary={
+                                            <React.Fragment>
+                                                <Typography component="span" variant="body2" color="textPrimary">
+                                                    <StarIcon /> 20
+                                                </Typography>
+                                                <Typography component="span" variant="body2" color="textPrimary">
+                                                    Язык
+                                                </Typography>
+                                            </React.Fragment>
+                                        }
+                                    />
+                                </ListItem>
+                                <ListItem>репозиторий 2</ListItem>
+                            </List>
+                        </CardContent>
                     </Card>
                 </Grid>
             </Grid>
