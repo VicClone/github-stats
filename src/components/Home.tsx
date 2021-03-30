@@ -31,6 +31,7 @@ import WorkIcon from '@material-ui/icons/Work';
 import LanguageIcon from '@material-ui/icons/Language';
 import StarIcon from '@material-ui/icons/Star';
 import SearchBar from 'material-ui-search-bar';
+import { Link } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -194,6 +195,7 @@ export const Home: React.FC = () => {
                                                 </React.Fragment>
                                             }
                                         />
+                                        <Link href="/repository/1">Link</Link>
                                     </ListItem>
                                     <ListItem>репозиторий 2</ListItem>
                                 </List>
