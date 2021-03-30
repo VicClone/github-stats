@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { AuthContext } from '../App';
-import { logOutUserAction } from '../store/actions';
+import { AuthContext } from '../../App';
+import { logOutUserAction } from '../../store/actions';
 import {
     getUserData,
     getUserRepos,
@@ -9,8 +9,8 @@ import {
     getRepoPullsList,
     getRepoIssuesList,
     getCommitsByUser
-} from '../models/api';
-import { AuthContextType } from '../types/appTypes';
+} from '../../models/api';
+import { AuthContextType } from '../../types/appTypes';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -32,7 +32,8 @@ import LanguageIcon from '@material-ui/icons/Language';
 import StarIcon from '@material-ui/icons/Star';
 import SearchBar from 'material-ui-search-bar';
 import { Link } from '@material-ui/core';
-import { RepoData, UserData } from '../types/apiTypes';
+import { RepoData, UserData } from '../../types/apiTypes';
+import './Home.css';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -179,7 +180,7 @@ export const Home: React.FC = () => {
         console.log(userRepos);
         return (
             <CardContent>
-                <Typography component="span" variant="body1" color="textPrimary">
+                <Typography component="span" variant="body1" color="textPrimary" className="repoHeader">
                     Репозитории:
                 </Typography>
                 <List>
@@ -189,17 +190,20 @@ export const Home: React.FC = () => {
                                 <ListItemText
                                     primary={repo.name}
                                     secondary={
-                                        <React.Fragment>
-                                            <Typography component="span" variant="body2" color="textPrimary">
+                                        <>
+                                            <Typography
+                                                component="span"
+                                                variant="body2"
+                                                color="textPrimary"
+                                                className="repoStar"
+                                            >
                                                 <StarIcon /> {repo.stargazersCount}
                                             </Typography>
-                                            <Typography component="span" variant="body2" color="textPrimary">
-                                                {repo.language}
-                                            </Typography>
-                                        </React.Fragment>
+                                            {repo.language}
+                                        </>
                                     }
                                 />
-                                <Link href="/repository/1">Link</Link>
+                                <Link href="/repository/1">Перейти</Link>
                             </ListItem>
                         );
                     })}
