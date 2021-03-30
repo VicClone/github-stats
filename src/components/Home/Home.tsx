@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../App';
-import { logOutUserAction } from '../../store/actions';
+import { logOutUserAction, setSearchedUser } from '../../store/actions';
 import {
     getUserData,
     getUserRepos,
@@ -34,6 +34,7 @@ import SearchBar from 'material-ui-search-bar';
 import { Link } from '@material-ui/core';
 import { RepoData, UserData } from '../../types/apiTypes';
 import './Home.css';
+import { sessionSaver } from '../../utils/SessionSaver';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -120,6 +121,7 @@ export const Home: React.FC = () => {
             .then(data => {
                 console.log(data);
                 setUserInfo(data as UserData);
+                setSearchedUser(data as UserData);
             })
             .catch(error => {
                 console.log(error);
@@ -178,6 +180,10 @@ export const Home: React.FC = () => {
 
     const renderReposInfo = () => {
         console.log(userRepos);
+        const handleRepoLink = (repo: RepoData) => {
+            sessionSaver.setSelectedRepo(repo);
+        };
+
         return (
             <CardContent>
                 <Typography component="span" variant="body1" color="textPrimary" className="repoHeader">
@@ -203,7 +209,9 @@ export const Home: React.FC = () => {
                                         </>
                                     }
                                 />
-                                <Link href="/repository/1">Перейти</Link>
+                                <Link href={`repository/${repo.name}`} onClick={() => handleRepoLink(repo)}>
+                                    Перейти
+                                </Link>
                             </ListItem>
                         );
                     })}

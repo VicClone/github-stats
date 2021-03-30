@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     Grid,
     Card,
@@ -13,8 +13,18 @@ import {
     Container
 } from '@material-ui/core';
 import { Face, Description, Grade, CallSplit } from '@material-ui/icons';
+import { AuthContextType } from '../types/appTypes';
+import { AuthContext } from '../App';
+import { sessionSaver } from '../utils/SessionSaver';
+import { RepoData } from '../types/apiTypes';
 
 export const Repository: React.FC = () => {
+    const [repo, setRepo] = useState<RepoData>();
+
+    useEffect(() => {
+        setRepo(sessionSaver.getSelectedRepo());
+    }, []);
+
     return (
         <Container maxWidth="md">
             <Box mt={20}>
@@ -28,7 +38,7 @@ export const Repository: React.FC = () => {
                                         src="https://material-ui.com/static/images/avatar/1.jpg"
                                     ></Avatar>
                                 }
-                                title="First Repo"
+                                title={repo?.name}
                             />
                             <CardContent>
                                 <List>
@@ -36,25 +46,27 @@ export const Repository: React.FC = () => {
                                         <ListItemIcon>
                                             <Face></Face>
                                         </ListItemIcon>
-                                        <ListItemText>Энтони</ListItemText>
+                                        <ListItemText>Автор</ListItemText>
                                     </ListItem>
-                                    <ListItem>
-                                        <ListItemIcon>
-                                            <Description></Description>
-                                        </ListItemIcon>
-                                        <ListItemText>Здесь должно быть описание репозитория</ListItemText>
-                                    </ListItem>
+                                    {repo?.description && (
+                                        <ListItem>
+                                            <ListItemIcon>
+                                                <Description></Description>
+                                            </ListItemIcon>
+                                            <ListItemText>{repo?.description}</ListItemText>
+                                        </ListItem>
+                                    )}
                                     <ListItem>
                                         <ListItemIcon>
                                             <Grade></Grade>
                                         </ListItemIcon>
-                                        <ListItemText>Рейтинг репозитория: 20</ListItemText>
+                                        <ListItemText>Рейтинг репозитория: {repo?.stargazersCount}</ListItemText>
                                     </ListItem>
                                     <ListItem>
                                         <ListItemIcon>
                                             <CallSplit></CallSplit>
                                         </ListItemIcon>
-                                        <ListItemText>Fork</ListItemText>
+                                        <ListItemText>Количество форков: {repo?.forksCount}</ListItemText>
                                     </ListItem>
                                 </List>
                             </CardContent>
