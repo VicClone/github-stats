@@ -18,8 +18,6 @@ import Box from '@material-ui/core/Box';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -59,33 +57,33 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const getRepository = (userName: string, repoName: string) => {
-    getRepoInfo(userName, repoName)
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-
-    getRepoPullsList(userName, repoName)
-        .then(data => {
-            console.log('pulls:');
-            console.log(data);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-
-    getRepoIssuesList(userName, repoName)
-        .then(data => {
-            console.log('issues:');
-            console.log(data);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-};
+// const getRepository = (userName: string, repoName: string) => {
+//     getRepoInfo(userName, repoName)
+//         .then(data => {
+//             console.log(data);
+//         })
+//         .catch(error => {
+//             console.log(error);
+//         });
+//
+//     getRepoPullsList(userName, repoName)
+//         .then(data => {
+//             console.log('pulls:');
+//             console.log(data);
+//         })
+//         .catch(error => {
+//             console.log(error);
+//         });
+//
+//     getRepoIssuesList(userName, repoName)
+//         .then(data => {
+//             console.log('issues:');
+//             console.log(data);
+//         })
+//         .catch(error => {
+//             console.log(error);
+//         });
+// };
 
 const getCommits = (userName: string, email: string) => {
     getCommitsByUser(userName, email)
@@ -111,10 +109,6 @@ export const Home: React.FC = () => {
     if (!isLoggedIn) {
         return <Redirect to="/login" />;
     }
-
-    const handleLogout = (): void => {
-        dispatch(logOutUserAction());
-    };
 
     const getUserInfo = (userName: string) => {
         getUserData(userName)
