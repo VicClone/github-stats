@@ -1,6 +1,9 @@
+import { RepoData } from '../types/apiTypes';
+
 class SessionSaver {
     private USER_NAME_KEY = 'userName';
     private IS_LOGGED_IN = 'isLoggedIn';
+    private SELECTED_REPO = 'selectedRepo';
 
     setUserName(userName: string): void {
         localStorage.setItem(this.USER_NAME_KEY, userName);
@@ -16,6 +19,14 @@ class SessionSaver {
 
     getIsLogged(): boolean {
         return JSON.parse(localStorage.getItem(this.IS_LOGGED_IN) as string);
+    }
+
+    setSelectedRepo(repo: RepoData): void {
+        localStorage.setItem(this.SELECTED_REPO, JSON.stringify(repo));
+    }
+
+    getSelectedRepo(): RepoData {
+        return JSON.parse(localStorage.getItem(this.SELECTED_REPO) as string);
     }
 
     clear(): void {

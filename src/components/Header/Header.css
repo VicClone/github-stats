@@ -1,0 +1,30 @@
+header {
+    width: 100%;
+    display: flex;
+    z-index: 1100;
+    box-sizing: border-box;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.header-position {
+    top: 0;
+    left: auto;
+    right: 0;
+    position: fixed;
+}
+
+.header-font {
+    color: #434B90;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.header-link {
+    cursor: pointer;
+}

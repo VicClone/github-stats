@@ -1,3 +1,5 @@
+import { RepoData, UserData } from './apiTypes';
+
 export interface AppState {
     isLoggedIn: boolean;
     user: string | null;
