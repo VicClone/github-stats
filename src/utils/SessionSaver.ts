@@ -1,9 +1,10 @@
-import { RepoData } from '../types/apiTypes';
+import { RepoInfo } from '../types/apiTypes';
 
 class SessionSaver {
     private USER_NAME_KEY = 'userName';
     private IS_LOGGED_IN = 'isLoggedIn';
     private SELECTED_REPO = 'selectedRepo';
+    private TOKEN = 'token';
 
     setUserName(userName: string): void {
         localStorage.setItem(this.USER_NAME_KEY, userName);
@@ -21,12 +22,20 @@ class SessionSaver {
         return JSON.parse(localStorage.getItem(this.IS_LOGGED_IN) as string);
     }
 
-    setSelectedRepo(repo: RepoData): void {
+    setSelectedRepo(repo: RepoInfo): void {
         localStorage.setItem(this.SELECTED_REPO, JSON.stringify(repo));
     }
 
-    getSelectedRepo(): RepoData {
+    getSelectedRepo(): RepoInfo {
         return JSON.parse(localStorage.getItem(this.SELECTED_REPO) as string);
+    }
+
+    setGithubAccessToken(token: string): void {
+        localStorage.setItem(this.TOKEN, token);
+    }
+
+    getGithubAccessToken(): string {
+        return localStorage.getItem(this.TOKEN) as string;
     }
 
     clear(): void {

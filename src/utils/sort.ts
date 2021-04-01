@@ -1,6 +1,6 @@
-import { RepoData } from '../types/apiTypes';
+import { RepoInfo } from '../types/apiTypes';
 
-export function sortRepos(a: RepoData, b: RepoData) {
+export function sortRepos(a: RepoInfo, b: RepoInfo) {
     const stargazersCountA = a.stargazersCount;
     const stargazersCountB = b.stargazersCount;
 
