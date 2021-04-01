@@ -10,7 +10,9 @@ export interface UserData {
 }
 
 export interface RepoData {
+    id: number;
     name: string;
+    owner: string;
     description: string;
     cloneUrl: string;
     sshUrl: string;
@@ -20,4 +22,5 @@ export interface RepoData {
     language: string;
     url: string;
     pushed_at: string;
+    isFork: boolean;
 }

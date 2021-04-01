@@ -185,7 +185,7 @@ export const Home: React.FC = () => {
                 <List>
                     {userRepos?.map(repo => {
                         return (
-                            <ListItem key={repo.updatedAt}>
+                            <ListItem key={repo.id}>
                                 <ListItemText
                                     primary={repo.name}
                                     secondary={

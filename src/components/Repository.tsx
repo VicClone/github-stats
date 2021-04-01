@@ -13,7 +13,7 @@ import {
     Container,
     Button
 } from '@material-ui/core';
-import { Face, Description, Grade, CallSplit } from '@material-ui/icons';
+import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { sessionSaver } from '../utils/SessionSaver';
 import { RepoData } from '../types/apiTypes';
@@ -67,7 +67,7 @@ export const Repository: React.FC = () => {
                                             <ListItemIcon>
                                                 <Face></Face>
                                             </ListItemIcon>
-                                            <ListItemText>Автор</ListItemText>
+                                            <ListItemText>{repo.owner}</ListItemText>
                                         </ListItem>
                                         {repo.description && (
                                             <ListItem>
@@ -88,6 +88,12 @@ export const Repository: React.FC = () => {
                                                 <CallSplit></CallSplit>
                                             </ListItemIcon>
                                             <ListItemText>Количество форков: {repo.forksCount}</ListItemText>
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemIcon>
+                                                <AccountTree />
+                                            </ListItemIcon>
+                                            <ListItemText>{repo.isFork ? 'Форк' : 'Не форк'}</ListItemText>
                                         </ListItem>
                                     </List>
                                 </CardContent>

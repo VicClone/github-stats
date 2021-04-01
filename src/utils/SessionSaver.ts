@@ -4,6 +4,7 @@ class SessionSaver {
     private USER_NAME_KEY = 'userName';
     private IS_LOGGED_IN = 'isLoggedIn';
     private SELECTED_REPO = 'selectedRepo';
+    private TOKEN = '';
 
     setUserName(userName: string): void {
         localStorage.setItem(this.USER_NAME_KEY, userName);
@@ -27,6 +28,14 @@ class SessionSaver {
 
     getSelectedRepo(): RepoData {
         return JSON.parse(localStorage.getItem(this.SELECTED_REPO) as string);
+    }
+
+    setGithubAccessToken(token: string): void {
+        localStorage.setItem(this.TOKEN, token);
+    }
+
+    getGithubAccessToken(): string {
+        return localStorage.getItem(this.TOKEN) as string;
     }
 
     clear(): void {
