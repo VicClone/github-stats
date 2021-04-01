@@ -1,4 +1,4 @@
-import { RepoData } from '../types/apiTypes';
+import { RepoInfo } from '../types/apiTypes';
 
 class SessionSaver {
     private USER_NAME_KEY = 'userName';
@@ -22,11 +22,11 @@ class SessionSaver {
         return JSON.parse(localStorage.getItem(this.IS_LOGGED_IN) as string);
     }
 
-    setSelectedRepo(repo: RepoData): void {
+    setSelectedRepo(repo: RepoInfo): void {
         localStorage.setItem(this.SELECTED_REPO, JSON.stringify(repo));
     }
 
-    getSelectedRepo(): RepoData {
+    getSelectedRepo(): RepoInfo {
         return JSON.parse(localStorage.getItem(this.SELECTED_REPO) as string);
     }
 

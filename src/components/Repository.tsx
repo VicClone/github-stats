@@ -17,12 +17,16 @@ import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/i
 import { Alert } from '@material-ui/lab';
 import { sessionSaver } from '../utils/SessionSaver';
 import { RepoData } from '../types/apiTypes';
+import { getRepoData } from '../models/repoData';
 
 export const Repository: React.FC = () => {
     const [repo, setRepo] = useState<RepoData>();
 
     useEffect(() => {
-        setRepo(sessionSaver.getSelectedRepo());
+        getRepoData().then(res => {
+            setRepo(res as RepoData);
+        });
+        // setRepo(sessionSaver.getSelectedRepo());
     }, []);
 
     const [isToggleCopied, setToggleCopied] = useState(false);
@@ -49,12 +53,12 @@ export const Repository: React.FC = () => {
                                             src="https://material-ui.com/static/images/avatar/1.jpg"
                                         ></Avatar>
                                     }
-                                    title={repo.name}
+                                    title={repo.info.name}
                                     action={
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            onClick={() => handleCloneBtn(repo.sshUrl)}
+                                            onClick={() => handleCloneBtn(repo.info.sshUrl)}
                                         >
                                             Склонировать
                                         </Button>
@@ -67,33 +71,35 @@ export const Repository: React.FC = () => {
                                             <ListItemIcon>
                                                 <Face></Face>
                                             </ListItemIcon>
-                                            <ListItemText>{repo.owner}</ListItemText>
+                                            <ListItemText>{repo.info.owner}</ListItemText>
                                         </ListItem>
-                                        {repo.description && (
+                                        {repo.info.description && (
                                             <ListItem>
                                                 <ListItemIcon>
                                                     <Description></Description>
                                                 </ListItemIcon>
-                                                <ListItemText>{repo.description}</ListItemText>
+                                                <ListItemText>{repo.info.description}</ListItemText>
                                             </ListItem>
                                         )}
                                         <ListItem>
                                             <ListItemIcon>
                                                 <Grade></Grade>
                                             </ListItemIcon>
-                                            <ListItemText>Рейтинг репозитория: {repo.stargazersCount}</ListItemText>
+                                            <ListItemText>
+                                                Рейтинг репозитория: {repo.info.stargazersCount}
+                                            </ListItemText>
                                         </ListItem>
                                         <ListItem>
                                             <ListItemIcon>
                                                 <CallSplit></CallSplit>
                                             </ListItemIcon>
-                                            <ListItemText>Количество форков: {repo.forksCount}</ListItemText>
+                                            <ListItemText>Количество форков: {repo.info.forksCount}</ListItemText>
                                         </ListItem>
                                         <ListItem>
                                             <ListItemIcon>
                                                 <AccountTree />
                                             </ListItemIcon>
-                                            <ListItemText>{repo.isFork ? 'Форк' : 'Не форк'}</ListItemText>
+                                            <ListItemText>{repo.info.isFork ? 'Форк' : 'Не форк'}</ListItemText>
                                         </ListItem>
                                     </List>
                                 </CardContent>

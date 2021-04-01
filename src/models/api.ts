@@ -1,6 +1,6 @@
 import getOptionsForGithub from '../utils/optionsGithubApi';
 import { sortRepos } from '../utils/sort';
-import { UserData, RepoData } from '../types/apiTypes';
+import { UserData, RepoInfo } from '../types/apiTypes';
 import { isEmptyBindingElement } from 'typescript';
 import { sessionSaver } from '../utils/SessionSaver';
 
@@ -46,7 +46,7 @@ export const getUserData = (username: string): Promise<UserData | Error> => {
         });
 };
 
-export const getUserRepos = (username: string): Promise<RepoData[] | Error> => {
+export const getUserRepos = (username: string): Promise<RepoInfo[] | Error> => {
     return fetch(`https://api.github.com/users/${username}/repos?per_page=1000`, getOptionsForGithub())
         .then(response => {
             if (!response.ok) throw new Error(response.status.toString());
@@ -146,7 +146,16 @@ export const getRepoPullsList = (userName: string, repoName: string) => {
             return response.json();
         })
         .then(data => {
-            return data;
+            const pulls = data.map((pull: any) => {
+                return {
+                    title: pull.title,
+                    state: pull.state,
+                    url: pull.url,
+                    closedAt: pull.close_at
+                };
+            });
+
+            return pulls;
         })
         .catch(error => {
             return error;
@@ -161,7 +170,16 @@ export const getRepoIssuesList = (userName: string, repoName: string) => {
             return response.json();
         })
         .then(data => {
-            return data;
+            const issues = data.map((issue: any) => {
+                return {
+                    title: issue.title,
+                    state: issue.state,
+                    url: issue.url,
+                    closedAt: issue.close_at
+                };
+            });
+
+            return issues;
         })
         .catch(error => {
             return error;

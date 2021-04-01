@@ -30,7 +30,7 @@ import LanguageIcon from '@material-ui/icons/Language';
 import StarIcon from '@material-ui/icons/Star';
 import SearchBar from 'material-ui-search-bar';
 import { Link } from '@material-ui/core';
-import { RepoData, UserData } from '../../types/apiTypes';
+import { RepoInfo, UserData } from '../../types/apiTypes';
 import './Home.css';
 import { sessionSaver } from '../../utils/SessionSaver';
 
@@ -104,7 +104,7 @@ export const Home: React.FC = () => {
 
     const [searchUserValue, setSearchUserValue] = useState<string>('');
     const [userInfo, setUserInfo] = useState<UserData | null>(null);
-    const [userRepos, setUserRepos] = useState<RepoData[]>();
+    const [userRepos, setUserRepos] = useState<RepoInfo[]>();
 
     if (!isLoggedIn) {
         return <Redirect to="/login" />;
@@ -123,7 +123,7 @@ export const Home: React.FC = () => {
         getUserRepos(userName)
             .then(data => {
                 console.log(data);
-                setUserRepos(data as RepoData[]);
+                setUserRepos(data as RepoInfo[]);
             })
             .catch(error => {
                 console.log(error);
@@ -173,7 +173,7 @@ export const Home: React.FC = () => {
 
     const renderReposInfo = () => {
         console.log(userRepos);
-        const handleRepoLink = (repo: RepoData) => {
+        const handleRepoLink = (repo: RepoInfo) => {
             sessionSaver.setSelectedRepo(repo);
         };
 
