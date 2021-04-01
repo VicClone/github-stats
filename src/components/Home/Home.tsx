@@ -12,7 +12,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -26,29 +25,6 @@ import { Link } from '@material-ui/core';
 import { RepoInfo, UserData } from '../../types/apiTypes';
 import './Home.css';
 import { sessionSaver } from '../../utils/SessionSaver';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        maxWidth: 345
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%' // 16:9
-    },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest
-        })
-    },
-    expandOpen: {
-        transform: 'rotate(180deg)'
-    },
-    avatar: {
-        backgroundColor: 'red'
-    }
-}));
 
 export const Home: React.FC = () => {
     const {
