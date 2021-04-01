@@ -135,6 +135,7 @@ export const Home: React.FC = () => {
     };
 
     const searchUser = () => {
+        sessionSaver.setUserName(searchUserValue);
         getUserInfo(searchUserValue);
     };
 

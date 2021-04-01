@@ -4,7 +4,7 @@ class SessionSaver {
     private USER_NAME_KEY = 'userName';
     private IS_LOGGED_IN = 'isLoggedIn';
     private SELECTED_REPO = 'selectedRepo';
-    private TOKEN = '';
+    private TOKEN = 'token';
 
     setUserName(userName: string): void {
         localStorage.setItem(this.USER_NAME_KEY, userName);

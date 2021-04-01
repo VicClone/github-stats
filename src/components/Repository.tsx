@@ -21,15 +21,16 @@ import { getRepoData } from '../models/repoData';
 
 export const Repository: React.FC = () => {
     const [repo, setRepo] = useState<RepoData>();
+    const [isToggleCopied, setToggleCopied] = useState(false);
+
+    const userName = sessionSaver.getUserName();
+    const repoName = sessionSaver.getSelectedRepo().name;
 
     useEffect(() => {
-        getRepoData().then(res => {
+        getRepoData(userName as string, repoName as string).then(res => {
             setRepo(res as RepoData);
         });
-        // setRepo(sessionSaver.getSelectedRepo());
     }, []);
-
-    const [isToggleCopied, setToggleCopied] = useState(false);
 
     const handleCloneBtn = (sshUrl: string) => {
         setToggleCopied(true);

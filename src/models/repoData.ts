@@ -1,7 +1,7 @@
 import { getRepoInfo, getRepoLanguages, getRepoPullsList, getRepoIssuesList } from './api';
 import { RepoData } from '../types/apiTypes';
 
-export const getRepoData = (userName = 'VicClone', repoName = 'github-stats'): Promise<RepoData | void> => {
+export const getRepoData = (userName: string, repoName: string): Promise<RepoData | void> => {
     const repoInfo: RepoData = {} as RepoData;
 
     return getRepoInfo(userName, repoName)
