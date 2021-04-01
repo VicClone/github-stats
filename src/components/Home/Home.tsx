@@ -2,14 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../App';
 import { logOutUserAction } from '../../store/actions';
-import {
-    getUserData,
-    getUserRepos,
-    getRepoInfo,
-    getRepoPullsList,
-    getRepoIssuesList,
-    getCommitsByUser
-} from '../../models/api';
+import { getUserData, getUserRepos } from '../../models/api';
 import { AuthContextType } from '../../types/appTypes';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
@@ -57,45 +50,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-// const getRepository = (userName: string, repoName: string) => {
-//     getRepoInfo(userName, repoName)
-//         .then(data => {
-//             console.log(data);
-//         })
-//         .catch(error => {
-//             console.log(error);
-//         });
-//
-//     getRepoPullsList(userName, repoName)
-//         .then(data => {
-//             console.log('pulls:');
-//             console.log(data);
-//         })
-//         .catch(error => {
-//             console.log(error);
-//         });
-//
-//     getRepoIssuesList(userName, repoName)
-//         .then(data => {
-//             console.log('issues:');
-//             console.log(data);
-//         })
-//         .catch(error => {
-//             console.log(error);
-//         });
-// };
-
-const getCommits = (userName: string, email: string) => {
-    getCommitsByUser(userName, email)
-        .then(data => {
-            console.log('issues:');
-            console.log(data);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-};
-
 export const Home: React.FC = () => {
     const {
         state: { isLoggedIn },
@@ -113,7 +67,6 @@ export const Home: React.FC = () => {
     const getUserInfo = (userName: string) => {
         getUserData(userName)
             .then(data => {
-                console.log(data);
                 setUserInfo(data as UserData);
             })
             .catch(error => {
@@ -122,7 +75,6 @@ export const Home: React.FC = () => {
 
         getUserRepos(userName)
             .then(data => {
-                console.log(data);
                 setUserRepos(data as RepoInfo[]);
             })
             .catch(error => {
@@ -173,7 +125,6 @@ export const Home: React.FC = () => {
     };
 
     const renderReposInfo = () => {
-        console.log(userRepos);
         const handleRepoLink = (repo: RepoInfo) => {
             sessionSaver.setSelectedRepo(repo);
         };
