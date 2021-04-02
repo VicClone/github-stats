@@ -2,14 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../App';
 import { logOutUserAction } from '../../store/actions';
-import {
-    getUserData,
-    getUserRepos,
-    getRepoInfo,
-    getRepoPullsList,
-    getRepoIssuesList,
-    getCommitsByUser
-} from '../../models/api';
+import { getUserData, getUserRepos } from '../../models/api';
 import { AuthContextType } from '../../types/appTypes';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
@@ -19,7 +12,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -30,71 +22,9 @@ import LanguageIcon from '@material-ui/icons/Language';
 import StarIcon from '@material-ui/icons/Star';
 import SearchBar from 'material-ui-search-bar';
 import { Link } from '@material-ui/core';
-import { RepoData, UserData } from '../../types/apiTypes';
+import { RepoInfo, UserData } from '../../types/apiTypes';
 import './Home.css';
 import { sessionSaver } from '../../utils/SessionSaver';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        maxWidth: 345
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%' // 16:9
-    },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest
-        })
-    },
-    expandOpen: {
-        transform: 'rotate(180deg)'
-    },
-    avatar: {
-        backgroundColor: 'red'
-    }
-}));
-
-// const getRepository = (userName: string, repoName: string) => {
-//     getRepoInfo(userName, repoName)
-//         .then(data => {
-//             console.log(data);
-//         })
-//         .catch(error => {
-//             console.log(error);
-//         });
-//
-//     getRepoPullsList(userName, repoName)
-//         .then(data => {
-//             console.log('pulls:');
-//             console.log(data);
-//         })
-//         .catch(error => {
-//             console.log(error);
-//         });
-//
-//     getRepoIssuesList(userName, repoName)
-//         .then(data => {
-//             console.log('issues:');
-//             console.log(data);
-//         })
-//         .catch(error => {
-//             console.log(error);
-//         });
-// };
-
-const getCommits = (userName: string, email: string) => {
-    getCommitsByUser(userName, email)
-        .then(data => {
-            console.log('issues:');
-            console.log(data);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-};
 
 export const Home: React.FC = () => {
     const {
@@ -104,7 +34,7 @@ export const Home: React.FC = () => {
 
     const [searchUserValue, setSearchUserValue] = useState<string>('');
     const [userInfo, setUserInfo] = useState<UserData | null>(null);
-    const [userRepos, setUserRepos] = useState<RepoData[]>();
+    const [userRepos, setUserRepos] = useState<RepoInfo[]>();
 
     if (!isLoggedIn) {
         return <Redirect to="/login" />;
@@ -113,7 +43,6 @@ export const Home: React.FC = () => {
     const getUserInfo = (userName: string) => {
         getUserData(userName)
             .then(data => {
-                console.log(data);
                 setUserInfo(data as UserData);
             })
             .catch(error => {
@@ -122,8 +51,7 @@ export const Home: React.FC = () => {
 
         getUserRepos(userName)
             .then(data => {
-                console.log(data);
-                setUserRepos(data as RepoData[]);
+                setUserRepos(data as RepoInfo[]);
             })
             .catch(error => {
                 console.log(error);
@@ -135,6 +63,7 @@ export const Home: React.FC = () => {
     };
 
     const searchUser = () => {
+        sessionSaver.setUserName(searchUserValue);
         getUserInfo(searchUserValue);
     };
 
@@ -172,8 +101,7 @@ export const Home: React.FC = () => {
     };
 
     const renderReposInfo = () => {
-        console.log(userRepos);
-        const handleRepoLink = (repo: RepoData) => {
+        const handleRepoLink = (repo: RepoInfo) => {
             sessionSaver.setSelectedRepo(repo);
         };
 
@@ -185,7 +113,7 @@ export const Home: React.FC = () => {
                 <List>
                     {userRepos?.map(repo => {
                         return (
-                            <ListItem key={repo.updatedAt}>
+                            <ListItem key={repo.id}>
                                 <ListItemText
                                     primary={repo.name}
                                     secondary={
