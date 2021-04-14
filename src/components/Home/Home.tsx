@@ -21,7 +21,7 @@ import WorkIcon from '@material-ui/icons/Work';
 import LanguageIcon from '@material-ui/icons/Language';
 import StarIcon from '@material-ui/icons/Star';
 import SearchBar from 'material-ui-search-bar';
-import { Link } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { RepoInfo, UserData } from '../../types/apiTypes';
 import './Home.css';
 import { sessionSaver } from '../../utils/SessionSaver';
@@ -130,7 +130,7 @@ export const Home: React.FC = () => {
                                         </>
                                     }
                                 />
-                                <Link href={`repository/${repo.name}`} onClick={() => handleRepoLink(repo)}>
+                                <Link to={`/repository/${repo.name}`} onClick={() => handleRepoLink(repo)}>
                                     Перейти
                                 </Link>
                             </ListItem>
