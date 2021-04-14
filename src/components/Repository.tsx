@@ -11,13 +11,15 @@ import {
     ListItemText,
     Box,
     Container,
-    Button
+    Button,
+    IconButton
 } from '@material-ui/core';
-import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
+import { Face, Description, Grade, CallSplit, AccountTree, ArrowBack } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { sessionSaver } from '../utils/SessionSaver';
 import { RepoData } from '../types/apiTypes';
 import { getRepoData } from '../models/repoData';
+import { useHistory } from 'react-router-dom';
 
 export const Repository: React.FC = () => {
     const [repo, setRepo] = useState<RepoData>();
@@ -38,6 +40,12 @@ export const Repository: React.FC = () => {
         setTimeout(() => {
             setToggleCopied(false);
         }, 2000);
+    };
+
+    const history = useHistory();
+
+    const goBack = () => {
+        history.goBack();
     };
 
     return (
@@ -103,6 +111,9 @@ export const Repository: React.FC = () => {
                                             <ListItemText>{repo.info.isFork ? 'Форк' : 'Не форк'}</ListItemText>
                                         </ListItem>
                                     </List>
+                                    <Button variant="contained" color="primary" onClick={() => goBack()}>
+                                        Назад
+                                    </Button>
                                 </CardContent>
                             </Card>
                         )}
