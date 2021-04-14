@@ -22,8 +22,8 @@ export const App: React.FC = () => {
                 dispatch
             }}
         >
-            <Header />
             <Router>
+                <Header />
                 <Switch>
                     <Route path="/login" component={Login} />
                     <Route exact path="/" component={withRouter(Home)} />
