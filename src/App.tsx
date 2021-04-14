@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { initialState, reducer } from './store/reducer';
 import { Login } from './components/Login';
-import { Home } from './components/Home/Home';
+import { Home } from './components/Home';
 import { AuthContextType } from './types/appTypes';
-import { Header } from './components/Header/Header';
+import { Header } from './components/Header';
 import { Repository } from './components/Repository';
 import { withRouter } from 'react-router';
 
