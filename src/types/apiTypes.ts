@@ -13,6 +13,7 @@ export interface RepoInfo {
     id: number;
     name: string;
     owner: string;
+    ownerAvatar: string;
     description: string;
     cloneUrl: string;
     sshUrl: string;

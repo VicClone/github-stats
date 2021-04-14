@@ -107,6 +107,7 @@ export const getRepoInfo = (userName: string, repoName: string) => {
                 id: data.id,
                 name: data.name,
                 owner: data.owner.login,
+                ownerAvatar: data.owner.avatar_url,
                 description: data.description,
                 cloneUrl: data.clone_url,
                 sshUrl: data.ssh_url,

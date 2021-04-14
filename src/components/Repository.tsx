@@ -12,7 +12,8 @@ import {
     Box,
     Container,
     Button,
-    IconButton
+    IconButton,
+    Link
 } from '@material-ui/core';
 import { Face, Description, Grade, CallSplit, AccountTree, ArrowBack } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
@@ -56,12 +57,7 @@ export const Repository: React.FC = () => {
                         {repo && (
                             <Card>
                                 <CardHeader
-                                    avatar={
-                                        <Avatar
-                                            alt="name name"
-                                            src="https://material-ui.com/static/images/avatar/1.jpg"
-                                        ></Avatar>
-                                    }
+                                    avatar={<Avatar alt={repo.info.name} src={repo.info.ownerAvatar}></Avatar>}
                                     title={repo.info.name}
                                     action={
                                         <Button
@@ -80,7 +76,11 @@ export const Repository: React.FC = () => {
                                             <ListItemIcon>
                                                 <Face></Face>
                                             </ListItemIcon>
-                                            <ListItemText>{repo.info.owner}</ListItemText>
+                                            <ListItemText>
+                                                <Link href={`https://github.com/${repo.info.owner}`} target="_blank">
+                                                    {repo.info.owner}
+                                                </Link>
+                                            </ListItemText>
                                         </ListItem>
                                         {repo.info.description && (
                                             <ListItem>

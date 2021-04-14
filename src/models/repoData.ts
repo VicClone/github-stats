@@ -7,6 +7,7 @@ export const getRepoData = (userName: string, repoName: string): Promise<RepoDat
     return getRepoInfo(userName, repoName)
         .then(res => {
             repoInfo.info = res;
+            console.log(repoInfo.info);
 
             return getRepoLanguages(userName, repoName);
         })
