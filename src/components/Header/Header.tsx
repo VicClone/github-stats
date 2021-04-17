@@ -4,6 +4,7 @@ import { Link } from '@material-ui/core';
 import { logOutUserAction } from '../../store/actions';
 import { AuthContextType } from '../../types/appTypes';
 import { AuthContext } from '../../App';
+import { Link as LinkRouter } from 'react-router-dom';
 
 export const Header = () => {
     const {
@@ -17,7 +18,9 @@ export const Header = () => {
 
     return (
         <header className="header-position">
-            <p className="header-font">Гитстатистика</p>
+            <LinkRouter to="/" className="header-font">
+                Гитстатистика
+            </LinkRouter>
             {isLoggedIn && (
                 <Link className="header-link" href="/login" onClick={handleLogOut}>
                     Выйти

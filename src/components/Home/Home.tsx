@@ -4,27 +4,28 @@ import { AuthContext } from '../../App';
 import { logOutUserAction } from '../../store/actions';
 import { getUserData, getUserRepos } from '../../models/api';
 import { AuthContextType } from '../../types/appTypes';
-import Container from '@material-ui/core/Container';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import Box from '@material-ui/core/Box';
-import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import EmailIcon from '@material-ui/icons/Email';
-import WorkIcon from '@material-ui/icons/Work';
-import LanguageIcon from '@material-ui/icons/Language';
-import StarIcon from '@material-ui/icons/Star';
+import {
+    Container,
+    Card,
+    CardHeader,
+    Grid,
+    Box,
+    CardContent,
+    Avatar,
+    Typography,
+    List,
+    ListItem,
+    ListItemText
+} from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import { Star as StarIcon } from '@material-ui/icons';
 import SearchBar from 'material-ui-search-bar';
-import { Link } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { RepoInfo, UserData } from '../../types/apiTypes';
 import './Home.css';
 import { sessionSaver } from '../../utils/SessionSaver';
+import { RenderUserInfo } from './UserInfo';
+import { RenderReposInfo } from './ReposInfo';
 
 export const Home: React.FC = () => {
     const {
@@ -35,6 +36,7 @@ export const Home: React.FC = () => {
     const [searchUserValue, setSearchUserValue] = useState<string>('');
     const [userInfo, setUserInfo] = useState<UserData | null>(null);
     const [userRepos, setUserRepos] = useState<RepoInfo[]>();
+    const [error, setError] = useState<Error>();
 
     if (!isLoggedIn) {
         return <Redirect to="/login" />;
@@ -43,7 +45,11 @@ export const Home: React.FC = () => {
     const getUserInfo = (userName: string) => {
         getUserData(userName)
             .then(data => {
-                setUserInfo(data as UserData);
+                if (data instanceof Error) {
+                    setError(data);
+                } else {
+                    setUserInfo(data as UserData);
+                }
             })
             .catch(error => {
                 console.log(error);
@@ -65,39 +71,6 @@ export const Home: React.FC = () => {
     const searchUser = () => {
         sessionSaver.setUserName(searchUserValue);
         getUserInfo(searchUserValue);
-    };
-
-    const renderUserInfo = () => {
-        return (
-            <CardContent>
-                <List>
-                    {userInfo?.email && (
-                        <ListItem>
-                            <ListItemIcon>
-                                <EmailIcon></EmailIcon>
-                            </ListItemIcon>
-                            <ListItemText>{userInfo?.email}</ListItemText>
-                        </ListItem>
-                    )}
-                    {userInfo?.company && (
-                        <ListItem>
-                            <ListItemIcon>
-                                <WorkIcon></WorkIcon>
-                            </ListItemIcon>
-                            <ListItemText>{userInfo?.company}</ListItemText>
-                        </ListItem>
-                    )}
-                    {userInfo?.blog && (
-                        <ListItem>
-                            <ListItemIcon>
-                                <LanguageIcon></LanguageIcon>
-                            </ListItemIcon>
-                            <ListItemText>Сайт</ListItemText>
-                        </ListItem>
-                    )}
-                </List>
-            </CardContent>
-        );
     };
 
     const renderReposInfo = () => {
@@ -130,7 +103,7 @@ export const Home: React.FC = () => {
                                         </>
                                     }
                                 />
-                                <Link href={`repository/${repo.name}`} onClick={() => handleRepoLink(repo)}>
+                                <Link to={`/repository/${repo.name}`} onClick={() => handleRepoLink(repo)}>
                                     Перейти
                                 </Link>
                             </ListItem>
@@ -156,11 +129,19 @@ export const Home: React.FC = () => {
                                     title={userInfo?.name}
                                     subheader={userInfo?.location}
                                 />
-                                {renderUserInfo()}
-                                {renderReposInfo()}
+                                <RenderUserInfo userInfo={userInfo} />
+                                {userRepos && <RenderReposInfo userRepos={userRepos} />}
                             </Card>
                         </Grid>
                     </Grid>
+                </Box>
+            )}
+            {error && (
+                <Box mt={10}>
+                    <Alert severity="error">
+                        <AlertTitle>Error {error.message}</AlertTitle>
+                        {error.message === '404' && 'Пользователь не найден'}
+                    </Alert>
                 </Box>
             )}
         </Container>

@@ -11,13 +11,16 @@ import {
     ListItemText,
     Box,
     Container,
-    Button
+    Button,
+    IconButton,
+    Link
 } from '@material-ui/core';
-import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
+import { Face, Description, Grade, CallSplit, AccountTree, ArrowBack } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { sessionSaver } from '../utils/SessionSaver';
 import { RepoData } from '../types/apiTypes';
 import { getRepoData } from '../models/repoData';
+import { useHistory } from 'react-router-dom';
 
 export const Repository: React.FC = () => {
     const [repo, setRepo] = useState<RepoData>();
@@ -40,6 +43,12 @@ export const Repository: React.FC = () => {
         }, 2000);
     };
 
+    const history = useHistory();
+
+    const goBack = () => {
+        history.goBack();
+    };
+
     return (
         <Container maxWidth="md">
             <Box mt={20}>
@@ -48,12 +57,7 @@ export const Repository: React.FC = () => {
                         {repo && (
                             <Card>
                                 <CardHeader
-                                    avatar={
-                                        <Avatar
-                                            alt="name name"
-                                            src="https://material-ui.com/static/images/avatar/1.jpg"
-                                        ></Avatar>
-                                    }
+                                    avatar={<Avatar alt={repo.info.name} src={repo.info.ownerAvatar}></Avatar>}
                                     title={repo.info.name}
                                     action={
                                         <Button
@@ -72,7 +76,11 @@ export const Repository: React.FC = () => {
                                             <ListItemIcon>
                                                 <Face></Face>
                                             </ListItemIcon>
-                                            <ListItemText>{repo.info.owner}</ListItemText>
+                                            <ListItemText>
+                                                <Link href={`https://github.com/${repo.info.owner}`} target="_blank">
+                                                    {repo.info.owner}
+                                                </Link>
+                                            </ListItemText>
                                         </ListItem>
                                         {repo.info.description && (
                                             <ListItem>
@@ -103,6 +111,9 @@ export const Repository: React.FC = () => {
                                             <ListItemText>{repo.info.isFork ? 'Форк' : 'Не форк'}</ListItemText>
                                         </ListItem>
                                     </List>
+                                    <Button variant="contained" color="primary" onClick={() => goBack()}>
+                                        Назад
+                                    </Button>
                                 </CardContent>
                             </Card>
                         )}

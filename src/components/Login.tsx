@@ -84,7 +84,7 @@ export const Login: React.FC = () => {
                                 disabled={data.isLoading}
                                 className="buttonClassname"
                                 onClick={() => {
-                                    setData({ ...data, errorMessage: '' });
+                                    setData({ ...data, isLoading: true, errorMessage: '' });
                                 }}
                             >
                                 Войти с помощью GitHub
