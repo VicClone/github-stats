@@ -15,16 +15,17 @@ import {
     Typography,
     List,
     ListItem,
-    ListItemIcon,
     ListItemText
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { Email as EmailIcon, Work as WorkIcon, Language as LanguageIcon, Star as StarIcon } from '@material-ui/icons';
+import { Star as StarIcon } from '@material-ui/icons';
 import SearchBar from 'material-ui-search-bar';
 import { Link } from 'react-router-dom';
 import { RepoInfo, UserData } from '../../types/apiTypes';
 import './Home.css';
 import { sessionSaver } from '../../utils/SessionSaver';
+import { RenderUserInfo } from './UserInfo';
+import { RenderReposInfo } from './ReposInfo';
 
 export const Home: React.FC = () => {
     const {
@@ -44,7 +45,6 @@ export const Home: React.FC = () => {
     const getUserInfo = (userName: string) => {
         getUserData(userName)
             .then(data => {
-                console.log(data, 'asdfasdf');
                 if (data instanceof Error) {
                     setError(data);
                 } else {
@@ -71,39 +71,6 @@ export const Home: React.FC = () => {
     const searchUser = () => {
         sessionSaver.setUserName(searchUserValue);
         getUserInfo(searchUserValue);
-    };
-
-    const renderUserInfo = () => {
-        return (
-            <CardContent>
-                <List>
-                    {userInfo?.email && (
-                        <ListItem>
-                            <ListItemIcon>
-                                <EmailIcon></EmailIcon>
-                            </ListItemIcon>
-                            <ListItemText>{userInfo?.email}</ListItemText>
-                        </ListItem>
-                    )}
-                    {userInfo?.company && (
-                        <ListItem>
-                            <ListItemIcon>
-                                <WorkIcon></WorkIcon>
-                            </ListItemIcon>
-                            <ListItemText>{userInfo?.company}</ListItemText>
-                        </ListItem>
-                    )}
-                    {userInfo?.blog && (
-                        <ListItem>
-                            <ListItemIcon>
-                                <LanguageIcon></LanguageIcon>
-                            </ListItemIcon>
-                            <ListItemText>Сайт</ListItemText>
-                        </ListItem>
-                    )}
-                </List>
-            </CardContent>
-        );
     };
 
     const renderReposInfo = () => {
@@ -162,8 +129,8 @@ export const Home: React.FC = () => {
                                     title={userInfo?.name}
                                     subheader={userInfo?.location}
                                 />
-                                {renderUserInfo()}
-                                {renderReposInfo()}
+                                <RenderUserInfo userInfo={userInfo} />
+                                {userRepos && <RenderReposInfo userRepos={userRepos} />}
                             </Card>
                         </Grid>
                     </Grid>
