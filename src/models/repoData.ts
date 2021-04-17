@@ -4,25 +4,15 @@ import { RepoData } from '../types/apiTypes';
 export const getRepoData = (userName: string, repoName: string): Promise<RepoData | void> => {
     const repoInfo: RepoData = {} as RepoData;
 
-    return getRepoInfo(userName, repoName)
+    return Promise.all([
+        getRepoInfo(userName, repoName),
+        getRepoPullsList(userName, repoName),
+        getRepoIssuesList(userName, repoName)
+    ])
         .then(res => {
-            repoInfo.info = res;
-            console.log(repoInfo.info);
-
-            return getRepoLanguages(userName, repoName);
-        })
-        .then(res => {
-            repoInfo.languages = res;
-
-            return getRepoPullsList(userName, repoName);
-        })
-        .then(res => {
-            repoInfo.pullsList = res;
-
-            return getRepoIssuesList(userName, repoName);
-        })
-        .then(res => {
-            repoInfo.issuesList = res;
+            repoInfo.info = res[0];
+            repoInfo.languages = res[1];
+            repoInfo.issuesList = res[2];
 
             return repoInfo;
         })
