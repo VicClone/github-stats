@@ -1,26 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../App';
-import { logOutUserAction } from '../../store/actions';
 import { getUserData, getUserRepos } from '../../models/api';
 import { AuthContextType } from '../../types/appTypes';
-import {
-    Container,
-    Card,
-    CardHeader,
-    Grid,
-    Box,
-    CardContent,
-    Avatar,
-    Typography,
-    List,
-    ListItem,
-    ListItemText
-} from '@material-ui/core';
+import { Container, Card, CardHeader, Grid, Box, Avatar } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { Star as StarIcon } from '@material-ui/icons';
 import SearchBar from 'material-ui-search-bar';
-import { Link } from 'react-router-dom';
 import { RepoInfo, UserData } from '../../types/apiTypes';
 import './Home.css';
 import { sessionSaver } from '../../utils/SessionSaver';
@@ -29,8 +14,7 @@ import { RenderReposInfo } from './ReposInfo';
 
 export const Home: React.FC = () => {
     const {
-        state: { isLoggedIn },
-        dispatch
+        state: { isLoggedIn }
     } = useContext<AuthContextType>(AuthContext);
 
     const [searchUserValue, setSearchUserValue] = useState<string>('');
@@ -73,47 +57,6 @@ export const Home: React.FC = () => {
         getUserInfo(searchUserValue);
     };
 
-    const renderReposInfo = () => {
-        const handleRepoLink = (repo: RepoInfo) => {
-            sessionSaver.setSelectedRepo(repo);
-        };
-
-        return (
-            <CardContent>
-                <Typography component="span" variant="body1" color="textPrimary" className="repoHeader">
-                    Репозитории:
-                </Typography>
-                <List>
-                    {userRepos?.map(repo => {
-                        return (
-                            <ListItem key={repo.id}>
-                                <ListItemText
-                                    primary={repo.name}
-                                    secondary={
-                                        <>
-                                            <Typography
-                                                component="span"
-                                                variant="body2"
-                                                color="textPrimary"
-                                                className="repoStar"
-                                            >
-                                                <StarIcon /> {repo.stargazersCount}
-                                            </Typography>
-                                            {repo.language}
-                                        </>
-                                    }
-                                />
-                                <Link to={`/repository/${repo.name}`} onClick={() => handleRepoLink(repo)}>
-                                    Перейти
-                                </Link>
-                            </ListItem>
-                        );
-                    })}
-                </List>
-            </CardContent>
-        );
-    };
-
     return (
         <Container maxWidth="md">
             <Box mt={20}>
@@ -125,7 +68,7 @@ export const Home: React.FC = () => {
                         <Grid item xs={12}>
                             <Card>
                                 <CardHeader
-                                    avatar={<Avatar alt="name name" src={userInfo?.avatarUrl}></Avatar>}
+                                    avatar={<Avatar alt="name name" src={userInfo?.avatarUrl} />}
                                     title={userInfo?.name}
                                     subheader={userInfo?.location}
                                 />
