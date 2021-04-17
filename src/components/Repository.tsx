@@ -12,10 +12,9 @@ import {
     Box,
     Container,
     Button,
-    IconButton,
     Link
 } from '@material-ui/core';
-import { Face, Description, Grade, CallSplit, AccountTree, ArrowBack } from '@material-ui/icons';
+import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { sessionSaver } from '../utils/SessionSaver';
 import { RepoData } from '../types/apiTypes';
@@ -57,7 +56,7 @@ export const Repository: React.FC = () => {
                         {repo && (
                             <Card>
                                 <CardHeader
-                                    avatar={<Avatar alt={repo.info.name} src={repo.info.ownerAvatar}></Avatar>}
+                                    avatar={<Avatar alt={repo.info.name} src={repo.info.ownerAvatar} />}
                                     title={repo.info.name}
                                     action={
                                         <Button
