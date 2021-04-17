@@ -1,9 +1,8 @@
-import getOptions, { OptionsType } from '../utils/optionsGithubApi';
+import getOptionsForGithub from '../utils/optionsGithubApi';
 import { sortRepos } from '../utils/sort';
-import { UserData, RepoData } from '../types/apiTypes';
-
-let TOKEN: string;
-let optionsHeader: OptionsType;
+import { UserData, RepoInfo } from '../types/apiTypes';
+import { isEmptyBindingElement } from 'typescript';
+import { sessionSaver } from '../utils/SessionSaver';
 
 export const authenticate = (proxyUrl: string, code: string): Promise<string | void> => {
     return fetch(proxyUrl, {
@@ -13,9 +12,9 @@ export const authenticate = (proxyUrl: string, code: string): Promise<string | v
         .then(response => {
             return response.json();
         })
-        .then(data => {
-            TOKEN = data;
-            optionsHeader = getOptions(TOKEN);
+        .then(accessToken => {
+            sessionSaver.setGithubAccessToken(accessToken);
+
             return 'isLoggedIn';
         })
         .catch(error => {
@@ -24,7 +23,7 @@ export const authenticate = (proxyUrl: string, code: string): Promise<string | v
 };
 
 export const getUserData = (username: string): Promise<UserData | Error> => {
-    return fetch(`https://api.github.com/users/${username}`, optionsHeader)
+    return fetch(`https://api.github.com/users/${username}`, getOptionsForGithub())
         .then(response => {
             if (!response.ok) throw new Error(response.status.toString());
 
@@ -47,8 +46,8 @@ export const getUserData = (username: string): Promise<UserData | Error> => {
         });
 };
 
-export const getUserRepos = (username: string): Promise<RepoData[] | Error> => {
-    return fetch(`https://api.github.com/users/${username}/repos?per_page=1000`, optionsHeader)
+export const getUserRepos = (username: string): Promise<RepoInfo[] | Error> => {
+    return fetch(`https://api.github.com/users/${username}/repos?per_page=1000`, getOptionsForGithub())
         .then(response => {
             if (!response.ok) throw new Error(response.status.toString());
 
@@ -57,11 +56,14 @@ export const getUserRepos = (username: string): Promise<RepoData[] | Error> => {
         .then(data => {
             const repos = data.map((item: any) => {
                 return {
+                    id: item.id,
                     name: item.name,
+                    owner: item.owner.login,
                     description: item.description,
                     cloneUrl: item.clone_url,
                     sshUrl: item.ssh_url,
                     forksCount: item.forks_count,
+                    isFork: item.fork,
                     updatedAt: item.updated_at,
                     stargazersCount: item.stargazers_count,
                     language: item.language,
@@ -79,7 +81,7 @@ export const getUserRepos = (username: string): Promise<RepoData[] | Error> => {
 };
 
 export const getRepoContributorsCount = (userName: string, repoName: string): Promise<number | Error> => {
-    return fetch(`https://api.github.com/repos/${userName}/${repoName}/contributors`, optionsHeader)
+    return fetch(`https://api.github.com/repos/${userName}/${repoName}/contributors`, getOptionsForGithub())
         .then(response => {
             if (!response.ok) throw new Error(response.status.toString());
 
@@ -94,7 +96,36 @@ export const getRepoContributorsCount = (userName: string, repoName: string): Pr
 };
 
 export const getRepoInfo = (userName: string, repoName: string) => {
-    return fetch(`https://api.github.com/repos/${userName}/${repoName}`, optionsHeader)
+    return fetch(`https://api.github.com/repos/${userName}/${repoName}`, getOptionsForGithub())
+        .then(response => {
+            if (!response.ok) throw new Error(response.status.toString());
+
+            return response.json();
+        })
+        .then(data => {
+            return {
+                id: data.id,
+                name: data.name,
+                owner: data.owner.login,
+                ownerAvatar: data.owner.avatar_url,
+                description: data.description,
+                cloneUrl: data.clone_url,
+                sshUrl: data.ssh_url,
+                forksCount: data.forks_count,
+                isFork: data.fork,
+                updatedAt: data.updated_at,
+                stargazersCount: data.stargazers_count,
+                language: data.language,
+                url: data.html_url
+            };
+        })
+        .catch(error => {
+            return error;
+        });
+};
+
+export const getRepoLanguages = (userName: string, repoName: string) => {
+    return fetch(`https://api.github.com/repos/${userName}/${repoName}/languages`, getOptionsForGithub())
         .then(response => {
             if (!response.ok) throw new Error(response.status.toString());
 
@@ -109,14 +140,23 @@ export const getRepoInfo = (userName: string, repoName: string) => {
 };
 
 export const getRepoPullsList = (userName: string, repoName: string) => {
-    return fetch(`https://api.github.com/repos/${userName}/${repoName}/pulls?state=all`, optionsHeader)
+    return fetch(`https://api.github.com/repos/${userName}/${repoName}/pulls?state=all`, getOptionsForGithub())
         .then(response => {
             if (!response.ok) throw new Error(response.status.toString());
 
             return response.json();
         })
         .then(data => {
-            return data;
+            const pulls = data.map((pull: any) => {
+                return {
+                    title: pull.title,
+                    state: pull.state,
+                    url: pull.url,
+                    closedAt: pull.close_at
+                };
+            });
+
+            return pulls;
         })
         .catch(error => {
             return error;
@@ -124,14 +164,23 @@ export const getRepoPullsList = (userName: string, repoName: string) => {
 };
 
 export const getRepoIssuesList = (userName: string, repoName: string) => {
-    return fetch(`https://api.github.com/repos/${userName}/${repoName}/issues?state=all`, optionsHeader)
+    return fetch(`https://api.github.com/repos/${userName}/${repoName}/issues?state=all`, getOptionsForGithub())
         .then(response => {
             if (!response.ok) throw new Error(response.status.toString());
 
             return response.json();
         })
         .then(data => {
-            return data;
+            const issues = data.map((issue: any) => {
+                return {
+                    title: issue.title,
+                    state: issue.state,
+                    url: issue.url,
+                    closedAt: issue.close_at
+                };
+            });
+
+            return issues;
         })
         .catch(error => {
             return error;
@@ -139,7 +188,7 @@ export const getRepoIssuesList = (userName: string, repoName: string) => {
 };
 
 export const getCommitsByUser = (userName: string, userEmail: string) => {
-    return fetch(`https://api.github.com/users/${userName}/events`, optionsHeader)
+    return fetch(`https://api.github.com/users/${userName}/events`, getOptionsForGithub())
         .then(response => {
             if (!response.ok) throw new Error(response.status.toString());
 

@@ -1,3 +1,5 @@
+import { sessionSaver } from '../utils/SessionSaver';
+
 export type OptionsType = {
     method: string;
     headers: {
@@ -6,7 +8,8 @@ export type OptionsType = {
     };
 };
 
-const getOptionsGithubApi = (token: string): OptionsType => {
+const getOptionsGithubApi = (): OptionsType => {
+    const accessToken = sessionSaver.getGithubAccessToken() || '';
     const options: OptionsType = {
         method: 'GET',
         headers: {
@@ -14,8 +17,8 @@ const getOptionsGithubApi = (token: string): OptionsType => {
         }
     };
 
-    if (token) {
-        options.headers['authorization'] = `token ${token}`;
+    if (accessToken) {
+        options.headers['authorization'] = `token ${accessToken}`;
     }
 
     return options;
