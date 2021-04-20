@@ -9,8 +9,62 @@ export interface UserData {
     repos: string;
 }
 
+export interface UserInfo {
+    login: string;
+    name: string;
+    avatarUrl: string;
+    company: string;
+    location: string;
+    email: string;
+    websiteUrl: string;
+}
+
 export interface RepoInfo {
-    id: number;
+    id: string;
+    name: string;
+    owner: string;
+    ownerAvatar: string;
+    description: string;
+    cloneUrl: string;
+    sshUrl: string;
+    forksCount: number;
+    updatedAt: string;
+    stargazersCount: number;
+    language: string;
+    url: string;
+    pushedAt: string;
+    isFork: boolean;
+}
+
+export interface RepoInfoGraphQl {
+    edges: RepoInfo[];
+}
+
+export interface UserDataGraphQl {
+    user: UserData;
+}
+
+export interface UserData {
+    login: string;
+    name: string;
+    avatarUrl: string;
+    company: string;
+    location: string;
+    email: string;
+    websiteUrl: string;
+    repositories: {
+        edges: {
+            node: RepoInfo;
+        }[];
+    };
+}
+
+export interface UserDataGrVars {
+    login: string;
+}
+
+export interface RepoInfo {
+    id: string;
     name: string;
     owner: string;
     ownerAvatar: string;
