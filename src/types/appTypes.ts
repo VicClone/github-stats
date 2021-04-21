@@ -13,3 +13,12 @@ export interface AuthContextType {
     state: AppState;
     dispatch: React.Dispatch<any>;
 }
+
+export interface AverageTimeClosureStatsData {
+    [key: string]: AverageTimeClosureStatsAtYear[];
+}
+
+export interface AverageTimeClosureStatsAtYear {
+    month: string;
+    averageTimeInHours: number;
+}

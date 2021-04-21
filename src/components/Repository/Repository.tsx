@@ -13,7 +13,8 @@ import {
     Container,
     Button,
     Link,
-    CardActions
+    CardActions,
+    Paper
 } from '@material-ui/core';
 import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
@@ -21,16 +22,60 @@ import { sessionSaver } from '../../utils/SessionSaver';
 import { RepoData } from '../../types/apiTypes';
 import { getRepoData } from '../../models/repoData';
 import { useHistory } from 'react-router-dom';
-import { PullRequestsStats } from './PullRequestsStats';
+import { AverageTimeClosureStats } from './AverageTimeClosureStats';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { AverageTimeClosureStatsData } from '../../types/appTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         actions: {
             marginTop: '15px'
+        },
+        graphs: {
+            display: 'flex'
+        },
+        graphRoot: {
+            width: '48%',
+            [theme.breakpoints.down('xs')]: {
+                width: '100%'
+            },
+            marginLeft: 'auto',
+            marginRight: 'auto'
         }
     })
 );
+
+const pullRequestsStats: AverageTimeClosureStatsData = {
+    '2020': [
+        { month: '1', averageTimeInHours: 5 },
+        { month: '2', averageTimeInHours: 10 },
+        { month: '3', averageTimeInHours: 3 },
+        { month: '4', averageTimeInHours: 17 }
+    ],
+    '2021': [
+        { month: '1', averageTimeInHours: 1 },
+        { month: '2', averageTimeInHours: 2 },
+        { month: '3', averageTimeInHours: 5 },
+        { month: '4', averageTimeInHours: 12 },
+        { month: '5', averageTimeInHours: 15 }
+    ]
+};
+
+const issuesStats: AverageTimeClosureStatsData = {
+    '2020': [
+        { month: '1', averageTimeInHours: 4 },
+        { month: '2', averageTimeInHours: 1 },
+        { month: '3', averageTimeInHours: 2 },
+        { month: '4', averageTimeInHours: 5 }
+    ],
+    '2021': [
+        { month: '1', averageTimeInHours: 10 },
+        { month: '2', averageTimeInHours: 2 },
+        { month: '3', averageTimeInHours: 4 },
+        { month: '4', averageTimeInHours: 6 },
+        { month: '5', averageTimeInHours: 2 }
+    ]
+};
 
 export const Repository: React.FC = () => {
     const classes = useStyles();
@@ -122,7 +167,20 @@ export const Repository: React.FC = () => {
                                             <ListItemText>{repo.info.isFork ? 'Форк' : 'Не форк'}</ListItemText>
                                         </ListItem>
                                     </List>
-                                    <PullRequestsStats />
+                                    <div className={classes.graphs}>
+                                        <Paper className={classes.graphRoot}>
+                                            <AverageTimeClosureStats
+                                                data={pullRequestsStats}
+                                                title={'Статистика времени закрытий пулл реквестов по месяцам'}
+                                            />
+                                        </Paper>
+                                        <Paper className={classes.graphRoot}>
+                                            <AverageTimeClosureStats
+                                                data={issuesStats}
+                                                title={'Статистика времени закрытий ишью по месяцам'}
+                                            />
+                                        </Paper>
+                                    </div>
                                     <CardActions className={classes.actions}>
                                         <Button variant="contained" color="primary" onClick={() => goBack()}>
                                             Назад
