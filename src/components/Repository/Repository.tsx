@@ -12,7 +12,8 @@ import {
     Box,
     Container,
     Button,
-    Link
+    Link,
+    CardActions
 } from '@material-ui/core';
 import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
@@ -21,8 +22,18 @@ import { RepoData } from '../../types/apiTypes';
 import { getRepoData } from '../../models/repoData';
 import { useHistory } from 'react-router-dom';
 import { PullRequestsStats } from './PullRequestsStats';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        actions: {
+            marginTop: '15px'
+        }
+    })
+);
 
 export const Repository: React.FC = () => {
+    const classes = useStyles();
     const [repo, setRepo] = useState<RepoData>();
     const [isToggleCopied, setToggleCopied] = useState(false);
 
@@ -112,9 +123,11 @@ export const Repository: React.FC = () => {
                                         </ListItem>
                                     </List>
                                     <PullRequestsStats />
-                                    <Button variant="contained" color="primary" onClick={() => goBack()}>
-                                        Назад
-                                    </Button>
+                                    <CardActions className={classes.actions}>
+                                        <Button variant="contained" color="primary" onClick={() => goBack()}>
+                                            Назад
+                                        </Button>
+                                    </CardActions>
                                 </CardContent>
                             </Card>
                         )}
