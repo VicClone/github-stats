@@ -16,10 +16,11 @@ import {
 } from '@material-ui/core';
 import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
-import { sessionSaver } from '../utils/SessionSaver';
-import { RepoData } from '../types/apiTypes';
-import { getRepoData } from '../models/repoData';
+import { sessionSaver } from '../../utils/SessionSaver';
+import { RepoData } from '../../types/apiTypes';
+import { getRepoData } from '../../models/repoData';
 import { useHistory } from 'react-router-dom';
+import { PullRequestsStats } from './PullRequestsStats';
 
 export const Repository: React.FC = () => {
     const [repo, setRepo] = useState<RepoData>();
@@ -110,6 +111,7 @@ export const Repository: React.FC = () => {
                                             <ListItemText>{repo.info.isFork ? 'Форк' : 'Не форк'}</ListItemText>
                                         </ListItem>
                                     </List>
+                                    <PullRequestsStats />
                                     <Button variant="contained" color="primary" onClick={() => goBack()}>
                                         Назад
                                     </Button>
