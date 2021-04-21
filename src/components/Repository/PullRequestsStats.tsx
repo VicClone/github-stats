@@ -30,6 +30,12 @@ interface PullRequestsStatsAtYear {
     averageTimeInHours: number;
 }
 
+// eslint-disable-next-line react/display-name
+const Label = (symbol: any) => (props: any) => {
+    const { text } = props;
+    return <ValueAxis.Label {...props} text={text + symbol} />;
+};
+
 export const PullRequestsStats = () => {
     const [year, setYear] = useState<any>(2020);
     const [data, setData] = useState<PullRequestsStatsAtYear[]>(pullRequestsStats[year]);
@@ -50,12 +56,14 @@ export const PullRequestsStats = () => {
         });
     };
 
+    const LabelValueAxis = Label(' час');
+
     return (
         <Paper>
             <Chart data={data}>
                 <ArgumentScale factory={scaleBand} />
                 <ArgumentAxis />
-                <ValueAxis />
+                <ValueAxis labelComponent={LabelValueAxis} />
 
                 <BarSeries valueField="averageTimeInHours" argumentField="month" />
                 <Title text="Статистика времени закрытий пулл реквестов по месяцам" />
