@@ -1,0 +1,7 @@
+.repoHeader {
+    font-weight: bold;
+}
+.repoStar {
+    display: flex;
+    align-items: center;
+}
