@@ -23,8 +23,7 @@ import { RepoData } from '../../types/apiTypes';
 import { getRepoData } from '../../models/repoData';
 import { useHistory } from 'react-router-dom';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { AverageClosingTimeStats } from './AverageClosingTimeStats';
-import { AverageClosingTimeData } from '../../types/appTypes';
+import { RepositoryGraphs } from './RepositoryGraphs/RepositoryGraphs';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -33,38 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     })
 );
-
-const pullRequestsStats: AverageClosingTimeData = {
-    '2020': [
-        { month: '1', averageTimeInHours: 5 },
-        { month: '2', averageTimeInHours: 1 },
-        { month: '3', averageTimeInHours: 3 },
-        { month: '4', averageTimeInHours: 10 }
-    ],
-    '2021': [
-        { month: '1', averageTimeInHours: 10 },
-        { month: '2', averageTimeInHours: 2 },
-        { month: '3', averageTimeInHours: 5 },
-        { month: '4', averageTimeInHours: 12 },
-        { month: '5', averageTimeInHours: 15 }
-    ]
-};
-
-const issuesStats: AverageClosingTimeData = {
-    '2020': [
-        { month: '1', averageTimeInHours: 7 },
-        { month: '2', averageTimeInHours: 17 },
-        { month: '3', averageTimeInHours: 3 },
-        { month: '4', averageTimeInHours: 4 }
-    ],
-    '2021': [
-        { month: '1', averageTimeInHours: 10 },
-        { month: '2', averageTimeInHours: 2 },
-        { month: '3', averageTimeInHours: 5 },
-        { month: '4', averageTimeInHours: 12 },
-        { month: '5', averageTimeInHours: 10 }
-    ]
-};
 
 export const Repository: React.FC = () => {
     const classes = useStyles();
@@ -156,20 +123,7 @@ export const Repository: React.FC = () => {
                                             <ListItemText>{repo.info.isFork ? 'Форк' : 'Не форк'}</ListItemText>
                                         </ListItem>
                                     </List>
-                                    <div>
-                                        <Paper>
-                                            <AverageClosingTimeStats
-                                                title={'Статистика времени закрытий пулл реквестов по месяцам'}
-                                                data={pullRequestsStats}
-                                            />
-                                        </Paper>
-                                        <Paper>
-                                            <AverageClosingTimeStats
-                                                title={'Статистика времени закрытий ишью по месяцам'}
-                                                data={issuesStats}
-                                            />
-                                        </Paper>
-                                    </div>
+                                    <RepositoryGraphs />
                                     <CardActions className={classes.actions}>
                                         <Button variant="contained" color="primary" onClick={() => goBack()}>
                                             Назад
