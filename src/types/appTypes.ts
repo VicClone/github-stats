@@ -38,3 +38,17 @@ export interface commitedDateState {
     month: string;
     number: number;
 }
+
+export interface AvergeTimes {
+    createdAt: string;
+    closedAt: string;
+    timeClosing?: number;
+}
+
+export interface AvergeTimesGroupByMonth {
+    [key: string]: AvergeTimes[];
+}
+
+export interface AverageTimeForMonth {
+    [key: string]: number;
+}

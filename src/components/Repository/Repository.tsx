@@ -23,6 +23,8 @@ import { RepoData, RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes'
 import { useHistory } from 'react-router-dom';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { RepositoryGraphs } from './RepositoryGraphs/RepositoryGraphs';
+import { getAverageClosingTimeData } from '../../utils/averageClosingTimeStats';
+import { AverageClosingTimeData } from '../../types/appTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -81,6 +83,10 @@ export const Repository: React.FC = () => {
     }
 
     const repoData = data.repository;
+    const pullRequests = repoData.pullRequests.nodes;
+    const issues = repoData.issues.nodes;
+    const pullRequestsStats: AverageClosingTimeData = getAverageClosingTimeData(pullRequests);
+    const issuesStats: AverageClosingTimeData = getAverageClosingTimeData(issues);
 
     const handleCloneBtn = (sshUrl: string) => {
         setToggleCopied(true);
@@ -159,7 +165,7 @@ export const Repository: React.FC = () => {
                                             <ListItemText>{repoData.isFork ? 'Форк' : 'Не форк'}</ListItemText>
                                         </ListItem>
                                     </List>
-                                    <RepositoryGraphs />
+                                    <RepositoryGraphs pullRequestsStats={pullRequestsStats} issuesStats={issuesStats} />
                                     <CardActions className={classes.actions}>
                                         <Button variant="contained" color="primary" onClick={() => goBack()}>
                                             Назад

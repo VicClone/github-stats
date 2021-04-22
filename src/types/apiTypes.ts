@@ -68,30 +68,32 @@ export interface UserDataGrVars {
 }
 
 export interface RepoDataGraphQl {
-    repository: {
-        id: string;
-        createdAt: string;
-        description: string;
-        forkCount: number;
-        isFork: boolean;
-        name: string;
-        url: string;
-        owner: {
-            login: string;
-            avatarUrl: string;
-        };
-        sshUrl: string;
-        stargazerCount: number;
-        updatedAt: string;
-        languages: {
-            nodes: Language[];
-        };
-        pullRequests: {
-            nodes: Pull[];
-        };
-        issues: {
-            nodes: Issue[];
-        };
+    repository: RepoData;
+}
+
+export interface RepoData {
+    id: string;
+    createdAt: string;
+    description: string;
+    forkCount: number;
+    isFork: boolean;
+    name: string;
+    url: string;
+    owner: {
+        login: string;
+        avatarUrl: string;
+    };
+    sshUrl: string;
+    stargazerCount: number;
+    updatedAt: string;
+    languages: {
+        nodes: Language[];
+    };
+    pullRequests: {
+        nodes: Pull[];
+    };
+    issues: {
+        nodes: Issue[];
     };
 }
 
@@ -103,6 +105,14 @@ export interface RepoDataGrVars {
 export interface Language {
     name: string;
     color: string;
+}
+
+export interface ItemsStatsRepo {
+    title: string;
+    state: string;
+    url: string;
+    createdAt: string;
+    closedAt: string;
 }
 
 export interface Pull {
@@ -119,11 +129,4 @@ export interface Issue {
     url: string;
     createdAt: string;
     closedAt: string;
-}
-
-export interface RepoData {
-    info: RepoInfo;
-    languages: Language[];
-    pullsList: Pull[];
-    issuesList: Issue[];
 }

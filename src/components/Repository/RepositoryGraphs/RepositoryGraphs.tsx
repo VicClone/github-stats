@@ -56,7 +56,12 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export const RepositoryGraphs = () => {
+interface PropsType {
+    pullRequestsStats: AverageClosingTimeData;
+    issuesStats: AverageClosingTimeData;
+}
+
+export const RepositoryGraphs = (props: PropsType) => {
     const classes = useStyles();
     return (
         <div className={classes.graphs}>

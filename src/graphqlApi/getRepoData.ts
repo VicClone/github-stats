@@ -26,8 +26,11 @@ export const GET_REPO_DATA = gql`
             }
             pullRequests(first: 100) {
                 nodes {
-                    createdAt
                     closedAt
+                    createdAt
+                    state
+                    url
+                    title
                 }
             }
             issues(first: 100) {
