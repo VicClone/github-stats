@@ -9,7 +9,7 @@ import { RenderReposInfo } from './ReposInfo';
 
 import { UserDataGraphQl, UserDataGrVars, UserInfo as UserInfoType, RepoInfo } from '../../types/apiTypes';
 import { LanguagePercents } from '../../types/appTypes';
-import { parseUserInfo, parseRepos, getStatsLanguages, getCommitFrequency } from '../../utils/parse';
+import { parseUserInfo, parseRepos, getStatsLanguagesTop, getCommitFrequency } from '../../utils/parse';
 
 interface PropsType {
     searchValue: string;
@@ -48,7 +48,7 @@ export const UserData = (props: PropsType) => {
 
     const userInfo: UserInfoType = parseUserInfo(userData);
     const userRepos: RepoInfo[] = parseRepos(userData);
-    const languagesInPercents: LanguagePercents[] = getStatsLanguages(userRepos);
+    const languagesInPercents: LanguagePercents[] = getStatsLanguagesTop(userRepos, 10);
     const commitFrequency = getCommitFrequency(userRepos);
 
     return (

@@ -54,6 +54,13 @@ function getStatsLanguages(repos: RepoInfo[]) {
     return getPercentLanguages(languageStats, numberLanguages);
 }
 
+function getStatsLanguagesTop(repos: RepoInfo[], maxCount: number) {
+    const languagesInPercents = getStatsLanguages(repos);
+    languagesInPercents.sort((a, b) => b.percent - a.percent);
+
+    return languagesInPercents.slice(0, maxCount);
+}
+
 function getCommitedDates(repos: RepoInfo[]) {
     const commitedDates = [];
 
@@ -112,4 +119,4 @@ function getCommitFrequency(repos: RepoInfo[]) {
     return commitedDatesFormatedChart;
 }
 
-export { parseUserInfo, parseRepos, getStatsLanguages, getCommitFrequency };
+export { parseUserInfo, parseRepos, getStatsLanguagesTop, getCommitFrequency };
