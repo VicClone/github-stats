@@ -16,9 +16,9 @@ export interface RepoInfo {
     description: string;
     cloneUrl: string;
     sshUrl: string;
-    forksCount: number;
+    forkCount: number;
     updatedAt: string;
-    stargazersCount: number;
+    stargazerCount: number;
     language: string;
     url: string;
     pushedAt: string;

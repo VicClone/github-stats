@@ -33,7 +33,7 @@ const RenderReposInfo = (props: PropsType) => {
                                             color="textPrimary"
                                             className="repoStar"
                                         >
-                                            <StarIcon /> {repo.stargazersCount}
+                                            <StarIcon /> {repo.stargazerCount}
                                         </Typography>
                                         {repo.language}
                                     </>
