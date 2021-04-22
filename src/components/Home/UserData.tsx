@@ -4,9 +4,11 @@ import { GET_USER_DATA } from '../../graphqlApi/getUserData';
 import { useQuery } from '@apollo/client';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { RenderUserInfo } from '../UserInfo/UserInfo';
+import { UserInfoGraphs } from '../UserInfo/UserInfoGraphs';
 import { RenderReposInfo } from './ReposInfo';
 
 import { UserDataGraphQl, UserDataGrVars, UserInfo as UserInfoType, RepoInfo } from '../../types/apiTypes';
+import { LanguagePercents } from '../../types/appTypes';
 import { parseUserInfo, parseRepos, getStatsLanguages } from '../../utils/parse';
 
 interface PropsType {
@@ -46,7 +48,7 @@ export const UserData = (props: PropsType) => {
 
     const userInfo: UserInfoType = parseUserInfo(userData);
     const userRepos: RepoInfo[] = parseRepos(userData);
-    const allLanguages = getStatsLanguages(userRepos);
+    const languagesInPercents: LanguagePercents[] = getStatsLanguages(userRepos);
 
     return (
         <Box mt={10}>
@@ -58,6 +60,7 @@ export const UserData = (props: PropsType) => {
                             title={userData?.name}
                             subheader={userData?.location}
                         />
+                        <UserInfoGraphs languagesInPercents={languagesInPercents} />
                         <RenderUserInfo userInfo={userInfo} />
                         {userRepos && <RenderReposInfo userRepos={userRepos} />}
                     </Card>

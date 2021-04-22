@@ -13,25 +13,7 @@ import { scaleBand } from '@devexpress/dx-chart-core';
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Label } from '../Repository/Label';
-
-const languagesInRepos = [
-    {
-        name: 'js',
-        percent: 20
-    },
-    {
-        name: 'c#',
-        percent: 20
-    },
-    {
-        name: 'html',
-        percent: 30
-    },
-    {
-        name: 'css',
-        percent: 30
-    }
-];
+import { LanguagePercents } from '../../types/appTypes';
 
 const commitsStats = [
     {
@@ -112,13 +94,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const LabelValueAxis = Label(' раз');
 
-export const UserInfoGraphs = () => {
+interface PropsType {
+    languagesInPercents: LanguagePercents[];
+}
+
+export const UserInfoGraphs = (props: PropsType) => {
     const classes = useStyles();
 
     return (
         <div className={classes.graphs}>
             <Paper className={classes.graph}>
-                <Chart data={languagesInRepos} height={300}>
+                <Chart data={props.languagesInPercents} height={300}>
                     <ArgumentScale factory={scaleBand} />
                     <PieSeries valueField="percent" argumentField="name" outerRadius={1} />
                     <Legend />

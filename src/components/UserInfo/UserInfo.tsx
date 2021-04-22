@@ -11,7 +11,6 @@ interface PropsType {
 const RenderUserInfo = (props: PropsType) => {
     return (
         <CardContent>
-            <UserInfoGraphs />
             <List>
                 {props.userInfo.email && (
                     <ListItem>

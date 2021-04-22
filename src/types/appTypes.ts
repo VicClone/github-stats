@@ -24,3 +24,8 @@ export interface AverageClosingTimeData {
 export interface LanguageStats {
     [key: string]: number;
 }
+
+export interface LanguagePercents {
+    name: string;
+    percent: number;
+}
