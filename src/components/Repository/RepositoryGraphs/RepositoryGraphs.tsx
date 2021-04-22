@@ -39,14 +39,18 @@ const issuesStats: AverageClosingTimeData = {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         graphs: {
-            display: 'flex'
+            display: 'flex',
+            [theme.breakpoints.down('md')]: {
+                display: 'block'
+            }
         },
         graph: {
             marginLeft: 'auto',
             marginRight: 'auto',
             width: '48%',
             [theme.breakpoints.down('md')]: {
-                width: '100%'
+                width: '100%',
+                marginTop: '10px'
             }
         }
     })
