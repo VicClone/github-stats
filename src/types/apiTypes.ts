@@ -19,7 +19,9 @@ export interface RepoInfo {
     forkCount: number;
     updatedAt: string;
     stargazerCount: number;
-    language: string;
+    languages: {
+        nodes: Language[];
+    };
     url: string;
     pushedAt: string;
     isFork: boolean;

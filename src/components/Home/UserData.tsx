@@ -7,7 +7,7 @@ import { RenderUserInfo } from '../UserInfo/UserInfo';
 import { RenderReposInfo } from './ReposInfo';
 
 import { UserDataGraphQl, UserDataGrVars, UserInfo as UserInfoType, RepoInfo } from '../../types/apiTypes';
-import { parseUserInfo, parseRepos } from '../../utils/parse';
+import { parseUserInfo, parseRepos, getStatsLanguages } from '../../utils/parse';
 
 interface PropsType {
     searchValue: string;
@@ -46,6 +46,7 @@ export const UserData = (props: PropsType) => {
 
     const userInfo: UserInfoType = parseUserInfo(userData);
     const userRepos: RepoInfo[] = parseRepos(userData);
+    const allLanguages = getStatsLanguages(userRepos);
 
     return (
         <Box mt={10}>

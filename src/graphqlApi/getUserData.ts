@@ -26,11 +26,9 @@ export const GET_USER_DATA = gql`
                         forkCount
                         stargazerCount
                         languages(first: 100) {
-                            edges {
-                                node {
-                                    name
-                                    color
-                                }
+                            nodes {
+                                color
+                                name
                             }
                         }
                         pushedAt

@@ -20,3 +20,7 @@ export interface AverageClosingTimeStatsAtYear {
 export interface AverageClosingTimeData {
     [key: string]: AverageClosingTimeStatsAtYear[];
 }
+
+export interface LanguageStats {
+    [key: string]: number;
+}
