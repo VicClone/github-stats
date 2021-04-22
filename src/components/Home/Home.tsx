@@ -9,7 +9,7 @@ import SearchBar from 'material-ui-search-bar';
 import { RepoInfo, UserData } from '../../types/apiTypes';
 import './Home.css';
 import { sessionSaver } from '../../utils/SessionSaver';
-import { RenderUserInfo } from './UserInfo';
+import { RenderUserInfo } from '../UserInfo/UserInfo';
 import { RenderReposInfo } from './ReposInfo';
 
 export const Home: React.FC = () => {
