@@ -2,6 +2,7 @@ import React from 'react';
 import { CardContent, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { UserData } from '../../types/apiTypes';
 import { Email as EmailIcon, Work as WorkIcon, Language as LanguageIcon } from '@material-ui/icons';
+import { UserInfoGraphs } from './UserInfoGraphs';
 
 interface PropsType {
     userInfo: UserData;
@@ -10,6 +11,7 @@ interface PropsType {
 const RenderUserInfo = (props: PropsType) => {
     return (
         <CardContent>
+            <UserInfoGraphs />
             <List>
                 {props.userInfo.email && (
                     <ListItem>

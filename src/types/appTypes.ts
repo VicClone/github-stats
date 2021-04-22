@@ -1,5 +1,3 @@
-import { RepoData, UserData } from './apiTypes';
-
 export interface AppState {
     isLoggedIn: boolean;
     user: string | null;
@@ -12,4 +10,13 @@ export interface AppState {
 export interface AuthContextType {
     state: AppState;
     dispatch: React.Dispatch<any>;
+}
+
+export interface AverageClosingTimeStatsAtYear {
+    month: string;
+    averageTimeInHours: number;
+}
+
+export interface AverageClosingTimeData {
+    [key: string]: AverageClosingTimeStatsAtYear[];
 }

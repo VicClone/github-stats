@@ -12,17 +12,29 @@ import {
     Box,
     Container,
     Button,
-    IconButton,
-    Link
+    Link,
+    CardActions,
+    Paper
 } from '@material-ui/core';
-import { Face, Description, Grade, CallSplit, AccountTree, ArrowBack } from '@material-ui/icons';
+import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
-import { sessionSaver } from '../utils/SessionSaver';
-import { RepoData } from '../types/apiTypes';
-import { getRepoData } from '../models/repoData';
+import { sessionSaver } from '../../utils/SessionSaver';
+import { RepoData } from '../../types/apiTypes';
+import { getRepoData } from '../../models/repoData';
 import { useHistory } from 'react-router-dom';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { RepositoryGraphs } from './RepositoryGraphs/RepositoryGraphs';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        actions: {
+            marginTop: '15px'
+        }
+    })
+);
 
 export const Repository: React.FC = () => {
+    const classes = useStyles();
     const [repo, setRepo] = useState<RepoData>();
     const [isToggleCopied, setToggleCopied] = useState(false);
 
@@ -57,7 +69,7 @@ export const Repository: React.FC = () => {
                         {repo && (
                             <Card>
                                 <CardHeader
-                                    avatar={<Avatar alt={repo.info.name} src={repo.info.ownerAvatar}></Avatar>}
+                                    avatar={<Avatar alt={repo.info.name} src={repo.info.ownerAvatar} />}
                                     title={repo.info.name}
                                     action={
                                         <Button
@@ -111,9 +123,12 @@ export const Repository: React.FC = () => {
                                             <ListItemText>{repo.info.isFork ? 'Форк' : 'Не форк'}</ListItemText>
                                         </ListItem>
                                     </List>
-                                    <Button variant="contained" color="primary" onClick={() => goBack()}>
-                                        Назад
-                                    </Button>
+                                    <RepositoryGraphs />
+                                    <CardActions className={classes.actions}>
+                                        <Button variant="contained" color="primary" onClick={() => goBack()}>
+                                            Назад
+                                        </Button>
+                                    </CardActions>
                                 </CardContent>
                             </Card>
                         )}
