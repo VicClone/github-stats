@@ -13,7 +13,7 @@ import { scaleBand } from '@devexpress/dx-chart-core';
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Label } from '../Repository/Label';
-import { LanguagePercents } from '../../types/appTypes';
+import { LanguagePercents, commitedDateState } from '../../types/appTypes';
 
 const commitsStats = [
     {
@@ -96,6 +96,7 @@ const LabelValueAxis = Label(' раз');
 
 interface PropsType {
     languagesInPercents: LanguagePercents[];
+    commitStats: commitedDateState[];
 }
 
 export const UserInfoGraphs = (props: PropsType) => {
@@ -114,7 +115,7 @@ export const UserInfoGraphs = (props: PropsType) => {
                 </Chart>
             </Paper>
             <Paper className={classes.graph}>
-                <Chart data={commitsStats}>
+                <Chart data={props.commitStats.slice(-12)}>
                     <ArgumentScale factory={scaleBand} />
                     <ArgumentAxis />
                     <ValueAxis labelComponent={LabelValueAxis} />

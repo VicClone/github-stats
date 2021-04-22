@@ -35,6 +35,21 @@ export const GET_USER_DATA = gql`
                         isFork
                         createdAt
                         updatedAt
+                        defaultBranchRef {
+                            target {
+                                ... on Commit {
+                                    history(first: 100) {
+                                        edges {
+                                            node {
+                                                ... on Commit {
+                                                    committedDate
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

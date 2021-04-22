@@ -29,3 +29,12 @@ export interface LanguagePercents {
     name: string;
     percent: number;
 }
+
+export interface CommitedDatesNumbers {
+    [key: string]: number;
+}
+
+export interface commitedDateState {
+    month: string;
+    number: number;
+}

@@ -8,6 +8,18 @@ export interface UserInfo {
     websiteUrl: string;
 }
 
+interface defaultBranchRefRepo {
+    target: {
+        history: {
+            edges: {
+                node: {
+                    committedDate: string;
+                };
+            }[];
+        };
+    };
+}
+
 export interface RepoInfo {
     id: string;
     name: string;
@@ -25,6 +37,7 @@ export interface RepoInfo {
     url: string;
     pushedAt: string;
     isFork: boolean;
+    defaultBranchRef: defaultBranchRefRepo;
 }
 
 export interface RepoInfoGraphQl {

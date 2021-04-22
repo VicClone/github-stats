@@ -9,7 +9,7 @@ import { RenderReposInfo } from './ReposInfo';
 
 import { UserDataGraphQl, UserDataGrVars, UserInfo as UserInfoType, RepoInfo } from '../../types/apiTypes';
 import { LanguagePercents } from '../../types/appTypes';
-import { parseUserInfo, parseRepos, getStatsLanguages } from '../../utils/parse';
+import { parseUserInfo, parseRepos, getStatsLanguages, getCommitFrequency } from '../../utils/parse';
 
 interface PropsType {
     searchValue: string;
@@ -49,6 +49,7 @@ export const UserData = (props: PropsType) => {
     const userInfo: UserInfoType = parseUserInfo(userData);
     const userRepos: RepoInfo[] = parseRepos(userData);
     const languagesInPercents: LanguagePercents[] = getStatsLanguages(userRepos);
+    const commitFrequency = getCommitFrequency(userRepos);
 
     return (
         <Box mt={10}>
@@ -60,7 +61,7 @@ export const UserData = (props: PropsType) => {
                             title={userData?.name}
                             subheader={userData?.location}
                         />
-                        <UserInfoGraphs languagesInPercents={languagesInPercents} />
+                        <UserInfoGraphs languagesInPercents={languagesInPercents} commitStats={commitFrequency} />
                         <RenderUserInfo userInfo={userInfo} />
                         {userRepos && <RenderReposInfo userRepos={userRepos} />}
                     </Card>
