@@ -12,17 +12,27 @@ import {
     Box,
     Container,
     Button,
-    IconButton,
     Link,
-    CircularProgress
+    CircularProgress,
+    CardActions
 } from '@material-ui/core';
 import { Face, Description, Grade, CallSplit, AccountTree, ArrowBack } from '@material-ui/icons';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { sessionSaver } from '../utils/SessionSaver';
-import { RepoData, RepoDataGraphQl, RepoDataGrVars } from '../types/apiTypes';
+import { sessionSaver } from '../../utils/SessionSaver';
+import { RepoData, RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes';
 import { useHistory } from 'react-router-dom';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { RepositoryGraphs } from './RepositoryGraphs/RepositoryGraphs';
 
-import { GET_REPO_DATA } from '../graphqlApi/getRepoData';
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        actions: {
+            marginTop: '15px'
+        }
+    })
+);
+
+import { GET_REPO_DATA } from '../../graphqlApi/getRepoData';
 import { useQuery } from '@apollo/client';
 
 export const Repository: React.FC = () => {
@@ -39,6 +49,7 @@ export const Repository: React.FC = () => {
         variables: { owner: userName, repoName: repoName }
     });
 
+    const classes = useStyles();
     const [isToggleCopied, setToggleCopied] = useState(false);
 
     if (!(userName && repoName)) {
@@ -148,9 +159,12 @@ export const Repository: React.FC = () => {
                                             <ListItemText>{repoData.isFork ? 'Форк' : 'Не форк'}</ListItemText>
                                         </ListItem>
                                     </List>
-                                    <Button variant="contained" color="primary" onClick={() => goBack()}>
-                                        Назад
-                                    </Button>
+                                    <RepositoryGraphs />
+                                    <CardActions className={classes.actions}>
+                                        <Button variant="contained" color="primary" onClick={() => goBack()}>
+                                            Назад
+                                        </Button>
+                                    </CardActions>
                                 </CardContent>
                             </Card>
                         )}

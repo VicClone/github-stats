@@ -9,7 +9,7 @@ interface PropsType {
     userRepos: RepoInfo[];
 }
 
-const RenderReposInfo = (props: PropsType) => {
+export const RenderReposInfo = (props: PropsType) => {
     const handleRepoLink = (repo: RepoInfo) => {
         sessionSaver.setSelectedRepo(repo);
     };
@@ -49,5 +49,3 @@ const RenderReposInfo = (props: PropsType) => {
         </CardContent>
     );
 };
-
-export { RenderReposInfo };

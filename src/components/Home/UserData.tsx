@@ -3,7 +3,7 @@ import { Card, CardHeader, Grid, Box, Avatar, LinearProgress } from '@material-u
 import { GET_USER_DATA } from '../../graphqlApi/getUserData';
 import { useQuery } from '@apollo/client';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { RenderUserInfo } from './UserInfo';
+import { RenderUserInfo } from '../UserInfo/UserInfo';
 import { RenderReposInfo } from './ReposInfo';
 
 import { UserDataGraphQl, UserDataGrVars, UserInfo as UserInfoType, RepoInfo } from '../../types/apiTypes';

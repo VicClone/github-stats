@@ -6,7 +6,7 @@ import { Login } from './components/Login';
 import { Home } from './components/Home';
 import { AuthContextType } from './types/appTypes';
 import { Header } from './components/Header';
-import { Repository } from './components/Repository';
+import { Repository } from './components/Repository/Repository';
 import { withRouter } from 'react-router';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
