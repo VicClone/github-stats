@@ -68,11 +68,14 @@ export const RepositoryGraphs = (props: PropsType) => {
             <Paper className={classes.graph}>
                 <AverageClosingTimeStats
                     title={'Статистика времени закрытий пулл реквестов по месяцам'}
-                    data={pullRequestsStats}
+                    data={props.pullRequestsStats}
                 />
             </Paper>
             <Paper className={classes.graph}>
-                <AverageClosingTimeStats title={'Статистика времени закрытий ишью по месяцам'} data={issuesStats} />
+                <AverageClosingTimeStats
+                    title={'Статистика времени закрытий ишью по месяцам'}
+                    data={props.issuesStats}
+                />
             </Paper>
         </div>
     );
