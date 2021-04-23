@@ -1,8 +1,8 @@
 import { RepoInfo } from '../types/apiTypes';
 
 export function sortRepos(a: RepoInfo, b: RepoInfo) {
-    const stargazersCountA = a.stargazersCount;
-    const stargazersCountB = b.stargazersCount;
+    const stargazersCountA = a.stargazerCount;
+    const stargazersCountB = b.stargazerCount;
 
     if (stargazersCountA === stargazersCountB) {
         const dateUpdateA = new Date(a.updatedAt).getTime();

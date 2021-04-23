@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.3.15",
     "@devexpress/dx-react-chart": "^2.7.5",
     "@devexpress/dx-react-chart-material-ui": "^2.7.5",
     "@devexpress/dx-react-core": "^2.7.5",
@@ -17,6 +18,7 @@
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
     "concurrently": "^6.0.0",
+    "graphql": "^15.5.0",
     "material-ui-search-bar": "^1.0.0",
     "node-fetch": "^2.6.1",
     "react": "^17.0.1",

@@ -11,18 +11,18 @@ interface AverageClosingTimeStatsProps {
     data: AverageClosingTimeData;
 }
 
-export const AverageClosingTimeStats = ({ data, title }: AverageClosingTimeStatsProps) => {
-    const [year, setYear] = useState<any>(2020);
-    const [dataAtYear, setDataAtYear] = useState<AverageClosingTimeStatsAtYear[]>(data[year]);
+export const AverageClosingTimeStats = (props: AverageClosingTimeStatsProps) => {
+    const [year, setYear] = useState<any>(Object.keys(props.data)[0]);
+    const [dataAtYear, setDataAtYear] = useState<AverageClosingTimeStatsAtYear[]>(props.data[year]);
 
     const onChangeYear = (e: React.ChangeEvent<{ value: any }>) => {
         const { value } = e.target;
         setYear(value);
-        setDataAtYear(data[value]);
+        setDataAtYear(props.data[value]);
     };
 
     const getOptions = (): JSX.Element[] => {
-        return Object.keys(data).map(year => {
+        return Object.keys(props.data).map(year => {
             return (
                 <MenuItem key={year} value={year}>
                     {year}
@@ -41,7 +41,7 @@ export const AverageClosingTimeStats = ({ data, title }: AverageClosingTimeStats
                 <ValueAxis labelComponent={LabelValueAxis} />
 
                 <BarSeries valueField="averageTimeInHours" argumentField="month" />
-                <Title text={title} />
+                <Title text={props.title} />
                 <Stack />
             </Chart>
             <Select id="select" style={{ width: '100px', margin: '10px' }} onChange={onChangeYear} value={year}>

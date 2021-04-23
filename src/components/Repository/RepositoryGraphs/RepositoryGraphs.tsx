@@ -56,18 +56,26 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export const RepositoryGraphs = () => {
+interface PropsType {
+    pullRequestsStats: AverageClosingTimeData;
+    issuesStats: AverageClosingTimeData;
+}
+
+export const RepositoryGraphs = (props: PropsType) => {
     const classes = useStyles();
     return (
         <div className={classes.graphs}>
             <Paper className={classes.graph}>
                 <AverageClosingTimeStats
                     title={'Статистика времени закрытий пулл реквестов по месяцам'}
-                    data={pullRequestsStats}
+                    data={props.pullRequestsStats}
                 />
             </Paper>
             <Paper className={classes.graph}>
-                <AverageClosingTimeStats title={'Статистика времени закрытий ишью по месяцам'} data={issuesStats} />
+                <AverageClosingTimeStats
+                    title={'Статистика времени закрытий ишью по месяцам'}
+                    data={props.issuesStats}
+                />
             </Paper>
         </div>
     );
