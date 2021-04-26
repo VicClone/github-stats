@@ -35,8 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '48%',
             [theme.breakpoints.down('md')]: {
                 width: '100%',
-                marginTop: '10px',
-                minHeight: '500px'
+                marginTop: '10px'
             }
         }
     })
@@ -55,7 +54,7 @@ export const UserInfoGraphs = (props: PropsType) => {
     return (
         <div className={classes.graphs}>
             <Paper className={classes.graph}>
-                <Chart data={props.languagesInPercents} height={350}>
+                <Chart data={props.languagesInPercents}>
                     <ArgumentScale factory={scaleBand} />
                     <PieSeries valueField="percent" argumentField="name" outerRadius={1} />
                     <Legend />
