@@ -54,7 +54,7 @@ export const UserInfoGraphs = (props: PropsType) => {
     return (
         <div className={classes.graphs}>
             <Paper className={classes.graph}>
-                <Chart data={props.languagesInPercents} height={300}>
+                <Chart data={props.languagesInPercents}>
                     <ArgumentScale factory={scaleBand} />
                     <PieSeries valueField="percent" argumentField="name" outerRadius={1} />
                     <Legend />
