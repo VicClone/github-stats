@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Grid,
     Card,
@@ -16,15 +16,17 @@ import {
     CircularProgress,
     CardActions
 } from '@material-ui/core';
-import { Face, Description, Grade, CallSplit, AccountTree, ArrowBack } from '@material-ui/icons';
+import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { sessionSaver } from '../../utils/SessionSaver';
-import { RepoData, RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes';
+import { RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes';
 import { useHistory } from 'react-router-dom';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { RepositoryGraphs } from './RepositoryGraphs/RepositoryGraphs';
 import { getAverageClosingTimeData } from '../../utils/averageClosingTimeStats';
 import { AverageClosingTimeData } from '../../types/appTypes';
+import { GET_REPO_DATA } from '../../graphqlApi/getRepoData';
+import { useQuery } from '@apollo/client';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -33,9 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     })
 );
-
-import { GET_REPO_DATA } from '../../graphqlApi/getRepoData';
-import { useQuery } from '@apollo/client';
 
 export const Repository: React.FC = () => {
     const history = useHistory();

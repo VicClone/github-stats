@@ -1,8 +1,7 @@
 import React from 'react';
 import { CardContent, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { UserData, UserInfo as UserInfoType } from '../../types/apiTypes';
+import { UserInfo as UserInfoType } from '../../types/apiTypes';
 import { Email as EmailIcon, Work as WorkIcon, Language as LanguageIcon } from '@material-ui/icons';
-import { UserInfoGraphs } from './UserInfoGraphs';
 
 interface PropsType {
     userInfo: UserInfoType;
