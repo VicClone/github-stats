@@ -1,5 +1,4 @@
-import { CollectionsBookmarkOutlined } from '@material-ui/icons';
-import { UserData, UserInfo as UserInfoType, RepoInfo, RepoInfoGraphQl } from '../types/apiTypes';
+import { UserData, UserInfo as UserInfoType, RepoInfo } from '../types/apiTypes';
 import { LanguageStats, CommitedDatesNumbers } from '../types/appTypes';
 
 function parseUserInfo(userData: UserData): UserInfoType {

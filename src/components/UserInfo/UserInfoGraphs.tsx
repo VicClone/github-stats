@@ -15,57 +15,6 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Label } from '../Repository/Label';
 import { LanguagePercents, commitedDateState } from '../../types/appTypes';
 
-const commitsStats = [
-    {
-        month: '01',
-        number: 12
-    },
-    {
-        month: '02',
-        number: 10
-    },
-    {
-        month: '03',
-        number: 20
-    },
-    {
-        month: '04',
-        number: 0
-    },
-    {
-        month: '05',
-        number: 1
-    },
-    {
-        month: '06',
-        number: 12
-    },
-    {
-        month: '07',
-        number: 10
-    },
-    {
-        month: '08',
-        number: 20
-    },
-    {
-        month: '09',
-        number: 0
-    },
-    {
-        month: '10',
-        number: 1
-    },
-    {
-        month: '11',
-        number: 0
-    },
-    {
-        month: '12',
-        number: 1
-    }
-];
-
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
