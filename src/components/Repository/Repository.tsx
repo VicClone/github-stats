@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Grid,
     Card,
@@ -13,83 +13,79 @@ import {
     Container,
     Button,
     Link,
-    CardActions,
-    Paper
+    CircularProgress,
+    CardActions
 } from '@material-ui/core';
 import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
-import { Alert } from '@material-ui/lab';
+import { Alert, AlertTitle } from '@material-ui/lab';
 import { sessionSaver } from '../../utils/SessionSaver';
-import { RepoData } from '../../types/apiTypes';
-import { getRepoData } from '../../models/repoData';
+import { RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes';
 import { useHistory } from 'react-router-dom';
-import { AverageTimeClosureStats } from './AverageTimeClosureStats';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { AverageTimeClosureStatsData } from '../../types/appTypes';
+import { RepositoryGraphs } from './RepositoryGraphs/RepositoryGraphs';
+import { getAverageClosingTimeData } from '../../utils/averageClosingTimeStats';
+import { AverageClosingTimeData } from '../../types/appTypes';
+import { GET_REPO_DATA } from '../../graphqlApi/getRepoData';
+import { useQuery } from '@apollo/client';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         actions: {
             marginTop: '15px'
-        },
-        graphs: {
-            display: 'flex'
-        },
-        graphRoot: {
-            width: '48%',
-            [theme.breakpoints.down('xs')]: {
-                width: '100%'
-            },
-            marginLeft: 'auto',
-            marginRight: 'auto'
         }
     })
 );
 
-const pullRequestsStats: AverageTimeClosureStatsData = {
-    '2020': [
-        { month: '1', averageTimeInHours: 5 },
-        { month: '2', averageTimeInHours: 10 },
-        { month: '3', averageTimeInHours: 3 },
-        { month: '4', averageTimeInHours: 17 }
-    ],
-    '2021': [
-        { month: '1', averageTimeInHours: 1 },
-        { month: '2', averageTimeInHours: 2 },
-        { month: '3', averageTimeInHours: 5 },
-        { month: '4', averageTimeInHours: 12 },
-        { month: '5', averageTimeInHours: 15 }
-    ]
-};
-
-const issuesStats: AverageTimeClosureStatsData = {
-    '2020': [
-        { month: '1', averageTimeInHours: 4 },
-        { month: '2', averageTimeInHours: 1 },
-        { month: '3', averageTimeInHours: 2 },
-        { month: '4', averageTimeInHours: 5 }
-    ],
-    '2021': [
-        { month: '1', averageTimeInHours: 10 },
-        { month: '2', averageTimeInHours: 2 },
-        { month: '3', averageTimeInHours: 4 },
-        { month: '4', averageTimeInHours: 6 },
-        { month: '5', averageTimeInHours: 2 }
-    ]
-};
-
 export const Repository: React.FC = () => {
+    const history = useHistory();
+
+    const goBack = () => {
+        history.goBack();
+    };
+
+    const userName = sessionSaver.getUserName() as string;
+    const repoName = sessionSaver.getSelectedRepo().name as string;
+
+    const { loading, error, data } = useQuery<RepoDataGraphQl, RepoDataGrVars>(GET_REPO_DATA, {
+        variables: { owner: userName, repoName: repoName }
+    });
+
     const classes = useStyles();
-    const [repo, setRepo] = useState<RepoData>();
     const [isToggleCopied, setToggleCopied] = useState(false);
 
-    const userName = sessionSaver.getUserName();
-    const repoName = sessionSaver.getSelectedRepo().name;
+    if (!(userName && repoName)) {
+        return null;
+    }
 
-    useEffect(() => {
-        getRepoData(userName as string, repoName as string).then(res => {
-            setRepo(res as RepoData);
-        });
-    }, []);
+    if (loading) {
+        return (
+            <div>
+                <CircularProgress />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                <AlertTitle>{error.message}</AlertTitle>
+            </Alert>
+        );
+    }
+
+    if (!data) {
+        return (
+            <Alert severity="error">
+                <AlertTitle>No data</AlertTitle>
+            </Alert>
+        );
+    }
+
+    const repoData = data.repository;
+    const pullRequests = repoData.pullRequests.nodes;
+    const issues = repoData.issues.nodes;
+    const pullRequestsStats: AverageClosingTimeData = getAverageClosingTimeData(pullRequests);
+    const issuesStats: AverageClosingTimeData = getAverageClosingTimeData(issues);
 
     const handleCloneBtn = (sshUrl: string) => {
         setToggleCopied(true);
@@ -99,27 +95,25 @@ export const Repository: React.FC = () => {
         }, 2000);
     };
 
-    const history = useHistory();
-
-    const goBack = () => {
-        history.goBack();
-    };
-
     return (
         <Container maxWidth="md">
             <Box mt={20}>
                 <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
                     <Grid item xs={12}>
-                        {repo && (
+                        {repoData && (
                             <Card>
                                 <CardHeader
-                                    avatar={<Avatar alt={repo.info.name} src={repo.info.ownerAvatar} />}
-                                    title={repo.info.name}
+                                    avatar={
+                                        repoData.owner && (
+                                            <Avatar alt={repoData.owner.login} src={repoData.owner.avatarUrl}></Avatar>
+                                        )
+                                    }
+                                    title={repoData.name}
                                     action={
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            onClick={() => handleCloneBtn(repo.info.sshUrl)}
+                                            onClick={() => handleCloneBtn(repoData.sshUrl)}
                                         >
                                             Склонировать
                                         </Button>
@@ -128,59 +122,49 @@ export const Repository: React.FC = () => {
                                 {isToggleCopied && <Alert severity="success">Ссылка скопирована</Alert>}
                                 <CardContent>
                                     <List>
-                                        <ListItem>
-                                            <ListItemIcon>
-                                                <Face></Face>
-                                            </ListItemIcon>
-                                            <ListItemText>
-                                                <Link href={`https://github.com/${repo.info.owner}`} target="_blank">
-                                                    {repo.info.owner}
-                                                </Link>
-                                            </ListItemText>
-                                        </ListItem>
-                                        {repo.info.description && (
+                                        {repoData.owner && (
+                                            <ListItem>
+                                                <ListItemIcon>
+                                                    <Face></Face>
+                                                </ListItemIcon>
+                                                <ListItemText>
+                                                    <Link
+                                                        href={`https://github.com/${repoData.owner.login}`}
+                                                        target="_blank"
+                                                    >
+                                                        {repoData.owner.login}
+                                                    </Link>
+                                                </ListItemText>
+                                            </ListItem>
+                                        )}
+                                        {repoData.description && (
                                             <ListItem>
                                                 <ListItemIcon>
                                                     <Description></Description>
                                                 </ListItemIcon>
-                                                <ListItemText>{repo.info.description}</ListItemText>
+                                                <ListItemText>{repoData.description}</ListItemText>
                                             </ListItem>
                                         )}
                                         <ListItem>
                                             <ListItemIcon>
                                                 <Grade></Grade>
                                             </ListItemIcon>
-                                            <ListItemText>
-                                                Рейтинг репозитория: {repo.info.stargazersCount}
-                                            </ListItemText>
+                                            <ListItemText>Рейтинг репозитория: {repoData.stargazerCount}</ListItemText>
                                         </ListItem>
                                         <ListItem>
                                             <ListItemIcon>
                                                 <CallSplit></CallSplit>
                                             </ListItemIcon>
-                                            <ListItemText>Количество форков: {repo.info.forksCount}</ListItemText>
+                                            <ListItemText>Количество форков: {repoData.forkCount}</ListItemText>
                                         </ListItem>
                                         <ListItem>
                                             <ListItemIcon>
                                                 <AccountTree />
                                             </ListItemIcon>
-                                            <ListItemText>{repo.info.isFork ? 'Форк' : 'Не форк'}</ListItemText>
+                                            <ListItemText>{repoData.isFork ? 'Форк' : 'Не форк'}</ListItemText>
                                         </ListItem>
                                     </List>
-                                    <div className={classes.graphs}>
-                                        <Paper className={classes.graphRoot}>
-                                            <AverageTimeClosureStats
-                                                data={pullRequestsStats}
-                                                title={'Статистика времени закрытий пулл реквестов по месяцам'}
-                                            />
-                                        </Paper>
-                                        <Paper className={classes.graphRoot}>
-                                            <AverageTimeClosureStats
-                                                data={issuesStats}
-                                                title={'Статистика времени закрытий ишью по месяцам'}
-                                            />
-                                        </Paper>
-                                    </div>
+                                    <RepositoryGraphs pullRequestsStats={pullRequestsStats} issuesStats={issuesStats} />
                                     <CardActions className={classes.actions}>
                                         <Button variant="contained" color="primary" onClick={() => goBack()}>
                                             Назад
