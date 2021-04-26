@@ -4,16 +4,16 @@ import { ArgumentScale, Stack } from '@devexpress/dx-react-chart';
 import { scaleBand } from '@devexpress/dx-chart-core';
 import { MenuItem, Select } from '@material-ui/core';
 import { Label } from './Label';
-import { AverageTimeClosureStatsAtYear, AverageTimeClosureStatsData } from '../../types/appTypes';
+import { AverageClosingTimeData, AverageClosingTimeStatsAtYear } from '../../types/appTypes';
 
 interface AverageTimeClosureStatsProps {
-    data: AverageTimeClosureStatsData;
+    data: AverageClosingTimeData;
     title: string;
 }
 
 export const AverageTimeClosureStats = ({ data, title }: AverageTimeClosureStatsProps) => {
     const [year, setYear] = useState<any>(2020);
-    const [dataAtYear, setDataAtYear] = useState<AverageTimeClosureStatsAtYear[]>(data[year]);
+    const [dataAtYear, setDataAtYear] = useState<AverageClosingTimeStatsAtYear[]>(data[year]);
 
     const onChangeYear = (e: React.ChangeEvent<{ value: any }>) => {
         const { value } = e.target;

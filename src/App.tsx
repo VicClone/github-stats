@@ -27,6 +27,7 @@ export const App: React.FC = () => {
                 <Switch>
                     <Route path="/login" component={Login} />
                     <Route exact path="/" component={withRouter(Home)} />
+                    <Route exact path="/:searched" component={withRouter(Home)} />
                     <Route exact path="/repository/:name" component={withRouter(Repository)} />
                 </Switch>
             </Router>
