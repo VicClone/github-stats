@@ -13,7 +13,7 @@ const TOKEN_ACCESS_GITHUB = sessionSaver.getGithubAccessToken() || '';
 const httpLink = new HttpLink({
     uri: GITHUB_BASE_URL,
     headers: {
-        authorization: `Bearer ${TOKEN_ACCESS_GITHUB}`
+        authorization: `bearer ${TOKEN_ACCESS_GITHUB}`
     }
 });
 
