@@ -52,3 +52,7 @@ export interface AvergeTimesGroupByMonth {
 export interface AverageTimeForMonth {
     [key: string]: number;
 }
+
+export interface Months {
+    [key: string]: string;
+}
