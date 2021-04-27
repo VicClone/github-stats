@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { AuthContext } from '../../App';
 import { AuthContextType } from '../../types/appTypes';
 import { Container, Box } from '@material-ui/core';
@@ -15,6 +15,13 @@ export const Home: React.FC = () => {
 
     const [searchUserValue, setSearchUserValue] = useState<string>('');
     const [userLogin, setUserLogin] = useState<string>('');
+    const history = useHistory();
+    const { searched } = useParams<{ searched: string }>();
+
+    useEffect(() => {
+        setSearchUserValue(searched);
+        searchUser(searched);
+    }, [searched]);
 
     if (!isLoggedIn) {
         return <Redirect to="/login" />;
@@ -25,10 +32,14 @@ export const Home: React.FC = () => {
         setSearchUserValue(searchValue);
     };
 
+    const onSearch = (searchUserValue: string) => history.push(searchUserValue);
+
     const searchUser = (searchUserValue: string) => {
         sessionSaver.setUserName(searchUserValue);
         setUserLogin(searchUserValue);
     };
+
+    const handleCancel = () => history.push('/');
 
     return (
         <Container maxWidth="md">
@@ -36,8 +47,9 @@ export const Home: React.FC = () => {
                 <SearchBar
                     value={searchUserValue}
                     onChange={value => handleSearch(value)}
-                    onRequestSearch={() => searchUser(searchUserValue)}
+                    onRequestSearch={() => onSearch(searchUserValue)}
                     cancelOnEscape
+                    onCancelSearch={handleCancel}
                 />
             </Box>
             {userLogin && <UserDataGR searchValue={userLogin} />}
