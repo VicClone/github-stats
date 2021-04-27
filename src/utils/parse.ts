@@ -1,5 +1,6 @@
 import { UserData, UserInfo as UserInfoType, RepoInfo } from '../types/apiTypes';
-import { LanguageStats, CommitedDatesNumbers, Months } from '../types/appTypes';
+import { LanguageStats, CommitedDatesNumbers, Months, DateTimeFormatOptions } from '../types/appTypes';
+import { sortRepos } from '../utils/sort';
 
 function parseUserInfo(userData: UserData): UserInfoType {
     return {
@@ -16,7 +17,7 @@ function parseUserInfo(userData: UserData): UserInfoType {
 function parseRepos(userData: UserData): RepoInfo[] {
     const repositories = userData.repositories.edges.map(item => item.node);
 
-    return repositories;
+    return repositories.sort((a, b) => sortRepos(a, b));
 }
 
 function getPercentLanguages(languageStats: LanguageStats, numberLanguages: number) {
@@ -134,4 +135,18 @@ function getCommitFrequency(repos: RepoInfo[]) {
     return commitedDatesFormatedChart;
 }
 
-export { parseUserInfo, parseRepos, getStatsLanguagesTop, getCommitFrequency };
+function parseDatetime(datetimeString: string) {
+    const datetime = new Date(datetimeString);
+
+    const dateOptions: DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric'
+    };
+
+    return datetime.toLocaleString('ru', dateOptions);
+}
+
+export { parseUserInfo, parseRepos, getStatsLanguagesTop, getCommitFrequency, parseDatetime };

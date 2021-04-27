@@ -11,7 +11,7 @@ export const GET_USER_DATA = gql`
             email
             bio
             websiteUrl
-            repositories(first: 100, ownerAffiliations: OWNER, orderBy: { field: UPDATED_AT, direction: DESC }) {
+            repositories(first: 100, ownerAffiliations: OWNER, orderBy: { field: STARGAZERS, direction: DESC }) {
                 edges {
                     node {
                         id
