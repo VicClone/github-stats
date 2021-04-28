@@ -1,5 +1,6 @@
 import { UserData, UserInfo as UserInfoType, RepoInfo } from '../types/apiTypes';
-import { LanguageStats, CommitedDatesNumbers } from '../types/appTypes';
+import { LanguageStats, CommitedDatesNumbers, Months, DateTimeFormatOptions } from '../types/appTypes';
+import { sortRepos } from '../utils/sort';
 
 function parseUserInfo(userData: UserData): UserInfoType {
     return {
@@ -16,7 +17,7 @@ function parseUserInfo(userData: UserData): UserInfoType {
 function parseRepos(userData: UserData): RepoInfo[] {
     const repositories = userData.repositories.edges.map(item => item.node);
 
-    return repositories;
+    return repositories.sort((a, b) => sortRepos(a, b));
 }
 
 function getPercentLanguages(languageStats: LanguageStats, numberLanguages: number) {
@@ -80,7 +81,7 @@ function getCommitsGroupMonth(commitedDates: string[]) {
     const commitsByMonth: CommitedDatesNumbers = {};
 
     for (const commitedDate of commitedDates) {
-        const yearAndMonth = commitedDate.substring(0, 7);
+        const yearAndMonth = commitedDate.substring(5, 7);
 
         if (commitsByMonth[yearAndMonth]) {
             commitsByMonth[yearAndMonth]++;
@@ -96,9 +97,25 @@ function getCommitedDatesFormatedChart(commitedDates: CommitedDatesNumbers) {
     const yearsAndmonths = Object.keys(commitedDates);
     const commitedDatesFormatedChart = [];
 
+    const months: Months = {
+        '01': 'Jan',
+        '02': 'Feb',
+        '03': 'Mar',
+        '04': 'Apr',
+        '05': 'May',
+        '06': 'Jun',
+        '07': 'Jul',
+        '08': 'Aug',
+        '09': 'Sep',
+        '10': 'Oct',
+        '11': 'Nov',
+        '12': 'Dec'
+    };
+
     for (const yearAndMonth of yearsAndmonths) {
         commitedDatesFormatedChart.push({
-            month: yearAndMonth,
+            monthNum: yearAndMonth,
+            month: months[yearAndMonth],
             number: commitedDates[yearAndMonth]
         });
     }
@@ -113,9 +130,23 @@ function getCommitFrequency(repos: RepoInfo[]) {
 
     const commitedDatesFormatedChart = getCommitedDatesFormatedChart(commitedDatesGroupMonth);
 
-    commitedDatesFormatedChart.sort((a, b) => a.month.localeCompare(b.month));
+    commitedDatesFormatedChart.sort((a, b) => a.monthNum.localeCompare(b.monthNum));
 
     return commitedDatesFormatedChart;
 }
 
-export { parseUserInfo, parseRepos, getStatsLanguagesTop, getCommitFrequency };
+function parseDatetime(datetimeString: string) {
+    const datetime = new Date(datetimeString);
+
+    const dateOptions: DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric'
+    };
+
+    return datetime.toLocaleString('ru', dateOptions);
+}
+
+export { parseUserInfo, parseRepos, getStatsLanguagesTop, getCommitFrequency, parseDatetime };

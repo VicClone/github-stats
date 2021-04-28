@@ -29,12 +29,10 @@ export const UserData = (props: PropsType) => {
     }
 
     if (error) {
-        console.log(error);
-
         return (
             <Box mt={10}>
                 <Alert severity="error">
-                    <AlertTitle>Пользователь не найден</AlertTitle>
+                    <AlertTitle>{error.networkError ? 'Что пошло не так...' : 'Пользователь не найден'}</AlertTitle>
                 </Alert>
             </Box>
         );

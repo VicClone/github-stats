@@ -16,7 +16,7 @@ import {
     CircularProgress,
     CardActions
 } from '@material-ui/core';
-import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
+import { Face, Description, Grade, CallSplit, AccountTree, Update } from '@material-ui/icons';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { sessionSaver } from '../../utils/SessionSaver';
 import { RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes';
@@ -27,6 +27,7 @@ import { getAverageClosingTimeData } from '../../utils/averageClosingTimeStats';
 import { AverageClosingTimeData } from '../../types/appTypes';
 import { GET_REPO_DATA } from '../../graphqlApi/getRepoData';
 import { useQuery } from '@apollo/client';
+import { parseDatetime } from '../../utils/parse';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -162,6 +163,14 @@ export const Repository: React.FC = () => {
                                                 <AccountTree />
                                             </ListItemIcon>
                                             <ListItemText>{repoData.isFork ? 'Форк' : 'Не форк'}</ListItemText>
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemIcon>
+                                                <Update />
+                                            </ListItemIcon>
+                                            <ListItemText>
+                                                Последнее обновление: {parseDatetime(repoData.updatedAt)}
+                                            </ListItemText>
                                         </ListItem>
                                     </List>
                                     <RepositoryGraphs pullRequestsStats={pullRequestsStats} issuesStats={issuesStats} />
