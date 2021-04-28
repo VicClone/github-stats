@@ -5,6 +5,7 @@ export interface AppState {
     redirectUri: string;
     clientSecret: string;
     proxyUrl: string;
+    githubAccessToken: string;
 }
 
 export interface AuthContextType {
