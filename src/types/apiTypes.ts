@@ -23,8 +23,10 @@ interface defaultBranchRefRepo {
 export interface RepoInfo {
     id: string;
     name: string;
-    owner: string;
-    ownerAvatar: string;
+    owner: {
+        login: string;
+        avatarUrl: string;
+    };
     description: string;
     cloneUrl: string;
     sshUrl: string;

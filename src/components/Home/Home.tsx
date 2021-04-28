@@ -17,12 +17,13 @@ export const Home: React.FC = () => {
     const [searchUserValue2, setSearchUserValue2] = useState<string>('');
     const [userLogin, setUserLogin] = useState<string>('');
     const [userLogin2, setUserLogin2] = useState<string>('');
-    const history = useHistory();
     const { searched } = useParams<{ searched: string }>();
     const [toggleSecondUser, setToggleSecondUser] = useState<boolean>(false);
 
+    const history = useHistory();
+
     useEffect(() => {
-        const delimiterPosition = searched.indexOf('&');
+        const delimiterPosition = searched ? searched.indexOf('&') : -1;
 
         if (delimiterPosition !== -1) {
             const userName1 = searched.slice(0, delimiterPosition);
@@ -32,6 +33,7 @@ export const Home: React.FC = () => {
             searchUser(userName1, setUserLogin);
             setSearchUserValue2(userName2);
             searchUser(userName2, setUserLogin2);
+            setToggleSecondUser(true);
         } else {
             setSearchUserValue(searched);
             searchUser(searched, setUserLogin);
@@ -84,7 +86,7 @@ export const Home: React.FC = () => {
                             onCancelSearch={handleCancel}
                         />
                     </Box>
-                    {!toggleSecondUser && (
+                    {!toggleSecondUser && searched && (
                         <Box display="flex" justifyContent="center" my={3}>
                             <Button
                                 variant="contained"
