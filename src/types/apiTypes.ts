@@ -132,3 +132,31 @@ export interface Issue {
     createdAt: string;
     closedAt: string;
 }
+
+export interface CollaboratorsGraphQl {
+    user: {
+        repositories: RepositoriesCollabGraphQl;
+    };
+}
+
+export interface RepositoriesCollabGraphQl {
+    edges: RepositoriesCollabNode[];
+}
+
+export interface RepositoriesCollabNode {
+    node: {
+        assignableUsers: {
+            edges: {
+                node: {
+                    login: string;
+                    name: string;
+                    avatarUrl: string;
+                };
+            }[];
+        };
+    };
+}
+
+export interface CollaboratorsGrVars {
+    login: string;
+}

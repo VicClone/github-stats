@@ -1,5 +1,18 @@
-import { UserData, UserInfo as UserInfoType, RepoInfo } from '../types/apiTypes';
-import { LanguageStats, CommitedDatesNumbers, Months, DateTimeFormatOptions } from '../types/appTypes';
+import {
+    UserData,
+    UserInfo as UserInfoType,
+    RepoInfo,
+    RepositoriesCollabGraphQl,
+    RepositoriesCollabNode
+} from '../types/apiTypes';
+import {
+    LanguageStats,
+    CommitedDatesNumbers,
+    Months,
+    DateTimeFormatOptions,
+    CollaborationStats,
+    Collaborator
+} from '../types/appTypes';
 import { sortRepos } from '../utils/sort';
 
 function parseUserInfo(userData: UserData): UserInfoType {
@@ -149,4 +162,51 @@ function parseDatetime(datetimeString: string) {
     return datetime.toLocaleString('ru', dateOptions);
 }
 
-export { parseUserInfo, parseRepos, getStatsLanguagesTop, getCommitFrequency, parseDatetime };
+function getCollaborationStats(repositoryNodes: RepositoriesCollabNode[]) {
+    const statsCollaborations: CollaborationStats = {};
+
+    for (const repositoryNode of repositoryNodes) {
+        const assignableUsers = repositoryNode.node.assignableUsers.edges;
+
+        for (const userNode of assignableUsers) {
+            const user = userNode.node;
+
+            if (statsCollaborations[user.login]) {
+                statsCollaborations[user.login].countRepositories++;
+            } else {
+                statsCollaborations[user.login] = {
+                    name: user.name,
+                    avatarUrl: user.avatarUrl,
+                    countRepositories: 1
+                };
+            }
+        }
+    }
+
+    return statsCollaborations;
+}
+
+function getListCollaborators(collaborationStats: CollaborationStats) {
+    const collaborators: Collaborator[] = [];
+
+    const collaboratorLogins = Object.keys(collaborationStats);
+
+    for (const login of collaboratorLogins) {
+        collaborators.push({
+            ...collaborationStats[login],
+            login: login
+        });
+    }
+
+    return collaborators;
+}
+
+function getCollaboratorsTop10(repositories: RepositoriesCollabGraphQl) {
+    const collaborationStats = getCollaborationStats(repositories.edges);
+    const collaborators = getListCollaborators(collaborationStats);
+    collaborators.sort((a, b) => b.countRepositories - a.countRepositories);
+
+    return collaborators.slice(1, 11);
+}
+
+export { parseUserInfo, parseRepos, getStatsLanguagesTop, getCommitFrequency, parseDatetime, getCollaboratorsTop10 };

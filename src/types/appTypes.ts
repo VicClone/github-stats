@@ -58,6 +58,21 @@ export interface Months {
     [key: string]: string;
 }
 
+export interface CollaborationStats {
+    [key: string]: {
+        name: string;
+        countRepositories: number;
+        avatarUrl: string;
+    };
+}
+
+export interface Collaborator {
+    login: string;
+    name: string;
+    avatarUrl: string;
+    countRepositories: number;
+}
+
 export interface DateTimeFormatOptions {
     dateStyle?: 'full' | 'long' | 'medium' | 'short';
     timeStyle?: 'full' | 'long' | 'medium' | 'short';
