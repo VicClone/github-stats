@@ -63,32 +63,30 @@ export const UserData = (props: PropsType) => {
     const commitFrequency = getCommitFrequency(userRepos);
 
     return (
-        <Box mt={10}>
-            <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
-                <Grid item xs={12}>
-                    <Card>
-                        <CardHeader
-                            avatar={<Avatar alt="name name" src={userData?.avatarUrl}></Avatar>}
-                            title={userData?.name}
-                            subheader={userData?.location}
-                        />
-                        <CardContent>
-                            <Typography>Топ 10 часто встречающихся пользователей в репозитории</Typography>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() => setToggleCollaborators(!toggleCollaborators)}
-                            >
-                                {toggleCollaborators ? 'Скрыть' : 'Показать'}
-                            </Button>
-                            {toggleCollaborators && <Collaborators login={userData?.login} />}
-                        </CardContent>
-                        <UserInfoGraphs languagesInPercents={languagesInPercents} commitStats={commitFrequency} />
-                        <RenderUserInfo userInfo={userInfo} />
-                        {userRepos && <RenderReposInfo userRepos={userRepos} />}
-                    </Card>
-                </Grid>
+        <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+            <Grid item xs={12}>
+                <Card>
+                    <CardHeader
+                        avatar={<Avatar alt="name name" src={userData?.avatarUrl} />}
+                        title={userData?.name}
+                        subheader={userData?.location}
+                    />
+                    <CardContent>
+                        <Typography>Топ 10 часто встречающихся пользователей в репозитории</Typography>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => setToggleCollaborators(!toggleCollaborators)}
+                        >
+                            {toggleCollaborators ? 'Скрыть' : 'Показать'}
+                        </Button>
+                        {toggleCollaborators && <Collaborators login={userData?.login} />}
+                    </CardContent>
+                    <UserInfoGraphs languagesInPercents={languagesInPercents} commitStats={commitFrequency} />
+                    <RenderUserInfo userInfo={userInfo} />
+                    {userRepos && <RenderReposInfo userRepos={userRepos} />}
+                </Card>
             </Grid>
-        </Box>
+        </Grid>
     );
 };

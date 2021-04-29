@@ -99,7 +99,11 @@ export const Home: React.FC = () => {
                             </Button>
                         </Box>
                     )}
-                    {userLogin && <UserDataGR searchValue={userLogin} />}
+                    {userLogin && (
+                        <Box mt={10}>
+                            <UserDataGR searchValue={userLogin} />
+                        </Box>
+                    )}
                 </Grid>
                 {toggleSecondUser && (
                     <Grid item xs={6}>
@@ -113,13 +117,17 @@ export const Home: React.FC = () => {
                             />
                         </Box>
                         {toggleSecondUser && (
-                            <Box display="flex" justifyContent="center" my={3}>
+                            <Box display="flex" justifyContent="center" mt={3} mb={2.5}>
                                 <Button variant="contained" color="secondary" onClick={() => deleteSecondUser()}>
                                     Убрать пользователя
                                 </Button>
                             </Box>
                         )}
-                        {userLogin2 && <UserDataGR searchValue={userLogin2} />}
+                        {userLogin2 && (
+                            <Box>
+                                <UserDataGR searchValue={userLogin2} />
+                            </Box>
+                        )}
                     </Grid>
                 )}
             </Grid>
