@@ -1,4 +1,4 @@
-import Paper from '@material-ui/core/Paper';
+import { Paper, Box } from '@material-ui/core';
 import {
     ArgumentAxis,
     Chart,
@@ -25,6 +25,8 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         graphs: {
             display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
             [theme.breakpoints.down('md')]: {
                 display: 'block'
             }
@@ -32,7 +34,10 @@ const useStyles = makeStyles((theme: Theme) =>
         graph: {
             marginLeft: 'auto',
             marginRight: 'auto',
+            minWidth: '350px',
+            flexBasis: '48%',
             width: '48%',
+            marginBottom: '20px',
             [theme.breakpoints.down('md')]: {
                 width: '100%',
                 marginTop: '10px'
@@ -51,10 +56,10 @@ interface PropsType {
 export const UserInfoGraphs = (props: PropsType) => {
     const classes = useStyles();
 
-    const getCommitsOfLastYear = () => props.commitStats.slice(-12);
+    const getCommitStatsByMonth = () => props.commitStats;
 
     return (
-        <div className={classes.graphs}>
+        <Box className={classes.graphs}>
             <Paper className={classes.graph}>
                 <Chart data={props.languagesInPercents}>
                     <ArgumentScale factory={scaleBand} />
@@ -66,7 +71,7 @@ export const UserInfoGraphs = (props: PropsType) => {
                 </Chart>
             </Paper>
             <Paper className={classes.graph}>
-                <Chart data={getCommitsOfLastYear()}>
+                <Chart data={getCommitStatsByMonth()}>
                     <ArgumentScale factory={scaleBand} />
                     <ArgumentAxis />
                     <ValueAxis labelComponent={LabelValueAxis} />
@@ -76,6 +81,6 @@ export const UserInfoGraphs = (props: PropsType) => {
                     <Tooltip />
                 </Chart>
             </Paper>
-        </div>
+        </Box>
     );
 };
