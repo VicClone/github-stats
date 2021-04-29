@@ -86,10 +86,10 @@ export const Home: React.FC = () => {
 
     const handleCancel = () => history.push('/');
 
-    const renderAddUserButton = () => {
+    const renderAddUserButton = (setToggleSecondUser: (isSecondUserToggle: boolean) => void) => {
         return (
             <Box display="flex" justifyContent="center" my={3}>
-                <Button variant="contained" color="secondary" onClick={() => setToggleSecondUser(true)}>
+                <Button variant="contained" color="secondary" onClick={setToggleSecondUser.bind(null, true)}>
                     Добавить пользователя
                 </Button>
             </Box>
@@ -108,7 +108,7 @@ export const Home: React.FC = () => {
                         userLogin={userLogin}
                         handleCancel={handleCancel}
                     >
-                        {!toggleSecondUser && searched && renderAddUserButton()}
+                        {!toggleSecondUser && searched && renderAddUserButton(setToggleSecondUser)}
                     </SearchedUser>
                 </Grid>
                 {toggleSecondUser && (
