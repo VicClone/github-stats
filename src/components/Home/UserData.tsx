@@ -17,7 +17,6 @@ import { RenderUserInfo } from '../UserInfo/UserInfo';
 import { UserInfoGraphs } from '../UserInfo/UserInfoGraphs';
 import { RenderReposInfo } from './ReposInfo';
 import { Collaborators } from '../UserInfo/Collaborators';
-
 import { UserDataGraphQl, UserDataGrVars, UserInfo as UserInfoType, RepoInfo } from '../../types/apiTypes';
 import { LanguagePercents } from '../../types/appTypes';
 import { parseUserInfo, parseRepos, getStatsLanguagesTop, getCommitFrequency } from '../../utils/parse';
@@ -73,13 +72,15 @@ export const UserData = (props: PropsType) => {
                     />
                     <CardContent>
                         <Typography>Топ 10 часто встречающихся пользователей в репозитории</Typography>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => setToggleCollaborators(!toggleCollaborators)}
-                        >
-                            {toggleCollaborators ? 'Скрыть' : 'Показать'}
-                        </Button>
+                        <Box mt={1}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => setToggleCollaborators(!toggleCollaborators)}
+                            >
+                                {toggleCollaborators ? 'Скрыть' : 'Показать'}
+                            </Button>
+                        </Box>
                         {toggleCollaborators && <Collaborators login={userData?.login} />}
                     </CardContent>
                     <UserInfoGraphs languagesInPercents={languagesInPercents} commitStats={commitFrequency} />
