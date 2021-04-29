@@ -9,7 +9,7 @@ interface PropsType {
     userRepos: RepoInfo[];
 }
 
-const RenderReposInfo = (props: PropsType) => {
+export const RenderReposInfo = (props: PropsType) => {
     const handleRepoLink = (repo: RepoInfo) => {
         sessionSaver.setSelectedRepo(repo);
     };
@@ -33,13 +33,15 @@ const RenderReposInfo = (props: PropsType) => {
                                             color="textPrimary"
                                             className="repoStar"
                                         >
-                                            <StarIcon /> {repo.stargazersCount}
+                                            <StarIcon /> {repo.stargazerCount}
                                         </Typography>
-                                        {repo.language}
                                     </>
                                 }
                             />
-                            <Link to={`/repository/${repo.name}`} onClick={() => handleRepoLink(repo)}>
+                            <Link
+                                to={`/repository/${repo.owner.login}/${repo.name}`}
+                                onClick={() => handleRepoLink(repo)}
+                            >
                                 Перейти
                             </Link>
                         </ListItem>
@@ -49,5 +51,3 @@ const RenderReposInfo = (props: PropsType) => {
         </CardContent>
     );
 };
-
-export { RenderReposInfo };

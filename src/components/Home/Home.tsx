@@ -1,149 +1,138 @@
-import React, { useContext, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { AuthContext } from '../../App';
-import { logOutUserAction } from '../../store/actions';
-import { getUserData, getUserRepos } from '../../models/api';
 import { AuthContextType } from '../../types/appTypes';
-import {
-    Container,
-    Card,
-    CardHeader,
-    Grid,
-    Box,
-    CardContent,
-    Avatar,
-    Typography,
-    List,
-    ListItem,
-    ListItemText
-} from '@material-ui/core';
-import { Alert, AlertTitle } from '@material-ui/lab';
-import { Star as StarIcon } from '@material-ui/icons';
-import SearchBar from 'material-ui-search-bar';
-import { Link } from 'react-router-dom';
-import { RepoInfo, UserData } from '../../types/apiTypes';
+import { Container, Box, Grid, Button } from '@material-ui/core';
 import './Home.css';
 import { sessionSaver } from '../../utils/SessionSaver';
-import { RenderUserInfo } from './UserInfo';
-import { RenderReposInfo } from './ReposInfo';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { SearchedUser } from './SearchedUser';
+
+const useStyles = makeStyles(() =>
+    createStyles({
+        container: {
+            maxWidth: '90%'
+        }
+    })
+);
+
+type setState = (value: string) => void;
 
 export const Home: React.FC = () => {
+    const classes = useStyles();
     const {
-        state: { isLoggedIn },
-        dispatch
+        state: { isLoggedIn }
     } = useContext<AuthContextType>(AuthContext);
 
     const [searchUserValue, setSearchUserValue] = useState<string>('');
-    const [userInfo, setUserInfo] = useState<UserData | null>(null);
-    const [userRepos, setUserRepos] = useState<RepoInfo[]>();
-    const [error, setError] = useState<Error>();
+    const [searchUserValue2, setSearchUserValue2] = useState<string>('');
+    const [userLogin, setUserLogin] = useState<string>('');
+    const [userLogin2, setUserLogin2] = useState<string>('');
+    const { searched } = useParams<{ searched: string }>();
+    const [toggleSecondUser, setToggleSecondUser] = useState<boolean>(false);
+
+    const history = useHistory();
+
+    useEffect(() => {
+        const delimiterPosition = searched ? searched.indexOf('&') : -1;
+        const hasSecondUser = delimiterPosition !== -1;
+
+        if (hasSecondUser) {
+            const userName1 = searched.slice(0, delimiterPosition);
+            const userName2 = searched.slice(delimiterPosition + 1);
+
+            setSearchUserValue(userName1);
+            searchUser(userName1, setUserLogin);
+            setSearchUserValue2(userName2);
+            searchUser(userName2, setUserLogin2);
+            setToggleSecondUser(true);
+        } else {
+            setSearchUserValue(searched);
+            searchUser(searched, setUserLogin);
+        }
+    }, [searched]);
 
     if (!isLoggedIn) {
         return <Redirect to="/login" />;
     }
 
-    const getUserInfo = (userName: string) => {
-        getUserData(userName)
-            .then(data => {
-                if (data instanceof Error) {
-                    setError(data);
-                } else {
-                    setUserInfo(data as UserData);
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
-        getUserRepos(userName)
-            .then(data => {
-                setUserRepos(data as RepoInfo[]);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+    const handleSearch = (searchValue: string, setState: setState) => {
+        setState('');
+        setState(searchValue);
     };
 
-    const handleSearch = (searchValue: string) => {
-        setSearchUserValue(searchValue);
+    const onSearch = (userName: string, isSecondUser = false) => {
+        history.push(userName);
+
+        if (searchUserValue2) {
+            history.push(`${userName}&${searchUserValue2}`);
+        }
+
+        if (isSecondUser) {
+            history.push(`${searchUserValue}&${userName}`);
+        }
     };
 
-    const searchUser = () => {
+    const searchUser = (searchUserValue: string, setLogin: setState) => {
         sessionSaver.setUserName(searchUserValue);
-        getUserInfo(searchUserValue);
+        setLogin(searchUserValue);
     };
 
-    const renderReposInfo = () => {
-        const handleRepoLink = (repo: RepoInfo) => {
-            sessionSaver.setSelectedRepo(repo);
-        };
+    const deleteSecondUser = () => {
+        setToggleSecondUser(false);
+        history.push(searchUserValue);
+        setSearchUserValue2('');
+        setUserLogin2('');
+    };
 
+    const handleCancel = () => history.push('/');
+
+    const renderAddUserButton = (setToggleSecondUser: (isSecondUserToggle: boolean) => void) => {
         return (
-            <CardContent>
-                <Typography component="span" variant="body1" color="textPrimary" className="repoHeader">
-                    Репозитории:
-                </Typography>
-                <List>
-                    {userRepos?.map(repo => {
-                        return (
-                            <ListItem key={repo.id}>
-                                <ListItemText
-                                    primary={repo.name}
-                                    secondary={
-                                        <>
-                                            <Typography
-                                                component="span"
-                                                variant="body2"
-                                                color="textPrimary"
-                                                className="repoStar"
-                                            >
-                                                <StarIcon /> {repo.stargazersCount}
-                                            </Typography>
-                                            {repo.language}
-                                        </>
-                                    }
-                                />
-                                <Link to={`/repository/${repo.name}`} onClick={() => handleRepoLink(repo)}>
-                                    Перейти
-                                </Link>
-                            </ListItem>
-                        );
-                    })}
-                </List>
-            </CardContent>
+            <Box display="flex" justifyContent="center" my={3}>
+                <Button variant="contained" color="secondary" onClick={setToggleSecondUser.bind(null, true)}>
+                    Добавить пользователя
+                </Button>
+            </Box>
         );
     };
 
     return (
-        <Container maxWidth="md">
-            <Box mt={20}>
-                <SearchBar value={searchUserValue} onChange={handleSearch} onRequestSearch={searchUser} />
-            </Box>
-            {userInfo && (
-                <Box mt={10}>
-                    <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
-                        <Grid item xs={12}>
-                            <Card>
-                                <CardHeader
-                                    avatar={<Avatar alt="name name" src={userInfo?.avatarUrl}></Avatar>}
-                                    title={userInfo?.name}
-                                    subheader={userInfo?.location}
-                                />
-                                <RenderUserInfo userInfo={userInfo} />
-                                {userRepos && <RenderReposInfo userRepos={userRepos} />}
-                            </Card>
-                        </Grid>
+        <Container className={classes.container}>
+            <Grid container spacing={3}>
+                <Grid item xs={toggleSecondUser ? 6 : 12}>
+                    <SearchedUser
+                        searchValue={searchUserValue}
+                        setSearchValue={setSearchUserValue}
+                        handleSearch={handleSearch}
+                        onSearch={onSearch}
+                        userLogin={userLogin}
+                        handleCancel={handleCancel}
+                        isSecondUser={false}
+                    >
+                        {!toggleSecondUser && searched && renderAddUserButton(setToggleSecondUser)}
+                    </SearchedUser>
+                </Grid>
+                {toggleSecondUser && (
+                    <Grid item xs={6}>
+                        <SearchedUser
+                            searchValue={searchUserValue2}
+                            setSearchValue={setSearchUserValue2}
+                            handleSearch={handleSearch}
+                            onSearch={onSearch}
+                            userLogin={userLogin2}
+                            handleCancel={handleCancel}
+                            isSecondUser={true}
+                        >
+                            <Box display="flex" justifyContent="center" mt={3} mb={2.5}>
+                                <Button variant="contained" color="secondary" onClick={deleteSecondUser}>
+                                    Убрать пользователя
+                                </Button>
+                            </Box>
+                        </SearchedUser>
                     </Grid>
-                </Box>
-            )}
-            {error && (
-                <Box mt={10}>
-                    <Alert severity="error">
-                        <AlertTitle>Error {error.message}</AlertTitle>
-                        {error.message === '404' && 'Пользователь не найден'}
-                    </Alert>
-                </Box>
-            )}
+                )}
+            </Grid>
         </Container>
     );
 };

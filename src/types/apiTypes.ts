@@ -1,3 +1,55 @@
+export interface UserInfo {
+    login: string;
+    name: string;
+    avatarUrl: string;
+    company: string;
+    location: string;
+    email: string;
+    websiteUrl: string;
+}
+
+interface defaultBranchRefRepo {
+    target: {
+        history: {
+            edges: {
+                node: {
+                    committedDate: string;
+                };
+            }[];
+        };
+    };
+}
+
+export interface RepoInfo {
+    id: string;
+    name: string;
+    owner: {
+        login: string;
+        avatarUrl: string;
+    };
+    description: string;
+    cloneUrl: string;
+    sshUrl: string;
+    forkCount: number;
+    updatedAt: string;
+    stargazerCount: number;
+    languages: {
+        nodes: Language[];
+    };
+    url: string;
+    pushedAt: string;
+    isFork: boolean;
+    defaultBranchRef: defaultBranchRefRepo;
+}
+
+export interface RepoInfoGraphQl {
+    edges: RepoInfo[];
+}
+
+export interface UserDataGraphQl {
+    user: UserData;
+}
+
 export interface UserData {
     login: string;
     name: string;
@@ -5,35 +57,71 @@ export interface UserData {
     company: string;
     location: string;
     email: string;
-    blog: string;
-    repos: string;
+    websiteUrl: string;
+    repositories: {
+        edges: {
+            node: RepoInfo;
+        }[];
+    };
 }
 
-export interface RepoInfo {
-    id: number;
-    name: string;
-    owner: string;
-    ownerAvatar: string;
+export interface UserDataGrVars {
+    login: string;
+}
+
+export interface RepoDataGraphQl {
+    repository: RepoData;
+}
+
+export interface RepoData {
+    id: string;
+    createdAt: string;
     description: string;
-    cloneUrl: string;
-    sshUrl: string;
-    forksCount: number;
-    updatedAt: string;
-    stargazersCount: number;
-    language: string;
-    url: string;
-    pushed_at: string;
+    forkCount: number;
     isFork: boolean;
+    name: string;
+    url: string;
+    owner: {
+        login: string;
+        avatarUrl: string;
+    };
+    sshUrl: string;
+    stargazerCount: number;
+    updatedAt: string;
+    languages: {
+        nodes: Language[];
+    };
+    pullRequests: {
+        nodes: Pull[];
+    };
+    issues: {
+        nodes: Issue[];
+    };
 }
 
-export interface Languages {
-    [name: string]: number;
+export interface RepoDataGrVars {
+    owner: string;
+    repoName: string;
+}
+
+export interface Language {
+    name: string;
+    color: string;
+}
+
+export interface ItemsStatsRepo {
+    title: string;
+    state: string;
+    url: string;
+    createdAt: string;
+    closedAt: string;
 }
 
 export interface Pull {
     title: string;
     state: string;
     url: string;
+    createdAt: string;
     closedAt: string;
 }
 
@@ -41,12 +129,34 @@ export interface Issue {
     title: string;
     state: string;
     url: string;
+    createdAt: string;
     closedAt: string;
 }
 
-export interface RepoData {
-    info: RepoInfo;
-    languages: Languages;
-    pullsList: Pull[];
-    issuesList: Issue[];
+export interface CollaboratorsGraphQl {
+    user: {
+        repositories: RepositoriesCollabGraphQl;
+    };
+}
+
+export interface RepositoriesCollabGraphQl {
+    edges: RepositoriesCollabNode[];
+}
+
+export interface RepositoriesCollabNode {
+    node: {
+        assignableUsers: {
+            edges: {
+                node: {
+                    login: string;
+                    name: string;
+                    avatarUrl: string;
+                };
+            }[];
+        };
+    };
+}
+
+export interface CollaboratorsGrVars {
+    login: string;
 }

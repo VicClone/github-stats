@@ -8,7 +8,8 @@ export const initialState: AppState = {
     clientId: process.env.REACT_APP_CLIENT_ID!,
     redirectUri: process.env.REACT_APP_REDIRECT_URI!,
     clientSecret: process.env.REACT_APP_CLIENT_SECRET!,
-    proxyUrl: process.env.REACT_APP_PROXY_URL!
+    proxyUrl: process.env.REACT_APP_PROXY_URL!,
+    githubAccessToken: sessionSaver.getGithubAccessToken()
 };
 
 export const reducer = (state: AppState, action: any) => {
@@ -17,6 +18,7 @@ export const reducer = (state: AppState, action: any) => {
             sessionSaver.setIsLogged(action.payload.isLoggedIn);
             return {
                 ...state,
+                githubAccessToken: sessionSaver.getGithubAccessToken(),
                 isLoggedIn: action.payload.isLoggedIn
             };
         }
