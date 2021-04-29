@@ -4,18 +4,7 @@ import { useQuery } from '@apollo/client';
 import { CollaboratorsGraphQl, CollaboratorsGrVars } from '../../types/apiTypes';
 import { Collaborator } from '../../types/appTypes';
 import { getCollaboratorsTop10 } from '../../utils/parse';
-import {
-    Card,
-    CardHeader,
-    Grid,
-    Box,
-    Avatar,
-    LinearProgress,
-    List,
-    ListItem,
-    ListItemText,
-    ListItemAvatar
-} from '@material-ui/core';
+import { Box, Avatar, LinearProgress, List, ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 interface PropsType {

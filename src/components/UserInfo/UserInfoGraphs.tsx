@@ -12,7 +12,7 @@ import { ArgumentScale, BarSeries, EventTracker } from '@devexpress/dx-react-cha
 import { scaleBand } from '@devexpress/dx-chart-core';
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Label } from '../Repository/Label';
+import { Label } from '../Repositories/Label';
 import { LanguagePercents, commitedDateState } from '../../types/appTypes';
 
 const useStyles = makeStyles((theme: Theme) =>

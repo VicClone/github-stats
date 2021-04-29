@@ -15,7 +15,7 @@ import { useQuery } from '@apollo/client';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { RenderUserInfo } from '../UserInfo/UserInfo';
 import { UserInfoGraphs } from '../UserInfo/UserInfoGraphs';
-import { RenderReposInfo } from './ReposInfo';
+import { RenderReposInfo } from '../Repositories/ReposInfo';
 import { Collaborators } from '../UserInfo/Collaborators';
 import { UserDataGraphQl, UserDataGrVars, UserInfo as UserInfoType, RepoInfo } from '../../types/apiTypes';
 import { LanguagePercents } from '../../types/appTypes';
@@ -71,7 +71,7 @@ export const UserData = (props: PropsType) => {
                         subheader={userData?.location}
                     />
                     <CardContent>
-                        <Typography>Топ 10 часто встречающихся пользователей в репозитории</Typography>
+                        <Typography>Топ 10 часто встречающихся пользователей в репозиториях</Typography>
                         <Box mt={1}>
                             <Button
                                 variant="contained"

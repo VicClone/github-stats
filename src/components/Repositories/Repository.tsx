@@ -18,10 +18,9 @@ import {
 } from '@material-ui/core';
 import { Face, Description, Grade, CallSplit, AccountTree, Update } from '@material-ui/icons';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { sessionSaver } from '../../utils/SessionSaver';
 import { RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes';
 import { useHistory } from 'react-router-dom';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { RepositoryGraphs } from './RepositoryGraphs/RepositoryGraphs';
 import { getAverageClosingTimeData } from '../../utils/averageClosingTimeStats';
 import { AverageClosingTimeData } from '../../types/appTypes';
@@ -30,7 +29,7 @@ import { useQuery } from '@apollo/client';
 import { parseDatetime } from '../../utils/parse';
 import { useParams } from 'react-router-dom';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
     createStyles({
         actions: {
             marginTop: '15px'
@@ -107,7 +106,7 @@ export const Repository: React.FC = () => {
                                 <CardHeader
                                     avatar={
                                         repoData.owner && (
-                                            <Avatar alt={repoData.owner.login} src={repoData.owner.avatarUrl}></Avatar>
+                                            <Avatar alt={repoData.owner.login} src={repoData.owner.avatarUrl} />
                                         )
                                     }
                                     title={repoData.name}
@@ -127,7 +126,7 @@ export const Repository: React.FC = () => {
                                         {repoData.owner && (
                                             <ListItem>
                                                 <ListItemIcon>
-                                                    <Face></Face>
+                                                    <Face />
                                                 </ListItemIcon>
                                                 <ListItemText>
                                                     <Link
@@ -142,20 +141,20 @@ export const Repository: React.FC = () => {
                                         {repoData.description && (
                                             <ListItem>
                                                 <ListItemIcon>
-                                                    <Description></Description>
+                                                    <Description />
                                                 </ListItemIcon>
                                                 <ListItemText>{repoData.description}</ListItemText>
                                             </ListItem>
                                         )}
                                         <ListItem>
                                             <ListItemIcon>
-                                                <Grade></Grade>
+                                                <Grade />
                                             </ListItemIcon>
                                             <ListItemText>Рейтинг репозитория: {repoData.stargazerCount}</ListItemText>
                                         </ListItem>
                                         <ListItem>
                                             <ListItemIcon>
-                                                <CallSplit></CallSplit>
+                                                <CallSplit />
                                             </ListItemIcon>
                                             <ListItemText>Количество форков: {repoData.forkCount}</ListItemText>
                                         </ListItem>

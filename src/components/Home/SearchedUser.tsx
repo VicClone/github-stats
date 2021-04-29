@@ -13,17 +13,27 @@ interface SecondUserProps {
     handleCancel: () => void;
     userLogin: string;
     children: React.ReactNode;
+    isSecondUser: boolean;
 }
 
 export const SearchedUser = (props: SecondUserProps) => {
-    const { searchValue, setSearchValue, handleSearch, onSearch, handleCancel, userLogin, children } = props;
+    const {
+        searchValue,
+        setSearchValue,
+        handleSearch,
+        onSearch,
+        handleCancel,
+        userLogin,
+        children,
+        isSecondUser
+    } = props;
     return (
         <>
             <Box mt={20}>
                 <SearchBar
                     value={searchValue}
                     onChange={value => handleSearch(value, setSearchValue)}
-                    onRequestSearch={() => onSearch(searchValue, true)}
+                    onRequestSearch={() => onSearch(searchValue, isSecondUser)}
                     cancelOnEscape
                     onCancelSearch={handleCancel}
                 />

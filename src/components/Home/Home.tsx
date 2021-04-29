@@ -35,7 +35,7 @@ export const Home: React.FC = () => {
 
     useEffect(() => {
         const delimiterPosition = searched ? searched.indexOf('&') : -1;
-        const hasSecondUser = delimiterPosition >= 0;
+        const hasSecondUser = delimiterPosition !== -1;
 
         if (hasSecondUser) {
             const userName1 = searched.slice(0, delimiterPosition);
@@ -108,6 +108,7 @@ export const Home: React.FC = () => {
                         onSearch={onSearch}
                         userLogin={userLogin}
                         handleCancel={handleCancel}
+                        isSecondUser={false}
                     >
                         {!toggleSecondUser && searched && renderAddUserButton(setToggleSecondUser)}
                     </SearchedUser>
@@ -121,6 +122,7 @@ export const Home: React.FC = () => {
                             onSearch={onSearch}
                             userLogin={userLogin2}
                             handleCancel={handleCancel}
+                            isSecondUser={true}
                         >
                             <Box display="flex" justifyContent="center" mt={3} mb={2.5}>
                                 <Button variant="contained" color="secondary" onClick={deleteSecondUser}>
