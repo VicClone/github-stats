@@ -35,8 +35,9 @@ export const Home: React.FC = () => {
 
     useEffect(() => {
         const delimiterPosition = searched ? searched.indexOf('&') : -1;
+        const hasSecondUser = delimiterPosition >= 0;
 
-        if (delimiterPosition !== -1) {
+        if (hasSecondUser) {
             const userName1 = searched.slice(0, delimiterPosition);
             const userName2 = searched.slice(delimiterPosition + 1);
 
