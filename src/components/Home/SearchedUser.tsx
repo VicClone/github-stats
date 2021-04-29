@@ -36,6 +36,7 @@ export const SearchedUser = (props: SecondUserProps) => {
                     onRequestSearch={() => onSearch(searchValue, isSecondUser)}
                     cancelOnEscape
                     onCancelSearch={handleCancel}
+                    placeholder={'Введите логин пользователя'}
                 />
             </Box>
             {children || <Box mt={10} />}
