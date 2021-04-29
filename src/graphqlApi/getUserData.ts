@@ -11,7 +11,7 @@ export const GET_USER_DATA = gql`
             email
             bio
             websiteUrl
-            repositories(first: 100, orderBy: { field: UPDATED_AT, direction: DESC }) {
+            repositories(first: 100, ownerAffiliations: OWNER, orderBy: { field: STARGAZERS, direction: DESC }) {
                 edges {
                     node {
                         id
@@ -25,7 +25,7 @@ export const GET_USER_DATA = gql`
                         url
                         forkCount
                         stargazerCount
-                        languages(first: 100) {
+                        languages(first: 20) {
                             nodes {
                                 color
                                 name
@@ -38,7 +38,7 @@ export const GET_USER_DATA = gql`
                         defaultBranchRef {
                             target {
                                 ... on Commit {
-                                    history(first: 100) {
+                                    history(first: 60) {
                                         edges {
                                             node {
                                                 ... on Commit {

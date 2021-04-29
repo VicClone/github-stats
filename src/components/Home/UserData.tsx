@@ -1,11 +1,22 @@
-import React from 'react';
-import { Card, CardHeader, Grid, Box, Avatar, LinearProgress } from '@material-ui/core';
+import React, { useState } from 'react';
+import {
+    Card,
+    CardHeader,
+    CardContent,
+    Grid,
+    Box,
+    Avatar,
+    LinearProgress,
+    Typography,
+    Button
+} from '@material-ui/core';
 import { GET_USER_DATA } from '../../graphqlApi/getUserData';
 import { useQuery } from '@apollo/client';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { RenderUserInfo } from '../UserInfo/UserInfo';
 import { UserInfoGraphs } from '../UserInfo/UserInfoGraphs';
 import { RenderReposInfo } from './ReposInfo';
+import { Collaborators } from '../UserInfo/Collaborators';
 
 import { UserDataGraphQl, UserDataGrVars, UserInfo as UserInfoType, RepoInfo } from '../../types/apiTypes';
 import { LanguagePercents } from '../../types/appTypes';
@@ -20,6 +31,8 @@ export const UserData = (props: PropsType) => {
         variables: { login: props.searchValue }
     });
 
+    const [toggleCollaborators, setToggleCollaborators] = useState<boolean>(false);
+
     if (loading) {
         return (
             <div>
@@ -29,12 +42,10 @@ export const UserData = (props: PropsType) => {
     }
 
     if (error) {
-        console.log(error);
-
         return (
             <Box mt={10}>
                 <Alert severity="error">
-                    <AlertTitle>Пользователь не найден</AlertTitle>
+                    <AlertTitle>{error.networkError ? 'Что пошло не так...' : 'Пользователь не найден'}</AlertTitle>
                 </Alert>
             </Box>
         );
@@ -61,6 +72,17 @@ export const UserData = (props: PropsType) => {
                             title={userData?.name}
                             subheader={userData?.location}
                         />
+                        <CardContent>
+                            <Typography>Топ 10 часто встречающихся пользователей в репозитории</Typography>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => setToggleCollaborators(!toggleCollaborators)}
+                            >
+                                {toggleCollaborators ? 'Скрыть' : 'Показать'}
+                            </Button>
+                            {toggleCollaborators && <Collaborators login={userData?.login} />}
+                        </CardContent>
                         <UserInfoGraphs languagesInPercents={languagesInPercents} commitStats={commitFrequency} />
                         <RenderUserInfo userInfo={userInfo} />
                         {userRepos && <RenderReposInfo userRepos={userRepos} />}

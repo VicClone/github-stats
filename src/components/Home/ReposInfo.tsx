@@ -39,7 +39,10 @@ export const RenderReposInfo = (props: PropsType) => {
                                     </>
                                 }
                             />
-                            <Link to={`/repository/${repo.name}`} onClick={() => handleRepoLink(repo)}>
+                            <Link
+                                to={`/repository/${repo.owner.login}/${repo.name}`}
+                                onClick={() => handleRepoLink(repo)}
+                            >
                                 Перейти
                             </Link>
                         </ListItem>

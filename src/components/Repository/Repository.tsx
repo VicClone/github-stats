@@ -16,7 +16,7 @@ import {
     CircularProgress,
     CardActions
 } from '@material-ui/core';
-import { Face, Description, Grade, CallSplit, AccountTree } from '@material-ui/icons';
+import { Face, Description, Grade, CallSplit, AccountTree, Update } from '@material-ui/icons';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { sessionSaver } from '../../utils/SessionSaver';
 import { RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes';
@@ -27,6 +27,8 @@ import { getAverageClosingTimeData } from '../../utils/averageClosingTimeStats';
 import { AverageClosingTimeData } from '../../types/appTypes';
 import { GET_REPO_DATA } from '../../graphqlApi/getRepoData';
 import { useQuery } from '@apollo/client';
+import { parseDatetime } from '../../utils/parse';
+import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,13 +40,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Repository: React.FC = () => {
     const history = useHistory();
+    const { owner, name } = useParams<{ owner: string; name: string }>();
+    const userName = owner;
+    const repoName = name;
 
     const goBack = () => {
         history.goBack();
     };
-
-    const userName = sessionSaver.getUserName() as string;
-    const repoName = sessionSaver.getSelectedRepo().name as string;
 
     const { loading, error, data } = useQuery<RepoDataGraphQl, RepoDataGrVars>(GET_REPO_DATA, {
         variables: { owner: userName, repoName: repoName }
@@ -162,6 +164,14 @@ export const Repository: React.FC = () => {
                                                 <AccountTree />
                                             </ListItemIcon>
                                             <ListItemText>{repoData.isFork ? 'Форк' : 'Не форк'}</ListItemText>
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemIcon>
+                                                <Update />
+                                            </ListItemIcon>
+                                            <ListItemText>
+                                                Последнее обновление: {parseDatetime(repoData.updatedAt)}
+                                            </ListItemText>
                                         </ListItem>
                                     </List>
                                     <RepositoryGraphs pullRequestsStats={pullRequestsStats} issuesStats={issuesStats} />
