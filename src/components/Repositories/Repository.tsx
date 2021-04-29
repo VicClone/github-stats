@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import { Face, Description, Grade, CallSplit, AccountTree, Update } from '@material-ui/icons';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes';
+import { RepoData, RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes';
 import { useHistory } from 'react-router-dom';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { RepositoryGraphs } from './RepositoryGraphs/RepositoryGraphs';
@@ -83,6 +83,7 @@ export const Repository: React.FC = () => {
     }
 
     const repoData = data.repository;
+    const { isFork, forkCount, stargazerCount, updatedAt, sshUrl } = repoData;
     const pullRequests = repoData.pullRequests.nodes;
     const issues = repoData.issues.nodes;
     const pullRequestsStats: AverageClosingTimeData = getAverageClosingTimeData(pullRequests);
@@ -95,6 +96,20 @@ export const Repository: React.FC = () => {
             setToggleCopied(false);
         }, 2000);
     };
+
+    const renderListItem = (text: string, icon: any) => {
+        return (
+            <ListItem>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText>{text}</ListItemText>
+            </ListItem>
+        );
+    };
+
+    const getIsForkText = (repoData: RepoData) => (repoData.isFork ? 'Форк' : 'Не форк');
+    const getLastUpdateText = (repoData: RepoData) => `Последнее обновление: ${parseDatetime(repoData.updatedAt)}`;
+    const getCountForkText = (repoData: RepoData) => `Количество форков: ${repoData.forkCount}`;
+    const getStargazerCountText = (repoData: RepoData) => `Рейтинг репозитория: ${repoData.stargazerCount}`;
 
     return (
         <Container maxWidth="md">
@@ -138,40 +153,11 @@ export const Repository: React.FC = () => {
                                                 </ListItemText>
                                             </ListItem>
                                         )}
-                                        {repoData.description && (
-                                            <ListItem>
-                                                <ListItemIcon>
-                                                    <Description />
-                                                </ListItemIcon>
-                                                <ListItemText>{repoData.description}</ListItemText>
-                                            </ListItem>
-                                        )}
-                                        <ListItem>
-                                            <ListItemIcon>
-                                                <Grade />
-                                            </ListItemIcon>
-                                            <ListItemText>Рейтинг репозитория: {repoData.stargazerCount}</ListItemText>
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemIcon>
-                                                <CallSplit />
-                                            </ListItemIcon>
-                                            <ListItemText>Количество форков: {repoData.forkCount}</ListItemText>
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemIcon>
-                                                <AccountTree />
-                                            </ListItemIcon>
-                                            <ListItemText>{repoData.isFork ? 'Форк' : 'Не форк'}</ListItemText>
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemIcon>
-                                                <Update />
-                                            </ListItemIcon>
-                                            <ListItemText>
-                                                Последнее обновление: {parseDatetime(repoData.updatedAt)}
-                                            </ListItemText>
-                                        </ListItem>
+                                        {repoData.description && renderListItem(repoData.description, <Description />)}
+                                        {renderListItem(getStargazerCountText(repoData), <Grade />)}
+                                        {renderListItem(getCountForkText(repoData), <CallSplit />)}
+                                        {renderListItem(getIsForkText(repoData), <AccountTree />)}
+                                        {renderListItem(getLastUpdateText(repoData), <Update />)}
                                     </List>
                                     <RepositoryGraphs pullRequestsStats={pullRequestsStats} issuesStats={issuesStats} />
                                     <CardActions className={classes.actions}>
