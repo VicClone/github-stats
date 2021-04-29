@@ -35,7 +35,6 @@ export const RenderReposInfo = (props: PropsType) => {
                                         >
                                             <StarIcon /> {repo.stargazerCount}
                                         </Typography>
-                                        {/* {repo.language} */}
                                     </>
                                 }
                             />

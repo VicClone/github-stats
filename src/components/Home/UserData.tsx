@@ -15,9 +15,8 @@ import { useQuery } from '@apollo/client';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { RenderUserInfo } from '../UserInfo/UserInfo';
 import { UserInfoGraphs } from '../UserInfo/UserInfoGraphs';
-import { RenderReposInfo } from './ReposInfo';
+import { RenderReposInfo } from '../Repositories/ReposInfo';
 import { Collaborators } from '../UserInfo/Collaborators';
-
 import { UserDataGraphQl, UserDataGrVars, UserInfo as UserInfoType, RepoInfo } from '../../types/apiTypes';
 import { LanguagePercents } from '../../types/appTypes';
 import { parseUserInfo, parseRepos, getStatsLanguagesTop, getCommitFrequency } from '../../utils/parse';
@@ -63,17 +62,17 @@ export const UserData = (props: PropsType) => {
     const commitFrequency = getCommitFrequency(userRepos);
 
     return (
-        <Box mt={10}>
-            <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
-                <Grid item xs={12}>
-                    <Card>
-                        <CardHeader
-                            avatar={<Avatar alt="name name" src={userData?.avatarUrl}></Avatar>}
-                            title={userData?.name}
-                            subheader={userData?.location}
-                        />
-                        <CardContent>
-                            <Typography>Топ 10 часто встречающихся пользователей в репозитории</Typography>
+        <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+            <Grid item xs={12}>
+                <Card>
+                    <CardHeader
+                        avatar={<Avatar alt="name name" src={userData?.avatarUrl} />}
+                        title={userData?.name}
+                        subheader={userData?.location}
+                    />
+                    <CardContent>
+                        <Typography>Топ 10 часто встречающихся пользователей в репозиториях</Typography>
+                        <Box mt={1}>
                             <Button
                                 variant="contained"
                                 color="primary"
@@ -81,14 +80,14 @@ export const UserData = (props: PropsType) => {
                             >
                                 {toggleCollaborators ? 'Скрыть' : 'Показать'}
                             </Button>
-                            {toggleCollaborators && <Collaborators login={userData?.login} />}
-                        </CardContent>
-                        <UserInfoGraphs languagesInPercents={languagesInPercents} commitStats={commitFrequency} />
-                        <RenderUserInfo userInfo={userInfo} />
-                        {userRepos && <RenderReposInfo userRepos={userRepos} />}
-                    </Card>
-                </Grid>
+                        </Box>
+                        {toggleCollaborators && <Collaborators login={userData?.login} />}
+                    </CardContent>
+                    <UserInfoGraphs languagesInPercents={languagesInPercents} commitStats={commitFrequency} />
+                    <RenderUserInfo userInfo={userInfo} />
+                    {userRepos && <RenderReposInfo userRepos={userRepos} />}
+                </Card>
             </Grid>
-        </Box>
+        </Grid>
     );
 };

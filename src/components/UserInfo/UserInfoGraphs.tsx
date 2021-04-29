@@ -12,7 +12,7 @@ import { ArgumentScale, BarSeries, EventTracker } from '@devexpress/dx-react-cha
 import { scaleBand } from '@devexpress/dx-chart-core';
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Label } from '../Repository/Label';
+import { Label } from '../Repositories/Label';
 import { LanguagePercents, commitedDateState } from '../../types/appTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,6 +51,8 @@ interface PropsType {
 export const UserInfoGraphs = (props: PropsType) => {
     const classes = useStyles();
 
+    const getCommitsOfLastYear = () => props.commitStats.slice(-12);
+
     return (
         <div className={classes.graphs}>
             <Paper className={classes.graph}>
@@ -64,7 +66,7 @@ export const UserInfoGraphs = (props: PropsType) => {
                 </Chart>
             </Paper>
             <Paper className={classes.graph}>
-                <Chart data={props.commitStats.slice(-12)}>
+                <Chart data={getCommitsOfLastYear()}>
                     <ArgumentScale factory={scaleBand} />
                     <ArgumentAxis />
                     <ValueAxis labelComponent={LabelValueAxis} />
