@@ -49,11 +49,9 @@ export const RepoDataComponent = ({ repoData, pullRequestsStats, issuesStats }: 
     };
 
     const history = useHistory();
-    const goBack = () => {
-        history.goBack();
-    };
+    const goBack = () => history.goBack();
 
-    const renderListItem = (text: string, icon: React.ReactNode) => {
+    const renderListItem = (text: React.ReactNode, icon: React.ReactNode) => {
         return (
             <ListItem>
                 <ListItemIcon>{icon}</ListItemIcon>
@@ -66,6 +64,15 @@ export const RepoDataComponent = ({ repoData, pullRequestsStats, issuesStats }: 
     const getLastUpdateText = (updatedAt: string) => `Последнее обновление: ${parseDatetime(updatedAt)}`;
     const getCountForkText = (forkCount: number) => `Количество форков: ${forkCount}`;
     const getStargazerCountText = (stargazerCount: number) => `Рейтинг репозитория: ${stargazerCount}`;
+
+    const getOwnerLink = (owner: { login: string; avatarUrl: string }): React.ReactNode => {
+        const link = `https://github.com/${owner.login}`;
+        return (
+            <Link href={link} target="_blank">
+                {owner.login}
+            </Link>
+        );
+    };
 
     return (
         <Card>
@@ -81,19 +88,8 @@ export const RepoDataComponent = ({ repoData, pullRequestsStats, issuesStats }: 
             {isToggleCopied && <Alert severity="success">Ссылка скопирована</Alert>}
             <CardContent>
                 <List>
-                    {owner && (
-                        <ListItem>
-                            <ListItemIcon>
-                                <Face />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <Link href={`https://github.com/${owner.login}`} target="_blank">
-                                    {owner.login}
-                                </Link>
-                            </ListItemText>
-                        </ListItem>
-                    )}
-                    {repoData.description && renderListItem(description, <Description />)}
+                    {owner && renderListItem(getOwnerLink(owner), <Face />)}
+                    {description && renderListItem(description, <Description />)}
                     {renderListItem(getStargazerCountText(stargazerCount), <Grade />)}
                     {renderListItem(getCountForkText(forkCount), <CallSplit />)}
                     {renderListItem(getIsForkText(isFork), <AccountTree />)}
