@@ -100,7 +100,7 @@ export const Home: React.FC = () => {
     return (
         <Container className={classes.container}>
             <Grid container spacing={3}>
-                <Grid item xs={toggleSecondUser ? 6 : 12}>
+                <Grid item xs={12} md={toggleSecondUser ? 6 : 12}>
                     <SearchedUser
                         searchValue={searchUserValue}
                         setSearchValue={setSearchUserValue}
@@ -114,7 +114,7 @@ export const Home: React.FC = () => {
                     </SearchedUser>
                 </Grid>
                 {toggleSecondUser && (
-                    <Grid item xs={6}>
+                    <Grid item xs={12} md={6}>
                         <SearchedUser
                             searchValue={searchUserValue2}
                             setSearchValue={setSearchUserValue2}
