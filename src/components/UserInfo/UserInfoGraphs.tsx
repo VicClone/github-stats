@@ -51,6 +51,8 @@ interface PropsType {
 export const UserInfoGraphs = (props: PropsType) => {
     const classes = useStyles();
 
+    const getCommitsOfLastYear = () => props.commitStats.slice(-12);
+
     return (
         <div className={classes.graphs}>
             <Paper className={classes.graph}>
@@ -64,7 +66,7 @@ export const UserInfoGraphs = (props: PropsType) => {
                 </Chart>
             </Paper>
             <Paper className={classes.graph}>
-                <Chart data={props.commitStats.slice(-12)}>
+                <Chart data={getCommitsOfLastYear()}>
                     <ArgumentScale factory={scaleBand} />
                     <ArgumentAxis />
                     <ValueAxis labelComponent={LabelValueAxis} />
