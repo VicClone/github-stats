@@ -3,11 +3,10 @@ import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { AuthContext } from '../../App';
 import { AuthContextType } from '../../types/appTypes';
 import { Container, Box, Grid, Button } from '@material-ui/core';
-import SearchBar from 'material-ui-search-bar';
 import './Home.css';
 import { sessionSaver } from '../../utils/SessionSaver';
-import { UserData as UserDataGR } from './UserData';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { SearchedUser } from './SearchedUser';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -16,6 +15,8 @@ const useStyles = makeStyles(() =>
         }
     })
 );
+
+type setState = (value: string) => void;
 
 export const Home: React.FC = () => {
     const classes = useStyles();
@@ -54,7 +55,7 @@ export const Home: React.FC = () => {
         return <Redirect to="/login" />;
     }
 
-    const handleSearch = (searchValue: string, setState: any) => {
+    const handleSearch = (searchValue: string, setState: setState) => {
         setState('');
         setState(searchValue);
     };
@@ -71,7 +72,7 @@ export const Home: React.FC = () => {
         }
     };
 
-    const searchUser = (searchUserValue: string, setLogin: any) => {
+    const searchUser = (searchUserValue: string, setLogin: setState) => {
         sessionSaver.setUserName(searchUserValue);
         setLogin(searchUserValue);
     };
@@ -85,61 +86,47 @@ export const Home: React.FC = () => {
 
     const handleCancel = () => history.push('/');
 
+    const renderAddUserButton = () => {
+        return (
+            <Box display="flex" justifyContent="center" my={3}>
+                <Button variant="contained" color="secondary" onClick={() => setToggleSecondUser(true)}>
+                    Добавить пользователя
+                </Button>
+            </Box>
+        );
+    };
+
     return (
         <Container className={classes.container}>
             <Grid container spacing={3}>
                 <Grid item xs={toggleSecondUser ? 6 : 12}>
-                    <Box mt={20}>
-                        <SearchBar
-                            value={searchUserValue}
-                            onChange={value => handleSearch(value, setSearchUserValue)}
-                            onRequestSearch={() => onSearch(searchUserValue)}
-                            cancelOnEscape
-                            onCancelSearch={handleCancel}
-                        />
-                    </Box>
-                    {!toggleSecondUser && searched && (
-                        <Box display="flex" justifyContent="center" my={3}>
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                onClick={() => {
-                                    setToggleSecondUser(true);
-                                }}
-                            >
-                                Добавить пользователя
-                            </Button>
-                        </Box>
-                    )}
-                    {userLogin && (
-                        <Box mt={10}>
-                            <UserDataGR searchValue={userLogin} />
-                        </Box>
-                    )}
+                    <SearchedUser
+                        searchValue={searchUserValue}
+                        setSearchValue={setSearchUserValue}
+                        handleSearch={handleSearch}
+                        onSearch={onSearch}
+                        userLogin={userLogin}
+                        handleCancel={handleCancel}
+                    >
+                        {!toggleSecondUser && searched && renderAddUserButton()}
+                    </SearchedUser>
                 </Grid>
                 {toggleSecondUser && (
                     <Grid item xs={6}>
-                        <Box mt={20}>
-                            <SearchBar
-                                value={searchUserValue2}
-                                onChange={value => handleSearch(value, setSearchUserValue2)}
-                                onRequestSearch={() => onSearch(searchUserValue2, true)}
-                                cancelOnEscape
-                                onCancelSearch={handleCancel}
-                            />
-                        </Box>
-                        {toggleSecondUser && (
+                        <SearchedUser
+                            searchValue={searchUserValue2}
+                            setSearchValue={setSearchUserValue2}
+                            handleSearch={handleSearch}
+                            onSearch={onSearch}
+                            userLogin={userLogin2}
+                            handleCancel={handleCancel}
+                        >
                             <Box display="flex" justifyContent="center" mt={3} mb={2.5}>
-                                <Button variant="contained" color="secondary" onClick={() => deleteSecondUser()}>
+                                <Button variant="contained" color="secondary" onClick={deleteSecondUser}>
                                     Убрать пользователя
                                 </Button>
                             </Box>
-                        )}
-                        {userLogin2 && (
-                            <Box>
-                                <UserDataGR searchValue={userLogin2} />
-                            </Box>
-                        )}
+                        </SearchedUser>
                     </Grid>
                 )}
             </Grid>
