@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import { Face, Description, Grade, CallSplit, AccountTree, Update } from '@material-ui/icons';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { RepoData, RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes';
+import { RepoDataGraphQl, RepoDataGrVars } from '../../types/apiTypes';
 import { useHistory } from 'react-router-dom';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { RepositoryGraphs } from './RepositoryGraphs/RepositoryGraphs';
@@ -83,7 +83,7 @@ export const Repository: React.FC = () => {
     }
 
     const repoData = data.repository;
-    const { isFork, forkCount, stargazerCount, updatedAt, sshUrl } = repoData;
+    const { isFork, forkCount, stargazerCount, updatedAt, sshUrl, description } = repoData;
     const pullRequests = repoData.pullRequests.nodes;
     const issues = repoData.issues.nodes;
     const pullRequestsStats: AverageClosingTimeData = getAverageClosingTimeData(pullRequests);
@@ -97,7 +97,7 @@ export const Repository: React.FC = () => {
         }, 2000);
     };
 
-    const renderListItem = (text: string, icon: any) => {
+    const renderListItem = (text: string, icon: React.ReactNode) => {
         return (
             <ListItem>
                 <ListItemIcon>{icon}</ListItemIcon>
@@ -106,10 +106,10 @@ export const Repository: React.FC = () => {
         );
     };
 
-    const getIsForkText = (repoData: RepoData) => (repoData.isFork ? 'Форк' : 'Не форк');
-    const getLastUpdateText = (repoData: RepoData) => `Последнее обновление: ${parseDatetime(repoData.updatedAt)}`;
-    const getCountForkText = (repoData: RepoData) => `Количество форков: ${repoData.forkCount}`;
-    const getStargazerCountText = (repoData: RepoData) => `Рейтинг репозитория: ${repoData.stargazerCount}`;
+    const getIsForkText = (isFork: boolean) => (isFork ? 'Форк' : 'Не форк');
+    const getLastUpdateText = (updatedAt: string) => `Последнее обновление: ${parseDatetime(updatedAt)}`;
+    const getCountForkText = (forkCount: number) => `Количество форков: ${forkCount}`;
+    const getStargazerCountText = (stargazerCount: number) => `Рейтинг репозитория: ${stargazerCount}`;
 
     return (
         <Container maxWidth="md">
@@ -129,7 +129,7 @@ export const Repository: React.FC = () => {
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            onClick={() => handleCloneBtn(repoData.sshUrl)}
+                                            onClick={handleCloneBtn.bind(null, sshUrl)}
                                         >
                                             Склонировать
                                         </Button>
@@ -153,11 +153,11 @@ export const Repository: React.FC = () => {
                                                 </ListItemText>
                                             </ListItem>
                                         )}
-                                        {repoData.description && renderListItem(repoData.description, <Description />)}
-                                        {renderListItem(getStargazerCountText(repoData), <Grade />)}
-                                        {renderListItem(getCountForkText(repoData), <CallSplit />)}
-                                        {renderListItem(getIsForkText(repoData), <AccountTree />)}
-                                        {renderListItem(getLastUpdateText(repoData), <Update />)}
+                                        {repoData.description && renderListItem(description, <Description />)}
+                                        {renderListItem(getStargazerCountText(stargazerCount), <Grade />)}
+                                        {renderListItem(getCountForkText(forkCount), <CallSplit />)}
+                                        {renderListItem(getIsForkText(isFork), <AccountTree />)}
+                                        {renderListItem(getLastUpdateText(updatedAt), <Update />)}
                                     </List>
                                     <RepositoryGraphs pullRequestsStats={pullRequestsStats} issuesStats={issuesStats} />
                                     <CardActions className={classes.actions}>
