@@ -73,7 +73,7 @@ export const UserData = (props: PropsType) => {
                             subheader={userData?.location}
                         />
                         <CardContent>
-                            <Typography>Топ 10 часто встречающихся пользователей в репозиторияя</Typography>
+                            <Typography>Топ 10 часто встречающихся пользователей в репозитории</Typography>
                             <Button
                                 variant="contained"
                                 color="primary"
