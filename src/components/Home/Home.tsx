@@ -7,8 +7,18 @@ import SearchBar from 'material-ui-search-bar';
 import './Home.css';
 import { sessionSaver } from '../../utils/SessionSaver';
 import { UserData as UserDataGR } from './UserData';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() =>
+    createStyles({
+        container: {
+            maxWidth: '90%'
+        }
+    })
+);
 
 export const Home: React.FC = () => {
+    const classes = useStyles();
     const {
         state: { isLoggedIn }
     } = useContext<AuthContextType>(AuthContext);
@@ -69,12 +79,14 @@ export const Home: React.FC = () => {
     const deleteSecondUser = () => {
         setToggleSecondUser(false);
         history.push(searchUserValue);
+        setSearchUserValue2('');
+        setUserLogin2('');
     };
 
     const handleCancel = () => history.push('/');
 
     return (
-        <Container maxWidth="lg">
+        <Container className={classes.container}>
             <Grid container spacing={3}>
                 <Grid item xs={toggleSecondUser ? 6 : 12}>
                     <Box mt={20}>
