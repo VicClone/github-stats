@@ -28,6 +28,7 @@ import { AverageClosingTimeData } from '../../types/appTypes';
 import { GET_REPO_DATA } from '../../graphqlApi/getRepoData';
 import { useQuery } from '@apollo/client';
 import { parseDatetime } from '../../utils/parse';
+import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,13 +40,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Repository: React.FC = () => {
     const history = useHistory();
+    const { owner, name } = useParams<{ owner: string; name: string }>();
+    const userName = owner;
+    const repoName = name;
 
     const goBack = () => {
         history.goBack();
     };
-
-    const userName = sessionSaver.getUserName() as string;
-    const repoName = sessionSaver.getSelectedRepo().name as string;
 
     const { loading, error, data } = useQuery<RepoDataGraphQl, RepoDataGrVars>(GET_REPO_DATA, {
         variables: { owner: userName, repoName: repoName }

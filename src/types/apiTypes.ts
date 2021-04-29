@@ -23,8 +23,10 @@ interface defaultBranchRefRepo {
 export interface RepoInfo {
     id: string;
     name: string;
-    owner: string;
-    ownerAvatar: string;
+    owner: {
+        login: string;
+        avatarUrl: string;
+    };
     description: string;
     cloneUrl: string;
     sshUrl: string;
@@ -129,4 +131,32 @@ export interface Issue {
     url: string;
     createdAt: string;
     closedAt: string;
+}
+
+export interface CollaboratorsGraphQl {
+    user: {
+        repositories: RepositoriesCollabGraphQl;
+    };
+}
+
+export interface RepositoriesCollabGraphQl {
+    edges: RepositoriesCollabNode[];
+}
+
+export interface RepositoriesCollabNode {
+    node: {
+        assignableUsers: {
+            edges: {
+                node: {
+                    login: string;
+                    name: string;
+                    avatarUrl: string;
+                };
+            }[];
+        };
+    };
+}
+
+export interface CollaboratorsGrVars {
+    login: string;
 }

@@ -33,7 +33,7 @@ export const App: React.FC = () => {
                         <Route path="/login" component={Login} />
                         <Route exact path="/" component={withRouter(Home)} />
                         <Route exact path="/:searched" component={withRouter(Home)} />
-                        <Route exact path="/repository/:name" component={withRouter(Repository)} />
+                        <Route exact path="/repository/:owner/:name" component={withRouter(Repository)} />
                     </Switch>
                 </Router>
             </ApolloProvider>
