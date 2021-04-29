@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme: Theme) =>
         graph: {
             marginLeft: 'auto',
             marginRight: 'auto',
-            flexBasis: '400px',
+            minWidth: '350px',
+            flexBasis: '48%',
             width: '48%',
             marginBottom: '20px',
             [theme.breakpoints.down('md')]: {
